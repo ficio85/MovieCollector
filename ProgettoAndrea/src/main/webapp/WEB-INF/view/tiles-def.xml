@@ -1,0 +1,19 @@
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="main.page" template="/WEB-INF/view/classicLayout.jsp">
+		<put-attribute name="title" value="Progetto Andrea" />
+		<put-attribute name="header" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/home.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/view/footer.jsp" />
+	</definition>
+
+	<definition name="displayUser.page" extends="main.page">
+		<put-attribute name="body" value="/WEB-INF/views/displayUser.jsp" />
+	</definition>
+	
+	<definition name="failure.page" extends="main.page">
+		<put-attribute name="body" value="/WEB-INF/views/errorPage.jsp" />
+	</definition>
+	
+
+</tiles-definitions> 

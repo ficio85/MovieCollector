@@ -1,2 +1,13 @@
 /target/
 /target-grunt/
+bin
+*.class
+.config
+.classpath
+build
+node_modules
+.settings
+.project
+.#*
+*.ear
+*.war

@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,6 +14,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -57,9 +65,78 @@ public class MovieInsertController {
 		{
 			wikiInsert();
 		}
+		else if(action.equals("jsoupTry"))
+		{
+			jsoupInsert();
+		}
+
 
 		return "imdbSearch.page";  
 	}
+	
+	public static void main (String args[]) throws IOException
+	{
+		jsoupInsert();
+	}
+	
+	private static void jsoupInsert() throws IOException {
+		// TODO Auto-generated method stub
+		URL url = new URL("https://it.wikipedia.org/wiki/Brad_Pitt");
+		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy.sdc.hp.com", 8080)); // or whatever your proxy is
+		HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
+
+		uc.connect();
+
+		String line = null;
+		StringBuffer tmp = new StringBuffer();
+		BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+		while ((line = in.readLine()) != null) {
+			tmp.append(line);
+		}
+
+		Document doc = Jsoup.parse(String.valueOf(tmp));
+		Element content = doc.getElementById("Cinema");
+		  List<Node> childNodes = content.parentNode().nextSibling().childNodes();
+		 
+		 for(Node node:childNodes)
+		 {
+			 System.out.println(node.nodeName());
+			 
+			 for (Node child : node.childNodes()) {
+				 if (child instanceof TextNode) {
+					 System.out.println(((TextNode) child).text());
+				 }
+			 }
+			 List<Node> nodes = node.childNodes();
+			 System.out.println("prova");
+		 }
+		Element prova2 = content.parent();
+		Elements prova3 = content.parent().siblingElements();
+
+		System.out.println(content.text());
+		doc.text();
+	}
+
+	private void jsoupInsertNonProxy() throws IOException {
+		// TODO Auto-generated method stub
+		URL url = new URL("https://it.wikipedia.org/wiki/Pagina_principale");
+		  Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy.sdc.hp.com", 8080)); // or whatever your proxy is
+		  HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
+
+		  uc.connect();
+
+		    String line = null;
+		    StringBuffer tmp = new StringBuffer();
+		    BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+		    while ((line = in.readLine()) != null) {
+		      tmp.append(line);
+		    }
+
+		    Document doc = Jsoup.parse(String.valueOf(tmp));
+		    doc.text();
+	}
+
+	
 	
 	private void wikiInsert() throws IOException {
 		// TODO Auto-generated method stub

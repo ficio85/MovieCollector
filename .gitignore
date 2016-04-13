@@ -11,3 +11,7 @@ node_modules
 .#*
 *.ear
 *.war
+.metadata/
+Servers
+target
+ProgettoAndrea/src/main/webapp/META-INF/maven/

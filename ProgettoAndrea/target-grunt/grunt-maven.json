@@ -1,0 +1,10 @@
+{
+    "filesToWatch": "C:/Users/ficeti/Desktop/MovieCollectorMaven/ProgettoAndrea/src/main/webapp/WEB-INF/assets/**",
+    "directoryToWatch": "C:/Users/ficeti/Desktop/MovieCollectorMaven/ProgettoAndrea/src/main/webapp/WEB-INF/assets",
+    "projectRootPath": "C:/Users/ficeti/Desktop/MovieCollectorMaven/ProgettoAndrea",
+    "targetPath": "C:/Users/ficeti/Desktop/MovieCollectorMaven/ProgettoAndrea/target",
+    "sourceDirectory": "src/main/webapp",
+    "jsSourceDirectory": "WEB-INF/assets",
+    "warTargetDirectory": "WEB-INF/assets",
+    "filteredFiles": ["**/node_modules.tar", "maven-properties.json"]
+}

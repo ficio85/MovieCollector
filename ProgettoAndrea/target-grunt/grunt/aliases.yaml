@@ -1,0 +1,13 @@
+default:
+  - 'mavenPrepare'
+  - 'jshint'
+  - 'clean'
+  - 'less'
+  - 'concat'
+  - 'cssmin'
+  - 'uglify'
+  - 'copy'
+  - 'mavenDist'
+test:
+  - 'jshint'
+  - 'qunit'

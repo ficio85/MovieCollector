@@ -1,5 +1,8 @@
 package com.service;
 
+import java.util.List;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -15,7 +18,6 @@ public class MovieService {
 	@Autowired
 	@Qualifier("movieDAO")
 	MovieDAO movieDAO;
-	
 	
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
 	public int insertMovie(MovieDTO movieDto)
@@ -74,6 +76,8 @@ public class MovieService {
 		movieDAO.deleteAllCountries();
 		movieDAO.deleteActors();
 	}
+	
+	
 	
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
 	public void cleanDbRel()

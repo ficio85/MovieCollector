@@ -1,4 +1,4 @@
-package com.ceardannan.exams.wikimedia;
+package com.util;
 
 import info.bliki.htmlcleaner.ContentToken;
 import info.bliki.htmlcleaner.EndTagToken;

@@ -13,5 +13,9 @@
 		<put-attribute name="body" value="/WEB-INF/view/views/imdbSearch.jsp" />
 </definition>
 
+<definition name="searchMovie.page" extends="main.page">
+		<put-attribute name="body" value="/WEB-INF/view/views/searchMovie.jsp" />
+</definition>
+
 </tiles-definitions>
  

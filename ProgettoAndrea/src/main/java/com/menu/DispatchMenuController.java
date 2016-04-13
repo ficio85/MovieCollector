@@ -40,7 +40,11 @@ public class DispatchMenuController {
 		 
 	}
 	
-	
+	@RequestMapping(value = "/searchMovie", method = { RequestMethod.GET, RequestMethod.POST })
+	public String ricerca ( HttpServletRequest request,Model model) throws Exception {
+		return "searchMovie.page";  
+		 
+	}
 	
 	
 	

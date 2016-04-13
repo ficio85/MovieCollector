@@ -17,6 +17,7 @@
 		<button type="submit" name="action" value="randomInsert" class="btn btn-default">Random Insert Db</button>
 		<button type="submit" name="action" value="cleanDb" class="btn btn-default">Clean Db</button>
 		<button type="submit" name="action" value="wikiTry" class="btn btn-default">Wiki try</button>
+		<button type="submit" name="action" value="jsoupTry" class="btn btn-default">Jsoup try</button>
 		
 		
 	</div>

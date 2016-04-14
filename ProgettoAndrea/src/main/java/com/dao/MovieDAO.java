@@ -108,6 +108,74 @@ public class MovieDAO {
 
 
 	}
+	
+	
+	public List <MovieDTO> getInternazionalization(MovieDTO movie) {
+		// TODO Auto-generated method stub
+
+		List<MovieDTO> result;
+		try {
+			result=jdbcTemplate.query(" SELECT * FROM internationalization where engTitle= ? ", new Object[] { movie.getTitle() }, new DataInternationalization());
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+		
+
+	}
+	
+	private class DataInternationalization implements RowMapper<MovieDTO>{
+
+		@Override
+		public MovieDTO mapRow(ResultSet rset, int arg1)
+				throws SQLException {
+			
+			MovieDTO film = new MovieDTO();
+			
+			film.setTitle(rset.getString("engTitle"));
+			film.setTitoloItaliano(rset.getString("itTitle"));
+			film.setMovieKey(rset.getString("idMovie"));
+
+			
+			return film;
+		}
+		
+	}
+	
+	
+	
+	public int insertInternazionalization(MovieDTO movie) {
+		// TODO Auto-generated method stub
+
+		int result=0;
+		try {
+			result = jdbcTemplate.update("INSERT INTO internationalization(`idMovie`,`engTitle`,`itTitle`) VALUES(?,?,?)",new Object[]{movie.getMovieKey(),movie.getTitle(), movie.getTitoloItaliano()}); 
+		}
+		catch(Exception e)
+		{
+			result=0;
+		}
+		return result;
+		
+	}
+	
+	public int updateInternazionalization(MovieDTO movie) {
+		// TODO Auto-generated method stub
+
+		int result=0;
+		try {
+			result = jdbcTemplate.update("UPDATE internationalization SET engTitle = ?,itTitle = ? WHERE idMovie = ? ",new Object[]{movie.getTitle(), movie.getTitoloItaliano(), movie.getMovieKey()}); 
+		}
+		catch(Exception e)
+		{
+			result=0;
+		}
+		return result;
+		
+	}
 
 	public int insertCountry(String country) {
 
@@ -175,6 +243,8 @@ public class MovieDAO {
 
 
 	}
+	
+	
 
 	public int insertGenre(String genre) {
 
@@ -239,8 +309,6 @@ public class MovieDAO {
 		if(result.equals("1"))
 			return true;
 		else return false;
-
-
 
 	}
 
@@ -351,6 +419,26 @@ public class MovieDAO {
 
 	}
 	
+	public boolean isPresentMovieActorsRel(MovieDTO movie, String nameActor) {
+		// TODO Auto-generated method stub
+
+		String result="";
+		try {
+			result=jdbcTemplate.queryForObject(" SELECT 1 FROM movieActor where movie= ?  and actor = ? ", new Object[] { movie.getMovieKey(), nameActor }, String.class);
+		} 
+		catch(EmptyResultDataAccessException e)
+		{
+			result= "EMPTY";
+		}
+		catch(Exception e)
+		{
+			result="ERROR";
+		}
+		if(result.equals("1"))
+			return true;
+		else return false;
+
+	}
 	
 	public int deleteMovGenRel()
 	{

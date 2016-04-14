@@ -7,6 +7,7 @@ public class MovieDTO {
 	String name;
 	int length;
 	String title;
+	String titoloItaliano;
 	float imdbRating;
 	int year;
 	List <String> actors;
@@ -15,6 +16,14 @@ public class MovieDTO {
 	List <String> countries;
 	String movieKey;
 	
+	
+	
+	public String getTitoloItaliano() {
+		return titoloItaliano;
+	}
+	public void setTitoloItaliano(String titoloItaliano) {
+		this.titoloItaliano = titoloItaliano;
+	}
 	public String getMovieKey() {
 		return movieKey;
 	}

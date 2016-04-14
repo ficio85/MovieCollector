@@ -1,5 +1,6 @@
 package com.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -61,6 +62,7 @@ public class MovieService {
 			movieDAO.insertMovie(movieDto);
 			movieDAO.insertMovieGenRel(movieDto);
 			movieDAO.insertMovieActorsRel(movieDto);
+			movieDAO.insertInternazionalization(movieDto);
 			return 1;
 		}
 		return 0;
@@ -84,6 +86,29 @@ public class MovieService {
 	{
 		  movieDAO.deleteMovGenRel();
 		  movieDAO.deleteMovieActorsRel();
+	}
+
+	public void generateDbByActor(List<MovieDTO> moviesActor, String actor) {
+	
+		
+	}
+
+	public MovieDTO getInternationalization(MovieDTO film) {
+		MovieDTO movieDTOtoUpdate = movieDAO.getInternazionalization(film).get(0);
+		return movieDTOtoUpdate;
+	}
+	
+	
+
+	public void updateMovieInternationalization(String actor, MovieDTO film) {
+		movieDAO.updateInternazionalization(film);
+		if(!movieDAO.isPresentMovieActorsRel(film, actor))
+		{
+			List <String> actors = new ArrayList <String>();
+			actors.add(actor);
+			film.setActors(actors );
+			movieDAO.insertMovieActorsRel(film);
+		}
 	}
 	
 	

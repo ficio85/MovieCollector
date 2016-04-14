@@ -74,47 +74,83 @@ public class MovieInsertController {
 		return "imdbSearch.page";  
 	}
 	
-	public static void main (String args[]) throws IOException
-	{
-		jsoupInsert();
-	}
 	
-	private static void jsoupInsert() throws IOException {
+	
+	private  void jsoupInsert() throws IOException {
 		// TODO Auto-generated method stub
 		URL url = new URL("https://it.wikipedia.org/wiki/Brad_Pitt");
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy.sdc.hp.com", 8080)); // or whatever your proxy is
 		HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
-
 		uc.connect();
-
 		String line = null;
 		StringBuffer tmp = new StringBuffer();
 		BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
 		while ((line = in.readLine()) != null) {
 			tmp.append(line);
 		}
-
 		Document doc = Jsoup.parse(String.valueOf(tmp));
 		Element content = doc.getElementById("Cinema");
-		  List<Node> childNodes = content.parentNode().nextSibling().childNodes();
-		 
+		List<MovieDTO> moviesActor = new ArrayList <MovieDTO>();
+		List<Node> childNodes = content.parentNode().nextSibling().childNodes();		 
 		 for(Node node:childNodes)
 		 {
-			 System.out.println(node.nodeName());
-			 
-			 for (Node child : node.childNodes()) {
-				 if (child instanceof TextNode) {
-					 System.out.println(((TextNode) child).text());
-				 }
-			 }
-			 List<Node> nodes = node.childNodes();
-			 System.out.println("prova");
+			 MovieDTO movie = new MovieDTO();
+			  Elements elements = ((Element)node).getElementsByTag("i");
+			  int i=0;
+			  for(Element el:elements)
+			  {
+				  
+				  if(!el.getElementsByTag("a").isEmpty())
+				  {
+					  if(i==0)
+					  {
+						  movie.setTitoloItaliano(el.getElementsByTag("a").get(0).ownText()) ;
+					  }
+					  else
+					  {
+						  movie.setTitle(el.getElementsByTag("a").get(0).ownText());
+					  }
+					 
+				  }
+				  else
+				  {
+					  if(i==0)
+					  {
+						  movie.setTitoloItaliano(el.getElementsByTag("a").get(0).ownText()) ;
+					  }
+					  else
+					  {
+						  movie.setTitle(el.getElementsByTag("a").get(0).ownText());
+					  }
+				  }
+				  i++;
+			  }
+			moviesActor.add(movie);
 		 }
-		Element prova2 = content.parent();
-		Elements prova3 = content.parent().siblingElements();
+		 
+			for(MovieDTO film: moviesActor)
+			{
+				MovieDTO movieDTOtoUpdate =movieService.getInternationalization(film);
+				//Se è presente il titolo nel db internazionalizzazione, ma non in italiano inserire solo il titolo italiano (controllare che sia presente anche l'attore dal momento che l'info data dall'API imdb sugli attori è parziale)
+				if (movieDTOtoUpdate!=null)
+				{
+					movieService.updateMovieInternationalization("Brad Pitt", film);
+				}
+				else
+				{
+					URL url2 = new URL("http://www.omdbapi.com/?t="+film.getTitle()+"&y=&plot=short&r=json");
+					createMovieInstance(url,model);					
+				}
+				
+			}
+			
+		 
+		 
+		 
+		 
+		 
+		 movieService.generateDbByActor(moviesActor,"Brad Pitt");
 
-		System.out.println(content.text());
-		doc.text();
 	}
 
 	private void jsoupInsertNonProxy() throws IOException {

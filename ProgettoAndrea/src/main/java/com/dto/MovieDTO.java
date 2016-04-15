@@ -9,15 +9,37 @@ public class MovieDTO {
 	String title;
 	String titoloItaliano;
 	float imdbRating;
+	float metaCritic;
 	int year;
 	List <String> actors;
 	String plot;
 	List <String> genre;
 	List <String> countries;
 	String movieKey;
+	int numImdbRating;
+	String director;
+	String writer;
 	
 	
 	
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+	public int getNumImdbRating() {
+		return numImdbRating;
+	}
+	public void setNumImdbRating(int numImdbRating) {
+		this.numImdbRating = numImdbRating;
+	}
+	public float getMetaCritic() {
+		return metaCritic;
+	}
+	public void setMetaCritic(float metaCritic) {
+		this.metaCritic = metaCritic;
+	}
 	public String getTitoloItaliano() {
 		return titoloItaliano;
 	}
@@ -78,6 +100,12 @@ public class MovieDTO {
 	}
 	public void setPlot(String plot) {
 		this.plot = plot;
+	}
+	public String getDirector() {
+		return director;
+	}
+	public void setDirector(String director) {
+		this.director = director;
 	}
 	public List<String> getGenre() {
 		return genre;

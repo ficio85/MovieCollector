@@ -32,8 +32,8 @@ public class MovieDAO {
 
 		try{		
 
-			result = jdbcTemplate.update("INSERT INTO movie (`idmovie`,`name`,`length`,`country`,`imdbRating`,`year`,`actors`,`plot`,`genre`) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-					new Object[]{movieDto.getMovieKey(), movieDto.getName(),movieDto.getLength(),"prova",movieDto.getImdbRating(),movieDto.getYear(),3,movieDto.getPlot(),"COD"});					
+			result = jdbcTemplate.update("INSERT INTO movie (`idmovie`,`name`,`length`,`imdbRating`,`plot`,`metacritic`,`numImdbRating`) values ( ?, ?, ?, ?, ?, ?, ?, ?)",
+					new Object[]{movieDto.getMovieKey(), movieDto.getName(),movieDto.getLength(),movieDto.getImdbRating(),movieDto.getPlot(),movieDto.getMetaCritic(),movieDto.getNumImdbRating()});					
 			//				
 		}
 
@@ -287,6 +287,46 @@ public class MovieDAO {
 
 		}
 		return result;
+	}
+	
+	public int insertWriter(String writer) {
+
+		int result=0;
+
+
+		try{		
+
+			result = jdbcTemplate.update("INSERT INTO writer (`name`) values ( ?)", new Object[]{writer});					
+			//				
+		}
+
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return result;
+
+
+	}
+	
+	public int insertDirector(String director) {
+
+		int result=0;
+
+
+		try{		
+
+			result = jdbcTemplate.update("INSERT INTO director (`name`) values ( ?)", new Object[]{director});					
+			//				
+		}
+
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return result;
 
 
 	}
@@ -418,6 +458,57 @@ public class MovieDAO {
 
 
 	}
+	
+	public void insertMovieDirectorsRel(MovieDTO movieDto) {
+
+		String movieKey = movieDto.getMovieKey();
+		List <String> movieActors= movieDto.getActors();
+
+
+		for(String actor: movieActors)
+		{
+			try{		
+
+				jdbcTemplate.update("INSERT INTO moviedirector (`movie`,`director`) values ( ?,?)", new Object[]{movieDto.getMovieKey(), movieDto.getDirector()});					
+				//				
+			}
+
+			catch(Exception e){
+				e.printStackTrace();
+				throw e;
+			}
+		}
+
+
+
+	}
+	
+	public void insertMovieNationsRel(MovieDTO movieDto) {
+
+		String movieKey = movieDto.getMovieKey();
+		List <String> countries= movieDto.getCountries();
+
+
+		for(String country: countries)
+		{
+			String cod=country.substring(0, 3).toUpperCase();
+
+			try{		
+
+				jdbcTemplate.update("INSERT INTO movienations (`movie`,`nation`) values ( ?,?)", new Object[]{movieDto.getMovieKey(), cod});					
+				//				
+			}
+
+			catch(Exception e){
+				e.printStackTrace();
+				throw e;
+			}
+		}
+
+
+
+	}
+	
 	
 	public boolean isPresentMovieActorsRel(MovieDTO movie, String nameActor) {
 		// TODO Auto-generated method stub

@@ -59,10 +59,16 @@ public class MovieService {
 					movieDAO.insertActor(actor.trim());
 				}
 			}
+			//popolamento tipologica registi
+			movieDAO.insertDirector(movieDto.getDirector());
+			movieDAO.insertWriter(movieDto.getWriter());
+			
 			movieDAO.insertMovie(movieDto);
 			movieDAO.insertMovieGenRel(movieDto);
 			movieDAO.insertMovieActorsRel(movieDto);
+			movieDAO.insertMovieDirectorsRel(movieDto);
 			movieDAO.insertInternazionalization(movieDto);
+			
 			return 1;
 		}
 		return 0;
@@ -94,7 +100,12 @@ public class MovieService {
 	}
 
 	public MovieDTO getInternationalization(MovieDTO film) {
-		MovieDTO movieDTOtoUpdate = movieDAO.getInternazionalization(film).get(0);
+		MovieDTO movieDTOtoUpdate= null;
+		List<MovieDTO> movies = movieDAO.getInternazionalization(film);
+		if(movies!= null && movies.size()!=0)
+		{
+			movieDTOtoUpdate = movies.get(0);
+		}
 		return movieDTOtoUpdate;
 	}
 	

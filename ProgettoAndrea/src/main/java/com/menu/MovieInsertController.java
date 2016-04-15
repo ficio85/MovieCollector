@@ -116,11 +116,11 @@ public class MovieInsertController {
 				  {
 					  if(i==0)
 					  {
-						  movie.setTitoloItaliano(el.getElementsByTag("a").get(0).ownText()) ;
+						  movie.setTitoloItaliano(el.ownText()) ;
 					  }
 					  else
 					  {
-						  movie.setTitle(el.getElementsByTag("a").get(0).ownText());
+						  movie.setTitle(el.ownText());
 					  }
 				  }
 				  i++;
@@ -139,7 +139,7 @@ public class MovieInsertController {
 				else
 				{
 					URL url2 = new URL("http://www.omdbapi.com/?t="+film.getTitle()+"&y=&plot=short&r=json");
-					createMovieInstance(url,model);					
+					createMovieInstance(url,null);					
 				}
 				
 			}
@@ -226,9 +226,10 @@ public class MovieInsertController {
 
 	private void createMovieInstance(URL url, Model model) throws IOException {
 		// TODO Auto-generated method stub
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		int code = connection.getResponseCode();
-		System.out.println(code);
+		  Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy.sdc.hp.com", 8080)); // or whatever your proxy is
+		  HttpURLConnection connection = (HttpURLConnection)url.openConnection(proxy);
+
+		  connection.connect();
 		BufferedReader read = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		String line ;
 		StringBuffer stringBuffer = new StringBuffer();

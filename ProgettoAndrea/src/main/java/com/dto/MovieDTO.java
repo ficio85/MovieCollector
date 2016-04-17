@@ -1,45 +1,89 @@
 package com.dto;
 
+import java.sql.Date;
 import java.util.List;
 
 public class MovieDTO {
 	
-	String name;
 	int length;
+	Date releaseDate;
 	String title;
 	String titoloItaliano;
 	float imdbRating;
-	float metaCritic;
+	float metaScore;
+	Float numImdbRating;
 	int year;
 	List <String> actors;
 	String plot;
 	List <String> genre;
 	List <String> countries;
 	String movieKey;
-	int numImdbRating;
-	String director;
-	String writer;
+	String imdbKey;
+	List <String> directors;
+	List <String> writers;
+	List <String> languages;
+	String rated;
+	String awards;
+	String poster;
+	String type;
 	
-	
-	
-	public String getWriter() {
-		return writer;
+	public List<String> getLanguages() {
+		return languages;
 	}
-	public void setWriter(String writer) {
-		this.writer = writer;
+	public void setLanguages(List<String> languages) {
+		this.languages = languages;
 	}
-	public int getNumImdbRating() {
+	public String getRated() {
+		return rated;
+	}
+	public void setRated(String rated) {
+		this.rated = rated;
+	}
+	public String getAwards() {
+		return awards;
+	}
+	public void setAwards(String awards) {
+		this.awards = awards;
+	}
+	
+	public String getPoster() {
+		return poster;
+	}
+	public void setPoster(String poster) {
+		this.poster = poster;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getImdbKey() {
+		return imdbKey;
+	}
+	public void setImdbKey(String imdbKey) {
+		this.imdbKey = imdbKey;
+	}
+	public Date getReleaseDate() {
+		return releaseDate;
+	}
+	public void setReleaseDate(Date releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+	
+	public List<String> getWriters() {
+		return writers;
+	}
+	public void setWriters(List<String> writers) {
+		this.writers = writers;
+	}
+	public Float getNumImdbRating() {
 		return numImdbRating;
 	}
-	public void setNumImdbRating(int numImdbRating) {
-		this.numImdbRating = numImdbRating;
+	public void setNumImdbRating(Float float1) {
+		this.numImdbRating = float1;
 	}
-	public float getMetaCritic() {
-		return metaCritic;
-	}
-	public void setMetaCritic(float metaCritic) {
-		this.metaCritic = metaCritic;
-	}
+	
 	public String getTitoloItaliano() {
 		return titoloItaliano;
 	}
@@ -58,12 +102,7 @@ public class MovieDTO {
 	public void setCountries(List<String> countries) {
 		this.countries = countries;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+	
 	public int getLength() {
 		return length;
 	}
@@ -101,11 +140,11 @@ public class MovieDTO {
 	public void setPlot(String plot) {
 		this.plot = plot;
 	}
-	public String getDirector() {
-		return director;
+	public List<String> getDirectors() {
+		return directors;
 	}
-	public void setDirector(String director) {
-		this.director = director;
+	public void setDirectors(List<String> directors) {
+		this.directors = directors;
 	}
 	public List<String> getGenre() {
 		return genre;
@@ -113,6 +152,14 @@ public class MovieDTO {
 	public void setGenre(List<String> genre) {
 		this.genre = genre;
 	}
+	public float getMetaScore() {
+		return metaScore;
+	}
+	public void setMetaScore(float metaScore) {
+		this.metaScore = metaScore;
+	}
+	
+	
 	
 
 

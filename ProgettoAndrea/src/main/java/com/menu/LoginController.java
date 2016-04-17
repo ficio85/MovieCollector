@@ -18,7 +18,6 @@ public class LoginController {
 
 	@RequestMapping(value = "/informativa/accetta", method = { RequestMethod.GET, RequestMethod.POST })
 	public String accetta ( HttpServletRequest request,Model model) throws Exception {
-		System.out.println("prova");
 		ProvaDTO dto = provaDAO.provaQuery();
 		model.addAttribute("user",dto);
 		System.out.println(dto.getUser() + " "+ dto.getPassword());

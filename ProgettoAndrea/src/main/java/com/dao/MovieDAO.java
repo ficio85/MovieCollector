@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.dto.MovieDTO;
 import com.menu.ProvaDTO;
+import com.util.MovieGeneratorUtil;
 
 @Repository("movieDAO")
 public class MovieDAO {
@@ -32,8 +33,8 @@ public class MovieDAO {
 
 		try{		
 
-			result = jdbcTemplate.update("INSERT INTO movie (`idmovie`,`name`,`length`,`imdbRating`,`plot`,`metacritic`,`numImdbRating`) values ( ?, ?, ?, ?, ?, ?, ?, ?)",
-					new Object[]{movieDto.getMovieKey(), movieDto.getName(),movieDto.getLength(),movieDto.getImdbRating(),movieDto.getPlot(),movieDto.getMetaCritic(),movieDto.getNumImdbRating()});					
+			result = jdbcTemplate.update("INSERT INTO movie (`idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`release`,`rated`,`awards`,`poster`,`type`) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+					new Object[]{movieDto.getMovieKey(), movieDto.getTitle(),movieDto.getLength(),movieDto.getImdbRating(),movieDto.getYear(),movieDto.getPlot(),movieDto.getMetaScore(),movieDto.getNumImdbRating(),movieDto.getImdbKey(),movieDto.getReleaseDate(),movieDto.getRated(),movieDto.getAwards(),movieDto.getPoster(),movieDto.getType()});					
 			//				
 		}
 
@@ -55,12 +56,13 @@ public class MovieDAO {
 
 		try{		
 
-			result = jdbcTemplate.update("DELETE  from movie",new Object[]{});					
+			result = jdbcTemplate.update("DELETE  from movie ",new Object[]{});					
 			//				
 		}
 
 		catch(Exception e){
 			e.printStackTrace();
+			throw e;
 		}
 		return result;
 
@@ -71,7 +73,7 @@ public class MovieDAO {
 	{
 		String result="";
 		try {
-			result=jdbcTemplate.queryForObject(" SELECT 1 FROM movie where name= ? ", new Object[] { movieDto.getName() }, String.class);
+			result=jdbcTemplate.queryForObject(" SELECT 1 FROM movie where name= ? ", new Object[] { movieDto.getTitle() }, String.class);
 		} 
 		catch(EmptyResultDataAccessException e)
 		{
@@ -87,7 +89,15 @@ public class MovieDAO {
 
 	public boolean isPresentCountry(String country) {
 		// TODO Auto-generated method stub
-		String cod=country.substring(0, 3).toUpperCase();
+		String cod="";
+		if(country.trim().length()>3)
+		{
+			 cod=country.trim().substring(0, 3).toUpperCase();
+		}
+		else
+		{
+			cod=country.trim().toUpperCase();
+		}
 
 		String result="";
 		try {
@@ -182,8 +192,15 @@ public class MovieDAO {
 		int result=0;
 
 		String desCountry=country.toUpperCase();
-		String codCountry =desCountry.substring(0, 3);
-		String cod=country.substring(0, 3).toUpperCase();
+		String codCountry="";
+		if(desCountry.trim().length()>3)
+		{
+			 codCountry =desCountry.trim().substring(0, 3).toUpperCase();
+		}
+		else
+		{
+			codCountry =desCountry.trim().toUpperCase();
+		}
 
 		try{		
 
@@ -214,6 +231,8 @@ public class MovieDAO {
 
 		catch(Exception e){
 			e.printStackTrace();
+			throw e;
+
 		}
 		return result;
 
@@ -330,13 +349,102 @@ public class MovieDAO {
 
 
 	}
+	
+	public int insertLanguage(String language) {
 
+		int result=0;
+		String cod=language.trim().toUpperCase().substring(0, 3);
+
+		try{		
+
+			result = jdbcTemplate.update("INSERT INTO language (`cod`,`des`) values (?, ?)", new Object[]{cod,language});					
+			//				
+		}
+
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return result;
+
+
+	}
+
+
+	
+	public boolean isPresentDirector(String actor) {
+		// TODO Auto-generated method stub
+
+		String result="";
+		try {
+			result=jdbcTemplate.queryForObject(" SELECT 1 FROM director where name= ? ", new Object[] { actor }, String.class);
+		} 
+		catch(EmptyResultDataAccessException e)
+		{
+			result= "EMPTY";
+		}
+		catch(Exception e)
+		{
+			result="ERROR";
+		}
+		if(result.equals("1"))
+			return true;
+		else return false;
+
+	}
+	
+	public boolean isPresentLanguage(String language) {
+		// TODO Auto-generated method stub
+
+		String result="";
+		String languageSearch=language.trim().substring(0, 3).toUpperCase();
+		try {
+			result=jdbcTemplate.queryForObject(" SELECT 1 FROM language where cod= ? ", new Object[] { languageSearch }, String.class);
+		} 
+		catch(EmptyResultDataAccessException e)
+		{
+			result= "EMPTY";
+		}
+		catch(Exception e)
+		{
+			result="ERROR";
+		}
+		if(result.equals("1"))
+			return true;
+		else return false;
+
+	}
+
+	
+	
 	public boolean isPresentActor(String actor) {
 		// TODO Auto-generated method stub
 
 		String result="";
 		try {
 			result=jdbcTemplate.queryForObject(" SELECT 1 FROM actor where name= ? ", new Object[] { actor }, String.class);
+		} 
+		catch(EmptyResultDataAccessException e)
+		{
+			result= "EMPTY";
+		}
+		catch(Exception e)
+		{
+			result="ERROR";
+		}
+		if(result.equals("1"))
+			return true;
+		else return false;
+
+	}
+	
+	public boolean isPresentWriter(String writer) {
+		// TODO Auto-generated method stub
+
+		String result="";
+		try {
+			result=jdbcTemplate.queryForObject(" SELECT 1 FROM writer where name= ? ", new Object[] { writer }, String.class);
 		} 
 		catch(EmptyResultDataAccessException e)
 		{
@@ -364,12 +472,76 @@ public class MovieDAO {
 
 		catch(Exception e){
 			e.printStackTrace();
+			throw e;
+
+		}
+		return result;
+
+
+	}
+	
+	public int deleteLanguage()
+	{
+		int result=0;
+
+		try{		
+
+			result = jdbcTemplate.update("DELETE from language ",new Object[]{});					
+			//				
+		}
+
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return result;
+
+
+	}
+	
+	public int deleteDirectors()
+	{
+		int result=0;
+
+		try{		
+
+			result = jdbcTemplate.update("DELETE from director ",new Object[]{});					
+			//				
+		}
+
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
 		}
 		return result;
 
 
 	}
 
+	public int deleteWriters()
+	{
+		int result=0;
+
+		try{		
+
+			result = jdbcTemplate.update("DELETE from writer ",new Object[]{});					
+			//				
+		}
+
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return result;
+
+
+	}
+	
+	
+	
 	public int deleteMovieActors()
 	{
 		int result=0;
@@ -382,6 +554,8 @@ public class MovieDAO {
 
 		catch(Exception e){
 			e.printStackTrace();
+			throw e;
+
 		}
 		return result;
 
@@ -404,6 +578,8 @@ public class MovieDAO {
 
 		catch(Exception e){
 			e.printStackTrace();
+			throw e;
+
 		}
 		return result;
 
@@ -418,17 +594,22 @@ public class MovieDAO {
 
 		for(String genre: movieGenre)
 		{
-			try{		
+			if(MovieGeneratorUtil.isNotNullEntry(genre))
+			{
+				try{		
 
-				jdbcTemplate.update("INSERT INTO moviegenre (`movie`,`genre`) values ( ?, ?)", new Object[]{movieDto.getMovieKey(), genre.trim().toUpperCase().substring(0, 3)});					
-				//				
+					jdbcTemplate.update("INSERT INTO moviegenre (`movie`,`genre`) values ( ?, ?)", new Object[]{movieDto.getMovieKey(), genre.trim().toUpperCase().substring(0, 3)});					
+					//				
+				}
+
+				catch(Exception e){
+					e.printStackTrace();
+					throw e;
+
+				}
 			}
 
-			catch(Exception e){
-				e.printStackTrace();
-				throw e;
-
-			}
+			
 		}
 
 
@@ -443,16 +624,21 @@ public class MovieDAO {
 
 		for(String actor: movieActors)
 		{
-			try{		
+			if(MovieGeneratorUtil.isNotNullEntry(actor))
+			{
+				try{		
 
-				jdbcTemplate.update("INSERT INTO movieactor (`movie`,`actor`) values ( ?,?)", new Object[]{movieDto.getMovieKey(),actor.trim()});					
-				//				
+					jdbcTemplate.update("INSERT INTO movieactor (`movie`,`actor`) values ( ?,?)", new Object[]{movieDto.getMovieKey(),actor.trim()});					
+					//				
+				}
+
+				catch(Exception e){
+					e.printStackTrace();
+					throw e;
+				}
 			}
 
-			catch(Exception e){
-				e.printStackTrace();
-				throw e;
-			}
+			
 		}
 
 
@@ -462,27 +648,110 @@ public class MovieDAO {
 	public void insertMovieDirectorsRel(MovieDTO movieDto) {
 
 		String movieKey = movieDto.getMovieKey();
-		List <String> movieActors= movieDto.getActors();
+		List <String> movieDirectors= movieDto.getDirectors();
 
 
-		for(String actor: movieActors)
+		for(String director: movieDirectors)
 		{
-			try{		
+			if(MovieGeneratorUtil.isNotNullEntry(director))
+			{
+				try{		
 
-				jdbcTemplate.update("INSERT INTO moviedirector (`movie`,`director`) values ( ?,?)", new Object[]{movieDto.getMovieKey(), movieDto.getDirector()});					
-				//				
+					jdbcTemplate.update("INSERT INTO moviedirector (`movie`,`director`) values ( ?,?)", new Object[]{movieDto.getMovieKey(), director.trim()});					
+					//				
+				}
+
+				catch(Exception e){
+					e.printStackTrace();
+					throw e;
+				}
 			}
 
-			catch(Exception e){
-				e.printStackTrace();
-				throw e;
+			
+		}
+
+
+
+	}
+	public void insertMovieLanguagesRel(MovieDTO movieDto) {
+
+		String movieKey = movieDto.getMovieKey();
+		List <String> movieLanguages= movieDto.getLanguages();
+
+
+		for(String language: movieLanguages)
+		{
+			if(MovieGeneratorUtil.isNotNullEntry(language))
+			{
+				String codLanguage=language.trim().substring(0, 3).toUpperCase();
+				try{		
+
+					jdbcTemplate.update("INSERT INTO movielanguage (`movie`,`language`) values ( ?,?)", new Object[]{movieDto.getMovieKey(), codLanguage});					
+					//				
+				}
+
+				catch(Exception e){
+					e.printStackTrace();
+					throw e;
+				}
 			}
+
+			
+		}
+	}
+	
+	
+	
+	public void insertMovieWritersRel(MovieDTO movieDto) {
+
+		String movieKey = movieDto.getMovieKey();
+		List <String> movieWriters= movieDto.getWriters();
+
+
+		for(String writer: movieWriters)
+		{
+			if(MovieGeneratorUtil.isNotNullEntry(writer))
+			{
+				try{		
+					if(!isPresentMovieWriterRel(movieDto.getMovieKey(),writer))
+					{
+						jdbcTemplate.update("INSERT INTO moviewriter (`movie`,`writer`) values ( ?,?)", new Object[]{movieDto.getMovieKey(), writer.trim()});					
+
+					}
+					//				
+				}
+
+				catch(Exception e){
+					e.printStackTrace();
+					throw e;
+				}
+			}
+
+			
 		}
 
 
 
 	}
 	
+	private boolean isPresentMovieWriterRel(String movieKey, String writer) {String result="";
+	try {
+		result=jdbcTemplate.queryForObject(" SELECT 1 FROM moviewriter where movie= ? and writer=? ", new Object[] { movieKey,writer }, String.class);
+	} 
+	catch(EmptyResultDataAccessException e)
+	{
+		result= "EMPTY";
+	}
+	catch(Exception e)
+	{
+		result="ERROR";
+	}
+	if(result.equals("1"))
+		return true;
+	else return false;}
+
+
+
 	public void insertMovieNationsRel(MovieDTO movieDto) {
 
 		String movieKey = movieDto.getMovieKey();
@@ -491,18 +760,32 @@ public class MovieDAO {
 
 		for(String country: countries)
 		{
-			String cod=country.substring(0, 3).toUpperCase();
+			if(MovieGeneratorUtil.isNotNullEntry(country))
+			{
+				String cod="";
+				if(country.length()>3)
+				{
+					cod=country.trim().substring(0, 3).toUpperCase();
+				}
+				else
+				{
+					cod=country.trim().toUpperCase();
+	
+				} 
 
-			try{		
+				try{		
 
-				jdbcTemplate.update("INSERT INTO movienations (`movie`,`nation`) values ( ?,?)", new Object[]{movieDto.getMovieKey(), cod});					
-				//				
+					jdbcTemplate.update("INSERT INTO movienation (`movie`,`nation`) values ( ?,?)", new Object[]{movieDto.getMovieKey(), cod});					
+					//				
+				}
+
+				catch(Exception e){
+					e.printStackTrace();
+					throw e;
+				}
 			}
 
-			catch(Exception e){
-				e.printStackTrace();
-				throw e;
-			}
+			
 		}
 
 
@@ -543,6 +826,28 @@ public class MovieDAO {
 
 		catch(Exception e){
 			e.printStackTrace();
+			throw e;
+
+		}
+		return result;
+
+
+	}
+	
+	public int deleteMovieNationRel()
+	{
+		int result=0;
+
+		try{		
+
+			result = jdbcTemplate.update("DELETE from movienation ",new Object[]{});					
+			//				
+		}
+
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
 		}
 		return result;
 
@@ -561,6 +866,8 @@ public class MovieDAO {
 
 		catch(Exception e){
 			e.printStackTrace();
+			throw e;
+
 		}
 		return result;
 
@@ -568,5 +875,94 @@ public class MovieDAO {
 	}
 
 
+
+	public int deleteInternationalization() {
+
+		int result=0;
+
+		try{		
+
+			result = jdbcTemplate.update("DELETE from internationalization ",new Object[]{});					
+			//				
+		}
+
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return result;
+
+
+			
+	}
+
+
+
+	public int deleteMovieWritersRel() {
+
+		int result=0;
+
+		try{		
+
+			result = jdbcTemplate.update("DELETE from moviewriter ",new Object[]{});					
+			//				
+		}
+
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return result;
+
+
+			
+	}
+
+
+
+	public int deleteMovieDirectorsRel() {
+
+		int result=0;
+
+		try{		
+
+			result = jdbcTemplate.update("DELETE from moviedirector ",new Object[]{});					
+			//				
+		}
+
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return result;
+
+
+			
+	}
+
+
+	public int deleteMovieLanguagesRel() {
+
+		int result=0;
+
+		try{		
+
+			result = jdbcTemplate.update("DELETE from movielanguage ",new Object[]{});					
+			//				
+		}
+
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return result;
+
+
+			
+	}
 
 }

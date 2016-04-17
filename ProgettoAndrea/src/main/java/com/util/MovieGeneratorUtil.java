@@ -1,5 +1,6 @@
 package com.util;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,19 @@ public class MovieGeneratorUtil {
 		return genreList;
 	}
 
+	public static Float convertMetascore(String metascore) {
+		// TODO Auto-generated method stub
+		if(metascore.equals("N/A"))
+		{
+			return (float) 0.0;
+		}
+		else
+		{
+			return Float.parseFloat((metascore).replace(",", "."));
+		}
+
+	}
+	
 	public static Float convertImdbRating(String imdbRating) {
 		// TODO Auto-generated method stub
 		if(imdbRating.equals("N/A"))
@@ -43,11 +57,25 @@ public class MovieGeneratorUtil {
 		}
 
 	}
+	public static Float convertNumImdbRating(String imdbRating) {
+		// TODO Auto-generated method stub
+		if(imdbRating.equals("N/A"))
+		{
+			return (float) 0.0;
+		}
+		else
+		{
+			return Float.parseFloat((imdbRating).replace(",", "."));
+		}
+
+	}
+	
+	
 	
 	public static String printMovie(MovieDTO movie) {
 		// TODO Auto-generated method stub
 		if(movie == null) return "Film non trovato";
-		else return movie.getName();
+		else return movie.getTitle();
 	}
 
 	public static List<String> parseActors(String actors) {
@@ -60,5 +88,94 @@ public class MovieGeneratorUtil {
 		}
 		return actorsList;
 		}
+
+	public static List<String> parseWriters(String writers) {
+		// TODO Auto-generated method stub
+		List <String> writersList= new ArrayList <String>();
+		String[] writersArray = writers.split(",");
+		for(int i=0;i<writersArray.length;i++)
+		{
+			String writername= writersArray[i].split("\\(")[0].trim();
+			writersList.add(writername);
+		}
+		return writersList;
+	}
+	
+	public static List<String> parseDirectors(String directors) {
+		// TODO Auto-generated method stub
+		List <String> directorsList= new ArrayList <String>();
+		String[] directorsArray = directors.split(",");
+		for(int i=0;i<directorsArray.length;i++)
+		{
+			directorsList.add(directorsArray[i]);
+		}
+		return directorsList;
+	}
+
+	public static String convertMonth(String month) {
+
+		switch(month)
+		{
+		case   "JAN": return "01";
+		case   "FEB": return "02";
+		case   "MAR":return "03";
+		case   "APR":return "04";
+		case   "MAY":return "05";
+		case   "JUN":return "06";
+		case   "JUL":return "07";
+		case   "AUG":return "08";
+		case   "SEP":return "09";
+		case   "OCT":return "10";
+		case   "NOV":return "11";
+		case   "DEC":return "12";
+
+
+
+		}
+		
+		
+		return null;
+	}
+
+	public static String parseMovieTitle(String title) {
+		// TODO Auto-generated method stub
+		return title.replace(" ", "+");
+	}
+
+	public static boolean isNotNullEntry(String entry) {
+		// TODO Auto-generated method stub
+		if(entry!=null && !entry.trim().equals("") && !entry.trim().equals("N/A"))
+		{
+			return true;
+		}
+		else return false;
+	}
+	public static List<String> parseLanguages(String string) {
+		// TODO Auto-generated method stub
+		List <String> languagesList= new ArrayList <String>();
+		String[] languagesArray = string.split(",");
+		for(int i=0;i<languagesArray.length;i++)
+		{
+			languagesList.add(languagesArray[i]);
+		}
+		return languagesList;
+	}
+
+	public static String convertTitleToString(Object object) throws UnsupportedEncodingException {
+		// TODO Auto-generated method stub
+		String out= convertToUTF8((String) object);
+	    return new String((byte[]) object, "UTF8");
+	}
+
+	 public static String convertToUTF8(String s) {
+	        String out = null;
+	        try {
+	            out = new String(s.getBytes("UTF-8"), "ISO-8859-1");
+	        } catch (java.io.UnsupportedEncodingException e) {
+	            return null;
+	        }
+	        return out;
+	    }
+
 
 }

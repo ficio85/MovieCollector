@@ -3,16 +3,22 @@ package com.menu;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -33,6 +39,7 @@ import com.dto.MovieDTO;
 import com.service.MovieService;
 import com.util.KeyGenerator;
 import com.util.MovieGeneratorUtil;
+import com.util.ProxyUtil;
 import com.util.StringParseUtil;
 import com.util.WikiUtil;
 
@@ -79,9 +86,7 @@ public class MovieInsertController {
 	private  void jsoupInsert() throws IOException {
 		// TODO Auto-generated method stub
 		URL url = new URL("https://it.wikipedia.org/wiki/Brad_Pitt");
-		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy.sdc.hp.com", 8080)); // or whatever your proxy is
-		HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
-		uc.connect();
+		HttpURLConnection uc = ProxyUtil.connect(url);
 		String line = null;
 		StringBuffer tmp = new StringBuffer();
 		BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
@@ -95,37 +100,47 @@ public class MovieInsertController {
 		 for(Node node:childNodes)
 		 {
 			 MovieDTO movie = new MovieDTO();
-			  Elements elements = ((Element)node).getElementsByTag("i");
-			  int i=0;
-			  for(Element el:elements)
-			  {
-				  
-				  if(!el.getElementsByTag("a").isEmpty())
-				  {
-					  if(i==0)
-					  {
-						  movie.setTitoloItaliano(el.getElementsByTag("a").get(0).ownText()) ;
-					  }
-					  else
-					  {
-						  movie.setTitle(el.getElementsByTag("a").get(0).ownText());
-					  }
-					 
-				  }
-				  else
-				  {
-					  if(i==0)
-					  {
-						  movie.setTitoloItaliano(el.ownText()) ;
-					  }
-					  else
-					  {
-						  movie.setTitle(el.ownText());
-					  }
-				  }
-				  i++;
-			  }
-			moviesActor.add(movie);
+			 Elements elements = ((Element)node).getElementsByTag("i");
+			 int i=0;
+			 if(elements.size()==1)
+			 {
+				 movie.setTitoloItaliano(elements.get(0).getElementsByTag("a").get(0).ownText()) ;
+				 movie.setTitle(elements.get(0).getElementsByTag("a").get(0).ownText());
+				 moviesActor.add(movie);
+			 }
+			 else
+			 {
+				 for(Element el:elements)
+				 {
+
+					 if(!el.getElementsByTag("a").isEmpty())
+					 {
+						 if(i==0)
+						 {
+							 movie.setTitoloItaliano(el.getElementsByTag("a").get(0).ownText()) ;
+						 }
+						 else
+						 {
+							 movie.setTitle(el.getElementsByTag("a").get(0).ownText());
+						 }
+
+					 }
+					 else
+					 {
+						 if(i==0)
+						 {
+							 movie.setTitoloItaliano(el.ownText()) ;
+						 }
+						 else
+						 {
+							 movie.setTitle(el.ownText());
+						 }
+					 }
+					 i++;
+				 }
+				 moviesActor.add(movie);  
+			 }
+
 		 }
 		 
 			for(MovieDTO film: moviesActor)
@@ -134,12 +149,18 @@ public class MovieInsertController {
 				//Se è presente il titolo nel db internazionalizzazione, ma non in italiano inserire solo il titolo italiano (controllare che sia presente anche l'attore dal momento che l'info data dall'API imdb sugli attori è parziale)
 				if (movieDTOtoUpdate!=null)
 				{
-					movieService.updateMovieInternationalization("Brad Pitt", film);
+					movieDTOtoUpdate.setTitoloItaliano(film.getTitoloItaliano());
+					movieService.updateMovieInternationalization("Brad Pitt", movieDTOtoUpdate);
 				}
 				else
 				{
-					URL url2 = new URL("http://www.omdbapi.com/?t="+film.getTitle()+"&y=&plot=short&r=json");
-					createMovieInstance(url,null);					
+					URL url2 = new URL("http://www.omdbapi.com/?t="+MovieGeneratorUtil.parseMovieTitle(film.getTitle())+"&y=&plot=long&r=json");
+					try {
+						createMovieInstance(url2,null);
+					} catch (JSONException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}					
 				}
 				
 			}
@@ -156,10 +177,7 @@ public class MovieInsertController {
 	private void jsoupInsertNonProxy() throws IOException {
 		// TODO Auto-generated method stub
 		URL url = new URL("https://it.wikipedia.org/wiki/Pagina_principale");
-		  Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy.sdc.hp.com", 8080)); // or whatever your proxy is
-		  HttpURLConnection uc = (HttpURLConnection)url.openConnection(proxy);
-
-		  uc.connect();
+		  HttpURLConnection uc = ProxyUtil.connect(url);
 
 		    String line = null;
 		    StringBuffer tmp = new StringBuffer();
@@ -217,19 +235,22 @@ public class MovieInsertController {
 			}
 			index=pattern+index0+index;
 			URL url = new URL("http://www.omdbapi.com/?i="+index+"&y=&plot=long&r=json");
-			createMovieInstance(url,model);
+			model.addAttribute("indexImdb", index);
+			try {
+				createMovieInstance(url,model);
+			} catch (JSONException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}
 	}
 
 
 
-	private void createMovieInstance(URL url, Model model) throws IOException {
+	private void createMovieInstance(URL url, Model model) throws IOException, JSONException, ParseException {
 		// TODO Auto-generated method stub
-		  Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy.sdc.hp.com", 8080)); // or whatever your proxy is
-		  HttpURLConnection connection = (HttpURLConnection)url.openConnection(proxy);
-
-		  connection.connect();
+		  HttpURLConnection connection = ProxyUtil.connect(url);
 		BufferedReader read = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		String line ;
 		StringBuffer stringBuffer = new StringBuffer();
@@ -247,6 +268,7 @@ public class MovieInsertController {
 		else
 		{
 			movie = generateMovieDTO(jSONObject);
+			movie.setImdbKey((String) model.asMap().get("indexImdb"));
 			result = createMovieTable(movie);
 		}
 
@@ -255,10 +277,19 @@ public class MovieInsertController {
 
 
 
+	
+
+
+
 	private void executeScriptInsert(String movieName, Model model) throws IOException {
 		// TODO Auto-generated method stub
 		URL url = new URL("http://www.omdbapi.com/?t="+movieName+"&y=&plot=short&r=json");
-		createMovieInstance(url,model);
+		try {
+			createMovieInstance(url,model);
+		} catch (JSONException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
@@ -277,7 +308,10 @@ public class MovieInsertController {
 		default:message="Errore anomalo situazione non gestita";
 		}
 		message= message+" "+MovieGeneratorUtil.printMovie(movieDTO);
-		model.addAttribute("responseMessage",message );
+		if(model!=null)
+		{
+			model.addAttribute("responseMessage",message );
+		}
 	}
 
 
@@ -290,25 +324,35 @@ public class MovieInsertController {
 	
 
 
-	private MovieDTO generateMovieDTO(JSONObject jSONObject)
+	private MovieDTO generateMovieDTO(JSONObject jSONObject) throws JSONException, ParseException, UnsupportedEncodingException
 	{
 		Iterator<String> keys = jSONObject.keys();
 		MovieDTO movie = new MovieDTO();
 		while (keys.hasNext())
 		{
 			String key = keys.next();
-			System.out.println(key);
-			System.out.println(jSONObject.get(key));
+//			System.out.println(key);
+//			System.out.println(jSONObject.get(key));
 			switch(key.trim())
 			{
-			case  "Released":break;
-			case   "Title": movie.setName(((String) jSONObject.get("Title")));break;
-			case   "imdbVotes":movie.setImdbRating(MovieGeneratorUtil.convertImdbRating((String)jSONObject.get("imdbVotes")));break;
+			case   "Title": movie.setTitle((MovieGeneratorUtil.convertTitleToString(jSONObject.get("Title"))));break;
+			case   "Released": movie.setReleaseDate(convertTipoData((String) jSONObject.get("Released")));
+			case   "imdbVotes":movie.setNumImdbRating(MovieGeneratorUtil.convertNumImdbRating((String)jSONObject.get("imdbVotes")));break;
+			case   "imdbRating":movie.setImdbRating(MovieGeneratorUtil.convertImdbRating((String)jSONObject.get("imdbRating")));break;
+			case   "metaCritic":movie.setMetaScore(MovieGeneratorUtil.convertMetascore((String)jSONObject.get("Metascore")));
 			case   "Runtime":movie.setLength(StringParseUtil.fromStringLengthToInt((String)jSONObject.get("Runtime")));break;
 			case   "Country":movie.setCountries(MovieGeneratorUtil.parseCountries((String)jSONObject.get("Country")));break;
-			case   "Year":movie.setYear(Integer.parseInt((String) jSONObject.get("Year")));break;
+			case   "Year":movie.setYear(Integer.parseInt(((String) jSONObject.get("Year")).substring(0, 4)));break;
 			case   "Genre":movie.setGenre(( MovieGeneratorUtil.parseGenres((String)jSONObject.get("Genre"))));break;
 			case   "Actors":movie.setActors((( MovieGeneratorUtil.parseActors((String)jSONObject.get("Actors")))));break;
+			case   "Writer":movie.setWriters((( MovieGeneratorUtil.parseWriters((String)jSONObject.get("Writer")))));break;
+			case   "Director":movie.setDirectors((( MovieGeneratorUtil.parseDirectors((String)jSONObject.get("Director")))));break;
+			case   "Rated": movie.setRated(((String) jSONObject.get("Rated")));break;
+			case   "Poster": movie.setPoster(((String) jSONObject.get("Poster")));break;
+			case   "Awards": movie.setAwards(((String) jSONObject.get("Awards")));break;
+			case   "Type": movie.setType(((String) jSONObject.get("Type")));break;
+
+			case   "Language":movie.setLanguages((( MovieGeneratorUtil.parseLanguages((String)jSONObject.get("Language")))));break;
 			case    "Plot": movie.setPlot((String)jSONObject.get("Plot"));
 
 
@@ -320,6 +364,26 @@ public class MovieInsertController {
 	}
 
 	
+	private  java.sql.Date convertTipoData(String stringDate) throws ParseException {
+		// TODO Auto-generated method stub
+		java.sql.Date sDate =null;
+		if(stringDate!=null && !stringDate.trim().equals("")&& !stringDate.trim().equals("N/A"))
+		{
+			String[] dateToFormatSplit=stringDate.split(" ");
+			dateToFormatSplit[1]=MovieGeneratorUtil.convertMonth(dateToFormatSplit[1].toUpperCase());
+			String stringToRender=dateToFormatSplit[0]+"-"+dateToFormatSplit[1]+"-"+dateToFormatSplit[2]; 
+			 DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+			 Date date = (Date)formatter.parse(stringToRender);
+		         sDate = new java.sql.Date(date.getTime());
+		}
+		
+	
+		return sDate;
+		
+	}
+
+
+
 	private int createMovieTable(MovieDTO movie) {
 		// TODO Auto-generated method stub			
 		return movieService.insertMovie(movie);

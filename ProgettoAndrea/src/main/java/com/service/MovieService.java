@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dao.MovieDAO;
 import com.dto.MovieDTO;
+import com.util.MovieGeneratorUtil;
 
 @Service("movieService")
 public class MovieService {
@@ -38,35 +39,91 @@ public class MovieService {
 			
 			for(String country : movieDto.getCountries())
 			{
-				if(!movieDAO.isPresentCountry(country))
+				if(MovieGeneratorUtil.isNotNullEntry(country))
 				{
-					movieDAO.insertCountry(country);
+					if(!movieDAO.isPresentCountry(country))
+					{
+						movieDAO.insertCountry(country);
+					}
 				}
+				
 			}
 			//popolamento tipologica generi
 			for(String genre : movieDto.getGenre())
 			{
-				if(!movieDAO.isPresentGenre(genre))
+				if(MovieGeneratorUtil.isNotNullEntry(genre))
 				{
-					movieDAO.insertGenre(genre);
+					if(!movieDAO.isPresentGenre(genre))
+					{
+						movieDAO.insertGenre(genre);
+					}
 				}
+
+				
+			}
+			//popolamento tipologica generi
+			for(String language : movieDto.getLanguages())
+			{
+				if(MovieGeneratorUtil.isNotNullEntry(language))
+				{
+					if(!movieDAO.isPresentLanguage(language))
+					{
+						movieDAO.insertLanguage(language);
+					}
+				}
+
+				
 			}
 			//popolamento tipologica attori
 			for(String actor : movieDto.getActors())
 			{
-				if(!movieDAO.isPresentActor(actor.trim()))
+				if(MovieGeneratorUtil.isNotNullEntry(actor))
 				{
-					movieDAO.insertActor(actor.trim());
+					if(!movieDAO.isPresentActor(actor.trim()))
+					{
+						movieDAO.insertActor(actor.trim());
+					}
 				}
+
+				
 			}
 			//popolamento tipologica registi
-			movieDAO.insertDirector(movieDto.getDirector());
-			movieDAO.insertWriter(movieDto.getWriter());
-			
+			for(String director : movieDto.getDirectors())
+			{
+				if(MovieGeneratorUtil.isNotNullEntry(director))
+				{
+					if(!movieDAO.isPresentDirector(director.trim()))
+					{
+						movieDAO.insertDirector(director.trim());
+					}
+				}
+
+				
+			}
+			//popolamento tipologica scrittori
+			for(String writer : movieDto.getWriters())
+			{
+				if(MovieGeneratorUtil.isNotNullEntry(writer))
+				{
+					if(!movieDAO.isPresentWriter(writer.trim()))
+					{
+						movieDAO.insertWriter(writer.trim());
+					}
+				}
+
+				
+			}
 			movieDAO.insertMovie(movieDto);
 			movieDAO.insertMovieGenRel(movieDto);
 			movieDAO.insertMovieActorsRel(movieDto);
 			movieDAO.insertMovieDirectorsRel(movieDto);
+			movieDAO.insertMovieNationsRel(movieDto);
+			movieDAO.insertMovieLanguagesRel(movieDto);
+			if(!isPresentMovieWritersRel(movieDto))
+			{
+				movieDAO.insertMovieWritersRel(movieDto);
+
+			}
 			movieDAO.insertInternazionalization(movieDto);
 			
 			return 1;
@@ -75,6 +132,11 @@ public class MovieService {
 		
 	}
 	
+	private boolean isPresentMovieWritersRel(MovieDTO movieDto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
 	public void cleanDB()
 	{
@@ -83,6 +145,9 @@ public class MovieService {
 		movieDAO.deleteGenres();
 		movieDAO.deleteAllCountries();
 		movieDAO.deleteActors();
+		movieDAO.deleteDirectors();
+		movieDAO.deleteWriters();
+		movieDAO.deleteLanguage();
 	}
 	
 	
@@ -92,6 +157,13 @@ public class MovieService {
 	{
 		  movieDAO.deleteMovGenRel();
 		  movieDAO.deleteMovieActorsRel();
+		  movieDAO.deleteMovieNationRel();
+		  movieDAO.deleteMovieWritersRel();
+		  movieDAO.deleteMovieDirectorsRel();
+		  movieDAO.deleteMovieLanguagesRel();
+			movieDAO.deleteInternationalization();
+
+		  
 	}
 
 	public void generateDbByActor(List<MovieDTO> moviesActor, String actor) {
@@ -117,8 +189,10 @@ public class MovieService {
 		{
 			List <String> actors = new ArrayList <String>();
 			actors.add(actor);
-			film.setActors(actors );
-			movieDAO.insertMovieActorsRel(film);
+			film.setActors(actors);
+			
+				movieDAO.insertMovieActorsRel(film);
+			
 		}
 	}
 	

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dao.MovieDAO;
+import com.dao.InsertMovieDAO;
 import com.dto.MovieDTO;
 import com.eccezione.ExceptionInsert;
 import com.util.MovieGeneratorUtil;
@@ -20,7 +20,7 @@ public class MovieService {
 	
 	@Autowired
 	@Qualifier("movieDAO")
-	MovieDAO movieDAO;
+	InsertMovieDAO movieDAO;
 	
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
 	public int insertMovie(MovieDTO movieDto)

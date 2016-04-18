@@ -22,7 +22,7 @@ import com.menu.ProvaDTO;
 import com.util.MovieGeneratorUtil;
 
 @Repository("movieDAO")
-public class MovieDAO {
+public class InsertMovieDAO {
 
 	
 

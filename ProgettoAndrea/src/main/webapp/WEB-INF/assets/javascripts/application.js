@@ -6,5 +6,7 @@ $(function(){
 		minLength: 2,
 		select: function( event, ui ) {}
 	});
+	
+	$( "#actors" ).click(alert("ciao"));
 
 });

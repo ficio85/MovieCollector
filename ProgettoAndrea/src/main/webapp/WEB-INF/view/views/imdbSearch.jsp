@@ -4,8 +4,7 @@
 <c:url value="/movie/inserimentoIndicizzato" var="actionUrl2" />
 
 
-<form class="well form-search" id="search-by-title-form"
-	action="${actionUrl}">
+<form class="well form-search" id="search-by-title-form"action="${actionUrl}">
 	<fieldset>
 		<legend>By Title</legend>
 	</fieldset>

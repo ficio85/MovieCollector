@@ -65,7 +65,7 @@ public class MovieGeneratorUtil {
 		}
 		else
 		{
-			return Float.parseFloat((imdbRating).replace(",", "."));
+			return Float.parseFloat((imdbRating).replace(",", ""));
 		}
 
 	}

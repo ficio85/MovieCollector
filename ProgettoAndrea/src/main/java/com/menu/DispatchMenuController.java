@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.dao.MovieDAO;
+import com.dao.InsertMovieDAO;
 import com.dto.DirectorDTO;
 import com.dto.GenreDTO;
 import com.dto.MovieDTO;

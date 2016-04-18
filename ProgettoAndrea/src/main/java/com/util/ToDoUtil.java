@@ -3,6 +3,7 @@ package com.util;
 public class ToDoUtil {
 
 	
-	//gestire i caratteri sporchi
-	//aggiungere il campo data di release alla tabella movie
+	//gestire film-serie tv
+	//creare tabella eccezioni
+	//gestione particolare scrittori based on ecc...
 }

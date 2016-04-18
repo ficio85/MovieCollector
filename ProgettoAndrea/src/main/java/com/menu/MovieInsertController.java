@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dto.DirectorDTO;
 import com.dto.MovieDTO;
+import com.eccezione.ExceptionInsert;
 import com.service.MovieService;
 import com.util.KeyGenerator;
 import com.util.MovieGeneratorUtil;
@@ -269,7 +270,19 @@ public class MovieInsertController {
 		{
 			movie = generateMovieDTO(jSONObject);
 			movie.setImdbKey((String) model.asMap().get("indexImdb"));
-			result = createMovieTable(movie);
+			try{
+				result = createMovieTable(movie);
+			}
+			catch(Exception ex)
+			{
+				ExceptionInsert excIns = new ExceptionInsert();
+				excIns.setMovieKey(movie.getImdbKey());
+				excIns.setMovieTitle(movie.getTitle());
+				excIns.setStackTrace(ex.getMessage());
+				ex.printStackTrace();
+				movieService.insertException(excIns);
+			}
+			
 		}
 
 		generateResponseMessage(result,model, movie);
@@ -345,16 +358,18 @@ public class MovieInsertController {
 			case   "Year":movie.setYear(Integer.parseInt(((String) jSONObject.get("Year")).substring(0, 4)));break;
 			case   "Genre":movie.setGenre(( MovieGeneratorUtil.parseGenres((String)jSONObject.get("Genre"))));break;
 			case   "Actors":movie.setActors((( MovieGeneratorUtil.parseActors((String)jSONObject.get("Actors")))));break;
-			case   "Writer":movie.setWriters((( MovieGeneratorUtil.parseWriters((String)jSONObject.get("Writer")))));break;
+			case   "Writer":movie.setWriters((( MovieGeneratorUtil.parseWriters((String)jSONObject.get("Writer")))));
+							movie.setWorkwriters(((( MovieGeneratorUtil.parseWorkWriters((String)jSONObject.get("Writer"))))));
 			case   "Director":movie.setDirectors((( MovieGeneratorUtil.parseDirectors((String)jSONObject.get("Director")))));break;
 			case   "Rated": movie.setRated(((String) jSONObject.get("Rated")));break;
 			case   "Poster": movie.setPoster(((String) jSONObject.get("Poster")));break;
 			case   "Awards": movie.setAwards(((String) jSONObject.get("Awards")));break;
 			case   "Type": movie.setType(((String) jSONObject.get("Type")));break;
-
+			case    "Season":movie.setSeason(MovieGeneratorUtil.parseSeason((String) jSONObject.get("Season")));break;
+			case    "Episode":movie.setEpisode(MovieGeneratorUtil.parseEpisode(((String) jSONObject.get("Episode"))));break;
 			case   "Language":movie.setLanguages((( MovieGeneratorUtil.parseLanguages((String)jSONObject.get("Language")))));break;
-			case    "Plot": movie.setPlot((String)jSONObject.get("Plot"));
-
+			case    "Plot": movie.setPlot((String)jSONObject.get("Plot"));break;
+			case     "seriesID": movie.setImdbSerieKey((String) (jSONObject.get("seriesID")));break;
 
 			}
 

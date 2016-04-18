@@ -101,6 +101,29 @@ public class MovieGeneratorUtil {
 		return writersList;
 	}
 	
+	public static List<String> parseWorkWriters(String writers) {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		List <String> workList= new ArrayList <String>();
+		String[] writersArray = writers.split(",");
+		for(int i=0;i<writersArray.length;i++)
+		{
+			String[] work =writersArray[i].split("\\(");
+			if(work.length>1)
+			{
+				String referringWork=work[1].split("\\)")[0];
+				workList.add(referringWork);
+			}
+			else
+			{
+				workList.add(" ");
+			}
+		}
+		return workList;
+	
+	}
+	
 	public static List<String> parseDirectors(String directors) {
 		// TODO Auto-generated method stub
 		List <String> directorsList= new ArrayList <String>();
@@ -176,6 +199,33 @@ public class MovieGeneratorUtil {
 	        }
 	        return out;
 	    }
+
+	public static int parseEpisode(String episode) {
+		// TODO Auto-generated method stub
+		if(episode!=null && !episode.trim().equals("") && !episode.trim().equals("N/A"))
+		{
+			return Integer.parseInt(episode);
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+	public static int parseSeason(String season) {
+		// TODO Auto-generated method stub
+		if(season!=null && !season.trim().equals("") && !season.trim().equals("N/A"))
+		{
+			return Integer.parseInt(season);
+		}
+		else
+		{
+			return 0;
+		}
+		
+	}
+
+	
 
 
 }

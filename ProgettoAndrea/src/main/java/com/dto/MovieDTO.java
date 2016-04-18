@@ -21,12 +21,46 @@ public class MovieDTO {
 	String imdbKey;
 	List <String> directors;
 	List <String> writers;
+	List <String> workwriters;
 	List <String> languages;
 	String rated;
 	String awards;
 	String poster;
 	String type;
 	
+	
+	//valori da inserire in caso di serie tv
+	int season;
+	int episode;
+	String imdbSerieKey;
+	
+	
+
+	
+	public List<String> getWorkwriters() {
+		return workwriters;
+	}
+	public void setWorkwriters(List<String> workwriters) {
+		this.workwriters = workwriters;
+	}
+	public int getSeason() {
+		return season;
+	}
+	public void setSeason(int season) {
+		this.season = season;
+	}
+	public int getEpisode() {
+		return episode;
+	}
+	public void setEpisode(int episode) {
+		this.episode = episode;
+	}
+	public String getImdbSerieKey() {
+		return imdbSerieKey;
+	}
+	public void setImdbSerieKey(String imdbSerieKey) {
+		this.imdbSerieKey = imdbSerieKey;
+	}
 	public List<String> getLanguages() {
 		return languages;
 	}

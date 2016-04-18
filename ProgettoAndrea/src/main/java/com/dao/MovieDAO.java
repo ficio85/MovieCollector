@@ -17,12 +17,14 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.dto.MovieDTO;
+import com.eccezione.ExceptionInsert;
 import com.menu.ProvaDTO;
 import com.util.MovieGeneratorUtil;
 
 @Repository("movieDAO")
 public class MovieDAO {
 
+	
 
 	@Autowired
 	@Qualifier("jdbcTemplate")
@@ -308,14 +310,14 @@ public class MovieDAO {
 		return result;
 	}
 	
-	public int insertWriter(String writer) {
+	public int insertWriter(String writer, String work) {
 
 		int result=0;
 
 
 		try{		
 
-			result = jdbcTemplate.update("INSERT INTO writer (`name`) values ( ?)", new Object[]{writer});					
+			result = jdbcTemplate.update("INSERT INTO writer (`name`,`work`) values ( ?, ?)", new Object[]{writer,work});					
 			//				
 		}
 
@@ -367,6 +369,28 @@ public class MovieDAO {
 
 		}
 		return result;
+
+
+	}
+	
+	public int insertLogEccezioni(ExceptionInsert excIns) {
+
+		
+
+		int result;
+		try{		
+
+			result = jdbcTemplate.update("INSERT INTO logeccezioni (`movieKey`,`movieTitle`,`logEccezione`) values ( ?, ?,?)", new Object[]{excIns.getMovieKey(),excIns.getMovieTitle(),excIns.getStackTrace()});					
+			//				
+		}
+
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return result;
+
 
 
 	}
@@ -963,6 +987,28 @@ public class MovieDAO {
 
 
 			
+	}
+
+
+
+	public int insertSerie(MovieDTO movieDto) {
+
+		int result=0;
+
+		try{		
+
+			result = jdbcTemplate.update("INSERT INTO serietv (`moviekey`,`imdbSerieKey`,`season`,`episode`) values (?, ?, ?, ?)", new Object[]{movieDto.getMovieKey(),movieDto.getImdbSerieKey(),movieDto.getSeason(),movieDto.getEpisode()});					
+			//				
+		}
+
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return result;
+
+
 	}
 
 }

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dao.MovieDAO;
 import com.dto.MovieDTO;
+import com.eccezione.ExceptionInsert;
 import com.util.MovieGeneratorUtil;
 
 @Service("movieService")
@@ -100,18 +101,20 @@ public class MovieService {
 
 				
 			}
+			int wr=0;
 			//popolamento tipologica scrittori
 			for(String writer : movieDto.getWriters())
 			{
+				
 				if(MovieGeneratorUtil.isNotNullEntry(writer))
 				{
 					if(!movieDAO.isPresentWriter(writer.trim()))
 					{
-						movieDAO.insertWriter(writer.trim());
+						movieDAO.insertWriter(writer.trim(),movieDto.getWorkwriters().get(wr));
 					}
 				}
 
-				
+				wr ++;
 			}
 			movieDAO.insertMovie(movieDto);
 			movieDAO.insertMovieGenRel(movieDto);
@@ -126,12 +129,30 @@ public class MovieService {
 			}
 			movieDAO.insertInternazionalization(movieDto);
 			
+			//in caso di serie tv
+			if(isSerie(movieDto))
+			{
+				movieDAO.insertSerie(movieDto);
+			}
+			
 			return 1;
 		}
 		return 0;
 		
 	}
 	
+	private boolean isSerie(MovieDTO movieDto) {
+		// TODO Auto-generated method stub
+		if(movieDto.getImdbSerieKey()!=null && !movieDto.getImdbSerieKey().trim().equals(""))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	private boolean isPresentMovieWritersRel(MovieDTO movieDto) {
 		// TODO Auto-generated method stub
 		return false;
@@ -196,6 +217,10 @@ public class MovieService {
 		}
 	}
 	
-	
+	public void insertException(ExceptionInsert exc) {
+		
+		movieDAO.insertLogEccezioni(exc);
+		
+	}
 	
 }

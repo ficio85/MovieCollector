@@ -251,7 +251,7 @@ public class MovieInsertController {
 	private void createMovieInstance(URL url, Model model) throws IOException, JSONException, ParseException {
 		// TODO Auto-generated method stub
 		  HttpURLConnection connection = ProxyUtil.connect(url);
-		BufferedReader read = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		BufferedReader read = new BufferedReader(new InputStreamReader(connection.getInputStream(),"UTF-8"));
 		String line ;
 		StringBuffer stringBuffer = new StringBuffer();
 		while((line = read.readLine())!=null)
@@ -335,7 +335,7 @@ public class MovieInsertController {
 //			System.out.println(jSONObject.get(key));
 			switch(key.trim())
 			{
-			case   "Title": movie.setTitle((MovieGeneratorUtil.convertTitleToString(jSONObject.get("Title"))));break;
+			case   "Title": movie.setTitle((String) (jSONObject.get("Title")));break;
 			case   "Released": movie.setReleaseDate(convertTipoData((String) jSONObject.get("Released")));
 			case   "imdbVotes":movie.setNumImdbRating(MovieGeneratorUtil.convertNumImdbRating((String)jSONObject.get("imdbVotes")));break;
 			case   "imdbRating":movie.setImdbRating(MovieGeneratorUtil.convertImdbRating((String)jSONObject.get("imdbRating")));break;

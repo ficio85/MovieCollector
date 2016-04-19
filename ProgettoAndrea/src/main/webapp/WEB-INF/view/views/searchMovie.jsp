@@ -3,7 +3,7 @@
 <c:url value="/movie/ricerca" var="actionUrl" />
 
 
-<form class="well form-search" id="search-by-title-form"action="${actionUrl}">
+<form class="well form-search" id="search-by-title-form"action="ProgettoAndrea/loadActors">
 	<div class="ui-widget">
 	  <label for="actors">Actors: </label>
 	  <input id="actors">

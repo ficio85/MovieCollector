@@ -4,14 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.dto.MovieDTO;
+@Service("searchService")
+public class SearchService {
+	
 
-@Service("actorService")
-public class ActorService {
 	@Autowired
 	@Qualifier("jdbcTemplate")
 	JdbcTemplate jdbcTemplate;	
@@ -19,10 +18,12 @@ public class ActorService {
 	{
 		List<String> result;
 		
-			result=jdbcTemplate.queryForList(" SELECT name FROM actor where name like ? ", new Object[] {search+"#" }, String.class);
+			result=jdbcTemplate.queryForList(" SELECT name FROM actors where name like ? ", new Object[] {"#"+search }, String.class);
 		
 		
 		return result;
 
 	}
+
+
 }

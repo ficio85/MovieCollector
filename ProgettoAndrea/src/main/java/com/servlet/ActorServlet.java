@@ -20,8 +20,7 @@ public class ActorServlet  {
        @Qualifier("actorService")
        private ActorService actorService;
        
-       
-       
+            
        @RequestMapping(value = "/loadActors",method = {RequestMethod.GET,RequestMethod.POST})
        @ResponseBody
        public  List<String> getActorsList(@RequestParam(value="stringActor", defaultValue="") String stringActorSearch) {

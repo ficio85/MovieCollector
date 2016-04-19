@@ -1,12 +1,8 @@
 {
   "name": "ProgettoAndrea",
   "version": "1.0.0",
-  "description": "Istanza Polis per le Domande dei docenti per essere assunti a tempo indeterminato tramite la Buona Scuola",
-  "repository" :
-  { 
-  	"type" : "cvs",
-  	"url" : "http://172.18.12.190/cvsrepo"
-  },
+  "description": "MovieCollector",
+ 
   "devDependencies": {
     "grunt-cli": "~0.1.13",
     "grunt": "~0.4.5",

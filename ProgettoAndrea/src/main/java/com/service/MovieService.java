@@ -110,7 +110,7 @@ public class MovieService {
 				{
 					if(!movieDAO.isPresentWriter(writer.trim()))
 					{
-						movieDAO.insertWriter(writer.trim(),movieDto.getWorkwriters().get(wr));
+						movieDAO.insertWriter(writer.trim());
 					}
 				}
 

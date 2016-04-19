@@ -310,14 +310,14 @@ public class InsertMovieDAO {
 		return result;
 	}
 	
-	public int insertWriter(String writer, String work) {
+	public int insertWriter(String writer) {
 
 		int result=0;
 
 
 		try{		
 
-			result = jdbcTemplate.update("INSERT INTO writer (`name`,`work`) values ( ?, ?)", new Object[]{writer,work});					
+			result = jdbcTemplate.update("INSERT INTO writer (`name`) values (  ?)", new Object[]{writer});					
 			//				
 		}
 
@@ -731,7 +731,7 @@ public class InsertMovieDAO {
 		String movieKey = movieDto.getMovieKey();
 		List <String> movieWriters= movieDto.getWriters();
 
-
+int w=0;
 		for(String writer: movieWriters)
 		{
 			if(MovieGeneratorUtil.isNotNullEntry(writer))
@@ -739,7 +739,7 @@ public class InsertMovieDAO {
 				try{		
 					if(!isPresentMovieWriterRel(movieDto.getMovieKey(),writer))
 					{
-						jdbcTemplate.update("INSERT INTO moviewriter (`movie`,`writer`) values ( ?,?)", new Object[]{movieDto.getMovieKey(), writer.trim()});					
+						jdbcTemplate.update("INSERT INTO moviewriter (`movie`,`writer`,`work`) values ( ?,?,?)", new Object[]{movieDto.getMovieKey(), writer.trim(),movieDto.getWorkwriters().get(w)});					
 
 					}
 					//				
@@ -751,7 +751,7 @@ public class InsertMovieDAO {
 				}
 			}
 
-			
+			w++;
 		}
 
 

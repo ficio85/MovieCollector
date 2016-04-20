@@ -3,6 +3,9 @@ package com.servlet;
 
 import java.util.List;
 
+import org.codehaus.jackson.map.JsonSerializer;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +24,14 @@ public class ActorServlet  {
        private ActorService actorService;
        
             
-       @RequestMapping(value = "/loadActors",method = {RequestMethod.GET,RequestMethod.POST})
+       @RequestMapping(value = "/loadActors",method = {RequestMethod.GET,RequestMethod.POST},headers="Accept=*/*",produces = "application/json")
        @ResponseBody
-       public  List<String> getActorsList(@RequestParam(value="stringActor", defaultValue="") String stringActorSearch) {
+       public   JSONObject getActorsList(@RequestParam(value="stringActor") String stringActorSearch) {
     	   
-              List<String> listaAttori = actorService.getActorsList(stringActorSearch);                          
-              return listaAttori;
+              List<String> listaAttori = actorService.getActorsList(stringActorSearch); 
+              JSONObject json = new JSONObject();
+              json.put("prova", "Brad Pitt");
+              return json;
        }
 
        

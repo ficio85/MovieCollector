@@ -12,16 +12,24 @@ $(function(){
 	
 	$( "#actors" ).autocomplete({
 		source: function( request, response ) {
-	        $.ajax({
-	            url: "../ProgettoAndrea/loadActors",
-	            dataType: "json",
-	            data:"stringActor="+this.value,
-	            success: function( data ) {
-	            	alert(data);
-	              response( data );
-	            }
-	          });
-	        },
+			var search=$("#actors").val();
+			var prova=
+				$.ajax({
+					url: "../ProgettoAndrea/loadActors",
+					headers: { 
+					    Accept : "application/json"
+					},
+					data:"stringActor="+request.term,
+					success: function( data ) {
+						console.log('prova');
+						response( data );
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) { 
+						alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+					} 
+				});
+			console.log(prova);
+		},
 	        search: function() {
 	            // custom minLength
 	            var term = extractLast( this.value );

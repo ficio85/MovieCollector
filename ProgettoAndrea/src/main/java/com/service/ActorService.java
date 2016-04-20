@@ -19,7 +19,7 @@ public class ActorService {
 	{
 		List<String> result;
 		
-			result=jdbcTemplate.queryForList(" SELECT name FROM actor where name like ? ", new Object[] {search+"#" }, String.class);
+			result=jdbcTemplate.queryForList(" SELECT name FROM actor where name like ? ", new Object[] {search+"%" }, String.class);
 		
 		
 		return result;

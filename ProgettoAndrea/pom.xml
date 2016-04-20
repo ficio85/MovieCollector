@@ -23,10 +23,9 @@
 
 
 		<!-- Spring -->
-		<spring-framework.version>4.1.3.RELEASE</spring-framework.version>
+		<spring-framework.version>4.2.0.RELEASE</spring-framework.version>
 
-		<!-- Hibernate / JPA -->
-		<hibernate.version>4.2.1.Final</hibernate.version>
+		
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 
 		<!-- Logging -->
@@ -87,13 +86,7 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- Hibernate -->
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>4.3.5.Final</version>
-		</dependency>
+		
 
 		<!-- Json -->
 
@@ -105,15 +98,15 @@
 		</dependency>
 
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-core</artifactId>
-		    <version>2.4.1</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.4.3</version>
 		</dependency>
 		
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
-		    <version>2.4.1.1</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.4.3</version>
 		</dependency>
 
 		<!-- Apache Tiles -->

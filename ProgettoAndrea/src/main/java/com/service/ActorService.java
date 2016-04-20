@@ -15,11 +15,11 @@ public class ActorService {
 	@Autowired
 	@Qualifier("jdbcTemplate")
 	JdbcTemplate jdbcTemplate;	
-	public List<String> getActorsList(String search) 
+	public  List<String> getActorsList(String search) 
 	{
 		List<String> result;
 		
-			result=jdbcTemplate.queryForList(" SELECT name FROM actor where name like ? ", new Object[] {search+"%" }, String.class);
+		result=jdbcTemplate.queryForList(" SELECT name FROM actor where name like ? ", new Object[] {search+"%" }, String.class);
 		
 		
 		return result;

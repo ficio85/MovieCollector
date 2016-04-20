@@ -24,14 +24,25 @@ public class ActorServlet  {
        private ActorService actorService;
        
             
-       @RequestMapping(value = "/loadActors",method = {RequestMethod.GET,RequestMethod.POST},headers="Accept=*/*",produces = "application/json")
+       @RequestMapping(value = "/loadActors",method = {RequestMethod.GET,RequestMethod.POST})
        @ResponseBody
-       public   JSONObject getActorsList(@RequestParam(value="stringActor") String stringActorSearch) {
+       public   String[] getActorsList(@RequestParam(value="stringActor") String stringActorSearch) {
     	   
               List<String> listaAttori = actorService.getActorsList(stringActorSearch); 
-              JSONObject json = new JSONObject();
-              json.put("prova", "Brad Pitt");
-              return json;
+//              JSONObject json = new JSONObject();
+//              json.put("prova", "Brad Pitt");
+//              return json;
+              String [] arrayActors= new String[listaAttori.size()];;
+              if(listaAttori!=null && listaAttori.size()!=0)
+              {
+                 
+                  for(int j=0;  j< listaAttori.size() ;j++)
+                  {
+                	 arrayActors[j]=listaAttori.get(j); 
+                  }
+
+              }
+              return arrayActors;
        }
 
        

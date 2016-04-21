@@ -615,14 +615,14 @@ public class InsertMovieDAO {
 		String movieKey = movieDto.getMovieKey();
 		List <String> movieGenre= movieDto.getGenre();
 
-
+		int index=1;
 		for(String genre: movieGenre)
 		{
 			if(MovieGeneratorUtil.isNotNullEntry(genre))
 			{
 				try{		
 
-					jdbcTemplate.update("INSERT INTO moviegenre (`movie`,`genre`) values ( ?, ?)", new Object[]{movieDto.getMovieKey(), genre.trim().toUpperCase().substring(0, 3)});					
+					jdbcTemplate.update("INSERT INTO moviegenre (`movie`,`genre`,`index`) values ( ?, ?,?)", new Object[]{movieDto.getMovieKey(), genre.trim().toUpperCase().substring(0, 3), index});					
 					//				
 				}
 
@@ -632,7 +632,7 @@ public class InsertMovieDAO {
 
 				}
 			}
-
+			index++;
 			
 		}
 
@@ -646,13 +646,14 @@ public class InsertMovieDAO {
 		List <String> movieActors= movieDto.getActors();
 
 
+		int index=1;
 		for(String actor: movieActors)
 		{
 			if(MovieGeneratorUtil.isNotNullEntry(actor))
 			{
 				try{		
 
-					jdbcTemplate.update("INSERT INTO movieactor (`movie`,`actor`) values ( ?,?)", new Object[]{movieDto.getMovieKey(),actor.trim()});					
+					jdbcTemplate.update("INSERT INTO movieactor (`movie`,`actor`,`index`) values ( ?,?,?)", new Object[]{movieDto.getMovieKey(),actor.trim(),index});					
 					//				
 				}
 
@@ -662,7 +663,7 @@ public class InsertMovieDAO {
 				}
 			}
 
-			
+			index++;
 		}
 
 
@@ -673,7 +674,7 @@ public class InsertMovieDAO {
 
 		String movieKey = movieDto.getMovieKey();
 		List <String> movieDirectors= movieDto.getDirectors();
-
+		int index=1;
 
 		for(String director: movieDirectors)
 		{
@@ -681,7 +682,7 @@ public class InsertMovieDAO {
 			{
 				try{		
 
-					jdbcTemplate.update("INSERT INTO moviedirector (`movie`,`director`) values ( ?,?)", new Object[]{movieDto.getMovieKey(), director.trim()});					
+					jdbcTemplate.update("INSERT INTO moviedirector (`movie`,`director`,`index`) values ( ?,?,?)", new Object[]{movieDto.getMovieKey(), director.trim(), index});					
 					//				
 				}
 
@@ -691,7 +692,7 @@ public class InsertMovieDAO {
 				}
 			}
 
-			
+			index++;
 		}
 
 
@@ -701,7 +702,7 @@ public class InsertMovieDAO {
 
 		String movieKey = movieDto.getMovieKey();
 		List <String> movieLanguages= movieDto.getLanguages();
-
+		int index=1;
 
 		for(String language: movieLanguages)
 		{
@@ -710,7 +711,7 @@ public class InsertMovieDAO {
 				String codLanguage=language.trim().substring(0, 3).toUpperCase();
 				try{		
 
-					jdbcTemplate.update("INSERT INTO movielanguage (`movie`,`language`) values ( ?,?)", new Object[]{movieDto.getMovieKey(), codLanguage});					
+					jdbcTemplate.update("INSERT INTO movielanguage (`movie`,`language`,`index`) values ( ?,?,?)", new Object[]{movieDto.getMovieKey(), codLanguage, index});					
 					//				
 				}
 
@@ -720,7 +721,7 @@ public class InsertMovieDAO {
 				}
 			}
 
-			
+			index++;
 		}
 	}
 	
@@ -730,7 +731,7 @@ public class InsertMovieDAO {
 
 		String movieKey = movieDto.getMovieKey();
 		List <String> movieWriters= movieDto.getWriters();
-
+		int index=1;
 int w=0;
 		for(String writer: movieWriters)
 		{
@@ -739,7 +740,7 @@ int w=0;
 				try{		
 					if(!isPresentMovieWriterRel(movieDto.getMovieKey(),writer))
 					{
-						jdbcTemplate.update("INSERT INTO moviewriter (`movie`,`writer`,`work`) values ( ?,?,?)", new Object[]{movieDto.getMovieKey(), writer.trim(),movieDto.getWorkwriters().get(w)});					
+						jdbcTemplate.update("INSERT INTO moviewriter (`movie`,`writer`,`work`,`index`) values ( ?,?,?,?)", new Object[]{movieDto.getMovieKey(), writer.trim(),movieDto.getWorkwriters().get(w),index});					
 
 					}
 					//				
@@ -752,6 +753,7 @@ int w=0;
 			}
 
 			w++;
+			index++;
 		}
 
 

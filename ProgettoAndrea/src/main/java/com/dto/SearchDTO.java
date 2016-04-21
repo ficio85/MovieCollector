@@ -12,15 +12,36 @@ public class SearchDTO {
 	boolean isSearchYear;
 	boolean isSearchTagMovie;
 	
-	List <String> Actor;
+	List <String> actors;
+	List <String> genres;
 	
 	
+	
+	public List<String> getActors() {
+		return actors;
+	}
+	public void setActors(List<String> actors) {
+		this.actors = actors;
+	}
+	public List<String> getGenres() {
+		return genres;
+	}
+	public void setGenres(List<String> genres) {
+		this.genres = genres;
+	}
 	public boolean isSearchActor() {
 		return isSearchActor;
 	}
 	public void setSearchActor(boolean isSearchActor) {
 		this.isSearchActor = isSearchActor;
 	}
+	public boolean isSearchWriter() {
+		return isSearchWriter;
+	}
+	public void setSearchWriter(boolean isSearchWriter) {
+		this.isSearchWriter = isSearchWriter;
+	}
+	
 	public boolean isSearchGenre() {
 		return isSearchGenre;
 	}

@@ -29,9 +29,7 @@ public class ActorServlet  {
        public   String[] getActorsList(@RequestParam(value="stringActor") String stringActorSearch) {
     	   
               List<String> listaAttori = actorService.getActorsList(stringActorSearch); 
-//              JSONObject json = new JSONObject();
-//              json.put("prova", "Brad Pitt");
-//              return json;
+
               String [] arrayActors= new String[listaAttori.size()];;
               if(listaAttori!=null && listaAttori.size()!=0)
               {

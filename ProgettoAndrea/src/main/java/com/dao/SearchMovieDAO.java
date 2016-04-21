@@ -1,12 +1,17 @@
 package com.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+
+import com.dto.MovieDTO;
 
 
 public class SearchMovieDAO {
@@ -15,45 +20,33 @@ public class SearchMovieDAO {
 	@Qualifier("jdbcTemplate")
 	JdbcTemplate jdbcTemplate;	
 	
-//	public List <String> getMovieActors(List <String> actors) {
-//		// TODO Auto-generated method stub
-//
-//		MapSqlParameterSource parameters = new MapSqlParameterSource();
-//		parameters.addValue("names", actors);
-//		List<Map<String, Object>> Foos = jdbcTemplate.queryForList("select * from foo where name in (:names)",parameters,String.class);
-//		
-//		
-//		
-//		List<String> result;
-//		try {
-//			result=jdbcTemplate.queryForList(sql, elementType, args)(" SELECT * FROM movieactor where actor in = ? ", new Object[] { movie.getTitle() }, new DataInternationalization());
-//		} 
-//		catch(Exception e){
-//			e.printStackTrace();
-//			throw e;
-//
-//		}
-//		return  result;
-//		
-//
-//	}
-	
-//	public List <String> getMovieActors(MovieDTO movie) {
-//		// TODO Auto-generated method stub
-//
-//		List<String> result;
-//		try {
-//			result=jdbcTemplate.query(" SELECT * FROM internationalization where engTitle= ? ", new Object[] { movie.getTitle() }, new DataInternationalization());
-//		} 
-//		catch(Exception e){
-//			e.printStackTrace();
-//			throw e;
-//
-//		}
-//		return  result;
-//		
-//
-//	}
-//	
+		private String sqlbase=
+		"   select movie.*,moviegenre.*, movieactor.*,internationalization.*,moviedirector.*          "+
+		"	from movie                                                                                "+
+		"	LEFT JOIN movieactor on movie.idmovie = movieactor.movie                                  "+
+		"	LEFT JOIN internationalization on movie.idmovie= internationalization.idmovie             "+
+		"	LEFT JOIN moviegenre on movie.idmovie=moviegenre.movie                                    "+
+		"	LEFT JOIN moviedirector on movie.idmovie=moviedirector.movie						      "+
+		"	where movie.idmovie in =	?				      ";
 
+		
+
+
+		private class MovieWrapper implements RowMapper<MovieDTO>{
+
+			@Override
+			public MovieDTO mapRow(ResultSet rset, int arg1)
+					throws SQLException {
+				
+				MovieDTO film = new MovieDTO();
+				
+				film.setTitle(rset.getString("engTitle"));
+				film.setTitoloItaliano(rset.getString("itTitle"));
+				film.setMovieKey(rset.getString("idMovie"));
+				
+				
+				return film;
+			}
+			
+		}
 }

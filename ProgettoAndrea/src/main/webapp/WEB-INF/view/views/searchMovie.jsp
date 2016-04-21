@@ -1,15 +1,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<c:url value="/movie/ricerca" var="actionUrl" />
+
+<c:url value="/movie/searchMovieResult" var="actionUrl" />
+
 
 
 <form:form class="well form-search" id="search-by-title-form"
-	action="ProgettoAndrea/loadActors" modelAttribute="searchMovieForm">
+	action="${actionUrl}" modelAttribute="searchMovieForm">
 	<div>
 		<label for="actors">Genre: </label>
 		<form:select path="genere">
-			<form:options items="${generiList}" itemValue="codGenre" itemLabel="desGenre" />
+			<form:options items="${generiList}" itemValue="codGenre"
+				itemLabel="desGenre" />
 		</form:select>
 	</div>
 	<div class="ui-widget">
@@ -17,7 +20,7 @@
 		<form:input type="text" path="actor" id="actors"></form:input>
 	</div>
 	<div class="ui-widget">
-		<label for="actors">Directors: </label>
+		<label for="directors">Directors: </label>
 		<form:input type="text" path="director" id="directors"></form:input>
 	</div>
 	<div></div>
@@ -25,3 +28,18 @@
 		class="btn btn-default">Search</button>
 
 </form:form>
+
+<c:if test="${tableResult}">
+	<table class="table table-bordered">
+		<tr>
+			<th>#</th>
+			<th>Title</th>
+			<th>Year</th>
+			<th>Genre</th>
+			<th>Director</th>
+			<th>Actors</th>
+			<th>Buttons</th>
+		</tr>
+	</table>
+
+</c:if>

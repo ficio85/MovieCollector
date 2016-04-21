@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dto.GenereDTO;
 import com.dto.MovieDTO;
+import com.service.MovieGenreReceiver;
 
 @Repository("genereDAO")
 public class GenereDAO {
@@ -53,6 +54,26 @@ public class GenereDAO {
 			return genere;
 		}
 		
+	}
+
+	public List<MovieGenreReceiver> getMovieGenre() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<MovieGenreReceiver> getMovieGenreByCod(List<String> codResults) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<MovieGenreReceiver> getMovieActorByCod(List<String> codResults) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<MovieGenreReceiver> getMovieActor() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

@@ -10,15 +10,44 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.dto.MovieDTO;
 
-
+@Repository("searchMovieDAO")
 public class SearchMovieDAO {
 	
 	@Autowired
 	@Qualifier("jdbcTemplate")
-	JdbcTemplate jdbcTemplate;	
+	NamedParameterJdbcTemplate jdbcTemplate;	
+	
+	
+	public List<String> getMoviesByActor(List <String> actors) {
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("ids", actors);
+		List<String> result;
+		try {
+			result=jdbcTemplate.queryForList(" SELECT distinct movie FROM actor where actor in ? ",parameters, String.class);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+	
+		return  result;
+		
+
+	}
+	
+	
+
+	public List<Map<String, Object>> getMoviesByActor(List<String> actors, List<String> codResults) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 		private String sqlbase=
 		"   select movie.*,moviegenre.*, movieactor.*,internationalization.*,moviedirector.*          "+
@@ -49,4 +78,12 @@ public class SearchMovieDAO {
 			}
 			
 		}
+
+
+
+
+		
+
+
+
 }

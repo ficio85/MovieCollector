@@ -2,9 +2,11 @@ package com.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
 
 import com.dao.GenereDAO;
@@ -24,44 +26,31 @@ public class SearchMovieService {
 	
 	@Autowired
 	@Qualifier("searchMovieDAO")
-	GenereDAO searchMovieDAO;
+	SearchMovieDAO searchMovieDAO;
 	
-	public List <GenereDTO> getListaGeneri(){
-		return genereDAO.getListaGeneri();
-		
-	}
+	
 	
 	
 	
 	public List <MovieDTO> getListaFilm(SearchDTO search){
 
-		List <MovieActorReceiver> movieActorReceiver;
-		List <MovieGenreReceiver> movieGenreReceiver;
 		List <String> codMovies = new ArrayList <String>();
 		List <String> codResults = new ArrayList <String>();
-		if(search.isSearchGenre())
-		{
-			if(!codResults.isEmpty())
-			{
-				movieGenreReceiver =searchMovieDAO.getMovieGenreByCod( codResults);
-			}
-			else
-			{
-				movieGenreReceiver =searchMovieDAO.getMovieGenre();
-			}
-		}
-		codResults= parseMoviesFromReceiver(movieGenreReceiver);
+		List<Map<String, Object>> prova2;
+		List<Map<String, Object>> prova ;
+	
 		if(search.isSearchActor())
 		{
 			if(!codResults.isEmpty())
 			{
-				movieActorReceiver =searchMovieDAO.getMovieActorByCod(codResults);
+				 prova2=searchMovieDAO.getMoviesByActor( search.getActors(),codResults);
 			}
 			else
 			{
-				movieActorReceiver =searchMovieDAO.getMovieActor();
+				List <String> provaString = searchMovieDAO.getMoviesByActor( search.getActors());
 			}
 		}
+		
 
 
 		return null;
@@ -70,8 +59,10 @@ public class SearchMovieService {
 
 
 
-	private List<String> parseMoviesFromReceiver(List<MovieGenreReceiver> movieGenreReceiver) {
+	public List<GenereDTO> getListaGeneri() {
 		// TODO Auto-generated method stub
-		return null;
+		
+		List <GenereDTO> generi =genereDAO.getListaGeneri();
+		return generi;
 	}
 }

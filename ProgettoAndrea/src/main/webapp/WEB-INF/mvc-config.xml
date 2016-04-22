@@ -50,7 +50,7 @@
 	
 	<jee:jndi-lookup jndi-name="java:/jdbc/ProvaDS" id="dataSource" />
 
-	<beans:bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+	<beans:bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
 		<beans:property name="dataSource">
 			<beans:ref bean="dataSource" />
 		</beans:property>

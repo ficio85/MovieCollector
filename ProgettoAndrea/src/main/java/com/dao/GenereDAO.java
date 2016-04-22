@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.dto.GenereDTO;
@@ -20,7 +21,7 @@ public class GenereDAO {
 
 	@Autowired
 	@Qualifier("jdbcTemplate")
-	JdbcTemplate jdbcTemplate;
+	NamedParameterJdbcTemplate jdbcTemplate;
 	public List <GenereDTO> getListaGeneri ()
 	{
 
@@ -56,25 +57,7 @@ public class GenereDAO {
 		
 	}
 
-	public List<MovieGenreReceiver> getMovieGenre() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<MovieGenreReceiver> getMovieGenreByCod(List<String> codResults) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<MovieGenreReceiver> getMovieActorByCod(List<String> codResults) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<MovieGenreReceiver> getMovieActor() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	
 	
 	

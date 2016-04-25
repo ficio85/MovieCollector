@@ -4,7 +4,14 @@ public class GenereDTO {
 	
 	String codGenre;
 	String desGenre;
+	int indexList;
 	
+	public int getIndexList() {
+		return indexList;
+	}
+	public void setIndexList(int indexList) {
+		this.indexList = indexList;
+	}
 	public String getCodGenre() {
 		return codGenre;
 	}

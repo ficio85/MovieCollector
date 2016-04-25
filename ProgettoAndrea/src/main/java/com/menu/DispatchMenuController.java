@@ -23,11 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.dao.InsertMovieDAO;
 import com.dto.DirectorDTO;
 import com.dto.MovieDTO;
 import com.form.SearchMovieForm;
-import com.service.MovieService;
 import com.service.SearchMovieService;
 import com.util.KeyGenerator;
 import com.util.StringParseUtil;
@@ -46,8 +44,8 @@ public class DispatchMenuController {
 	
 	@RequestMapping(value = "/searchMovie", method = { RequestMethod.GET, RequestMethod.POST })
 	public String ricerca ( HttpServletRequest request,@ModelAttribute("searchMovie") SearchMovieForm searchMovie,Model model) throws Exception {
-		searchMovie.setGenereList(searchMovieService.getListaGeneri());
-		searchMovie.setActor("prova");
+//		searchMovie.setGenereList(searchMovieService.getListaGeneri());
+		searchMovie.setActor("Robert De Niro");
 		model.addAttribute("searchMovieForm",searchMovie);
 		model.addAttribute("generiList",searchMovieService.getListaGeneri());
 		return "searchMovie.page";  

@@ -13,13 +13,13 @@ public class MovieDTO {
 	float metaScore;
 	Float numImdbRating;
 	int year;
-	List <String> actors;
+	List <ActorDTO> actors;
 	String plot;
-	List <String> genre;
+	List <GenereDTO> genre;
 	List <String> countries;
 	String movieKey;
 	String imdbKey;
-	List <String> directors;
+	List <DirectorDTO> directors;
 	List <String> writers;
 	List <String> workwriters;
 	List <String> languages;
@@ -37,6 +37,24 @@ public class MovieDTO {
 	
 
 	
+	public List<ActorDTO> getActors() {
+		return actors;
+	}
+	public void setActors(List<ActorDTO> actors) {
+		this.actors = actors;
+	}
+	public List<GenereDTO> getGenre() {
+		return genre;
+	}
+	public void setGenre(List<GenereDTO> genre) {
+		this.genre = genre;
+	}
+	public List<DirectorDTO> getDirectors() {
+		return directors;
+	}
+	public void setDirectors(List<DirectorDTO> directors) {
+		this.directors = directors;
+	}
 	public List<String> getWorkwriters() {
 		return workwriters;
 	}
@@ -162,30 +180,15 @@ public class MovieDTO {
 	public void setYear(int year) {
 		this.year = year;
 	}
-	public List<String> getActors() {
-		return actors;
-	}
-	public void setActors(List<String> actors) {
-		this.actors = actors;
-	}
+	
 	public String getPlot() {
 		return plot;
 	}
 	public void setPlot(String plot) {
 		this.plot = plot;
 	}
-	public List<String> getDirectors() {
-		return directors;
-	}
-	public void setDirectors(List<String> directors) {
-		this.directors = directors;
-	}
-	public List<String> getGenre() {
-		return genre;
-	}
-	public void setGenre(List<String> genre) {
-		this.genre = genre;
-	}
+
+	
 	public float getMetaScore() {
 		return metaScore;
 	}

@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
 
 import com.dao.GenereDAO;
-import com.dao.InsertMovieDAO;
+//import com.dao.GenereDAO;
 import com.dao.SearchMovieDAO;
 import com.dto.GenereDTO;
 import com.dto.MovieDTO;
@@ -20,41 +20,64 @@ import com.dto.SearchDTO;
 public class SearchMovieService {
 
 	
-	@Autowired
-	@Qualifier("genereDAO")
-	GenereDAO genereDAO;
+
 	
 	@Autowired
 	@Qualifier("searchMovieDAO")
 	SearchMovieDAO searchMovieDAO;
 	
-	
+
+	@Autowired
+	@Qualifier("genereDAO")
+	GenereDAO genereDAO;
 	
 	
 	
 	public List <MovieDTO> getListaFilm(SearchDTO search){
 
 		List <String> codMovies = new ArrayList <String>();
-		List <String> codResults = new ArrayList <String>();
-		List<Map<String, Object>> prova2;
-		List<Map<String, Object>> prova ;
 	
 		if(search.isSearchActor())
 		{
-			if(!codResults.isEmpty())
+			if(!codMovies.isEmpty())
 			{
-				 prova2=searchMovieDAO.getMoviesByActor( search.getActors(),codResults);
+//				codMovies.addAll(searchMovieDAO.getMoviesByActor( search.getActors(),codMovies));
 			}
 			else
 			{
-				List <String> provaString = searchMovieDAO.getMoviesByActor( search.getActors());
+				codMovies.addAll(searchMovieDAO.getMoviesByActor( search.getActors()));
 			}
 		}
 		
+		if(search.isSearchGenre())
+		{
+			if(!codMovies.isEmpty())
+			{
+//				 prova2=searchMovieDAO.getMoviesByGenre( search.getGenres(),codResults);
+			}
+			else
+			{
+				codMovies = searchMovieDAO.getMoviesByGenre( search.getGenres());
+			}
+		}
+		List <MovieDTO> movies =searchMovieDAO.getMoviesByIndex(codMovies);
+		completeMovies(movies);
+		return movies;
+
+	}
 
 
-		return null;
 
+	private void completeMovies(List<MovieDTO> movies) {
+
+		
+		for(MovieDTO movieDTO:movies)
+		{
+			movieDTO.setTitoloItaliano(searchMovieDAO.getMovieInternationalization(movieDTO.getMovieKey()));
+			movieDTO.setActors(searchMovieDAO.getMovieActors(movieDTO.getMovieKey()));
+			movieDTO.setGenre(searchMovieDAO.getMovieGenre(movieDTO.getMovieKey()));
+			movieDTO.setDirectors(searchMovieDAO.getMovieDirector(movieDTO.getMovieKey()));
+		}
 	}
 
 
@@ -65,4 +88,7 @@ public class SearchMovieService {
 		List <GenereDTO> generi =genereDAO.getListaGeneri();
 		return generi;
 	}
+
+
+
 }

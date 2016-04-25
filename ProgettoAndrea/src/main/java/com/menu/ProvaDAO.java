@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
@@ -21,24 +24,21 @@ public class ProvaDAO {
 
 	@Autowired
 	@Qualifier("jdbcTemplate")
-	JdbcTemplate jdbcTemplate;	
+	NamedParameterJdbcTemplate jdbcTemplate;	
 	public ProvaDTO provaQuery ()
 	{
 		ProvaDTO user = new ProvaDTO();
-		
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		String sql ="SELECT * "
 				+ " "
 				+ " FROM USERS ";
 		try{
 			
-			List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+			List<ProvaDTO> rows = jdbcTemplate.query(sql,parameters,new UserMapper());
 //			if(rows.isEmpty()){
 //				dto = modificaCodInsGraTipoInsGra(dto);
 //			}
-			for(Map<String, Object> row : rows){
-			 user.setUser((String) row.get("USER"));
-			 user.setPassword((String) row.get("CODPERS"));
-			}
+			
 		}
 			
 		catch(Exception e){

@@ -5,8 +5,15 @@ public class ActorDTO {
 	String name;
 	String surname;
 	int age;
+	int indexList;
 	
 	
+	public int getIndexList() {
+		return indexList;
+	}
+	public void setIndexList(int indexList) {
+		this.indexList = indexList;
+	}
 	public String getName() {
 		return name;
 	}

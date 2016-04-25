@@ -29,17 +29,43 @@
 
 </form:form>
 
+
+<c:forEach var="listValue" items="${lists}">
+	<li>${listValue}</li>
+</c:forEach>
 <c:if test="${tableResult}">
 	<table class="table table-bordered">
 		<tr>
 			<th>#</th>
 			<th>Title</th>
+			<th>Titolo Italiano</th>
 			<th>Year</th>
 			<th>Genre</th>
 			<th>Director</th>
 			<th>Actors</th>
 			<th>Buttons</th>
 		</tr>
+		<c:forEach var="movie" items="${listMovies}">
+
+			<tr>
+				<td><img class="img-responsive img-thumbnail"
+					style="width: 140px; height: 180px;" src="${movie.poster}"></td>
+				<td>${movie.title}</td>
+				<td>${movie.titoloItaliano}</td>
+				<td>${movie.year}</td>
+				<td><c:forEach var="genere" items="${movie.genre}">
+				${genere.desGenre}
+					</c:forEach>
+				</td>
+				<td><c:forEach var="regista" items="${movie.directors}">
+				${regista.name}
+					</c:forEach></td>
+				<td><c:forEach var="attore" items="${movie.actors}">
+				${attore.name}
+					</c:forEach></td>
+				<td>Buttons</td>
+			</tr>
+		</c:forEach>
 	</table>
 
 </c:if>

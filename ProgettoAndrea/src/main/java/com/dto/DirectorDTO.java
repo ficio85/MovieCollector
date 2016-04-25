@@ -4,7 +4,15 @@ public class DirectorDTO {
 
 	String name;
 	String surname;
+	int indexList;
 	
+	
+	public int getIndexList() {
+		return indexList;
+	}
+	public void setIndexList(int i) {
+		this.indexList = i;
+	}
 	public String getName() {
 		return name;
 	}

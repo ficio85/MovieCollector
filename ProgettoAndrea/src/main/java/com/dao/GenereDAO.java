@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.dto.GenereDTO;
 import com.dto.MovieDTO;
-import com.service.MovieGenreReceiver;
 
 @Repository("genereDAO")
 public class GenereDAO {
@@ -28,8 +28,10 @@ public class GenereDAO {
 		// TODO Auto-generated method stub
 
 		List<GenereDTO> result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+
 		try {
-			result=jdbcTemplate.query(" SELECT * FROM genre ", new GenreWrapper());
+			result=jdbcTemplate.query(" SELECT * FROM genre ",parameters, new GenreWrapper());
 		} 
 		catch(Exception e){
 			e.printStackTrace();

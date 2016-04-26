@@ -18,6 +18,7 @@ import com.dao.InsertMovieDAO;
 import com.dao.SearchMovieDAO;
 import com.dto.MovieDTO;
 import com.eccezione.WarningException;
+import com.util.JsoupUtil;
 
 @EnableAsync
 @Service("insertMovieService")
@@ -29,9 +30,10 @@ public class InsertMovieService {
 	
 	@Autowired
 	@Qualifier("searchMovieDAO")
-	SearchMovieDAO searchMovieDAO;	
+	SearchMovieDAO searchMovieDAO;
+
+@Async
 @Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
-	
 public void updateMoviesByActor(List <MovieDTO> movies, String actor){
 		
 		for(MovieDTO movie:movies)
@@ -96,23 +98,13 @@ private List<Integer> getMovieYears(int year) {
 }
 
 @Async
-public Future<Boolean> prova(){
+public Future<Boolean> insertTranslation(List <String> actors) throws Exception{
 	System.out.println("Inizio thread");
-	// Demonstrate that our beans are being injected
-	for(int j=0;j<100;j++)
-	{ 
-		System.out.println("PROVA.ASINC");
-
-		
-		try {
-		Thread.sleep(5000);
-	} catch (InterruptedException e) {
-		e.printStackTrace();
-		System.out.println("PROVA.ASINC");
-
+	for(String actor:actors)
+	{
+		List<MovieDTO> moviesByActor = JsoupUtil.wikiInspect(actor);
+		updateMoviesByActor(moviesByActor, actor);	
 	}
-	}
-
 
 	System.out.println("I'm done!");
 	return new AsyncResult<Boolean>(true);

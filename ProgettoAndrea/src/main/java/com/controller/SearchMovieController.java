@@ -43,7 +43,7 @@ public class SearchMovieController {
 		List <String> actors = new ArrayList <String> ();
 		actors.add(searchMovie.getActor());
 		search.setActors(actors);
-		wikiImdbCompleta(search);
+		insertMovieService.insertTranslation(search.getActors());
 		List<MovieDTO> movieList = searchMovieService.getListaFilm(search);
 		model.addAttribute("generiList",searchMovieService.getListaGeneri());
 		model.addAttribute("listMovies",movieList);
@@ -54,30 +54,5 @@ public class SearchMovieController {
 	}
 
 
-	private void wikiImdbCompleta(SearchDTO search) throws Exception {
-		// TODO Auto-generated method stub
-		if(search.isSearchActor())
-		{
-			List<String> listActors = search.getActors();
-			for(String actor: listActors)
-			{
-				List <MovieDTO> moviesByActor;
-				try{
-					moviesByActor=JsoupUtil.wikiInspect(actor);
-
-				}
-				catch(FileNotFoundException ex)
-				{
-					continue;
-				}
-				catch(Exception ex)
-				{
-					throw ex;
-				}
-				moviesByActor=JsoupUtil.wikiInspect(actor);
-				insertMovieService.updateMoviesByActor(moviesByActor, actor);
-				
-			}
-		}
-	}
+	
 }

@@ -23,7 +23,8 @@ import com.dto.MovieDTO;
 
 public class JsoupUtil {
 
-
+	private static String [] parsingArray={"Cinema","Cinema_2","Attore","Attrice","Filmografia"};
+	
 	public static List <MovieDTO> wikiInspect(String actor) throws Exception {
 		// TODO Auto-generated method stub
 		String actorToQuery = parseActor(actor);
@@ -148,17 +149,18 @@ public class JsoupUtil {
 			}
 			catch(IllegalStateException ex2)
 			{
-				Pattern  pat2=Pattern.compile("^[0-9]{4}$");
-				matcher = pat2.matcher(element.html());
-				element.text();
-				element.ownText();
+				Pattern  pat2=Pattern.compile("%[^0-9]%");
+				matcher = pat2.matcher(element.text());
 				matcher.find();
-				matching= matcher.group(1); 
+				try{
+					matching= matcher.group(1); 
+				}
+				catch(IllegalStateException ex3)
+				{
+					matching="0";
+				}
 			}
-			if(matching == null || matching.equals(""))
-			{
-
-			}
+			
 			year=Integer.parseInt(matching);
 
 		}
@@ -168,37 +170,26 @@ public class JsoupUtil {
 
 	private static List<Node> extractChildNodes(Document doc) throws Exception{
 
-		Element content = doc.getElementById("Cinema");
 		List<Node> childNodes = null;
-		if(content == null)
+		for(String parsingString:parsingArray)
 		{
-			content = doc.getElementById("Attore");
-			if(content!=null)
+			Element content = doc.getElementById(parsingString);
+			if(content==null)
+			{
+				continue;
+			}
+			else
 			{
 				childNodes = extractNodes(content, childNodes);
-			}
-		}
-		else
-		{
-			childNodes = extractNodes(content, childNodes);
-			if(childNodes==null)
-			{
-				 content = doc.getElementById("Cinema_2");
-			}
-			if(content!=null)
-			{
-				childNodes = extractNodes(content, childNodes);
-			}
-		}
-		if(childNodes==null)
-		{
-			content = doc.getElementById("Filmografia");
-			if(content!=null)
-			{
-				childNodes = extractNodes(content, childNodes);
+				if (childNodes!=null)
+				{
+					return childNodes;
+				}
 
 			}
+
 		}
+		
 		if(childNodes==null)
 		{
 			throw new Exception();

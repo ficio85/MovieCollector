@@ -48,6 +48,18 @@ public class SearchMovieService {
 				codMovies.addAll(searchMovieDAO.getMoviesByActor( search.getActors()));
 			}
 		}
+		if(search.isSearchDirector())
+		{
+			if(!codMovies.isEmpty())
+			{
+//				 prova2=searchMovieDAO.getMoviesByGenre( search.getGenres(),codResults);
+			}
+			else
+			{
+				codMovies = searchMovieDAO.getMoviesByDirector( search.getDirectors());
+			}
+		}
+		
 		
 		if(search.isSearchGenre())
 		{

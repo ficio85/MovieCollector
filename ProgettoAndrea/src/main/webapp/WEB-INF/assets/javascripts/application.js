@@ -2,30 +2,32 @@
 
 $(function(){
 	
-	
 	    $( "#actors" ).autocomplete({
 	    	source: function( request, response ) {
-
+	    		var link=$('#contextPath').val()+"/loadActors";
 	    		$.ajax({
-	    			url: "../ProgettoAndrea/loadActors",
+	    			url: link,
 	    			data:"stringActor="+request.term,
 	    			success: function( data ) {
+	    				var url="/loadActors";
+
 	    				response(data);
 	    			},
 	    			error: function(XMLHttpRequest, textStatus, errorThrown) { 
 	    				alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+	    				alert(link);
 	    			} 
 	    		});
 	    	},
 	    	minLength: 3,
 	    });
 	
-	    $( "#actors2" ).autocomplete({
+	    $( "#directors" ).autocomplete({
 	    	source: function( request, response ) {
-
+	    		var link=$('#contextPath').val()+"/loadDirectors";
 	    		$.ajax({
-	    			url: "../ProgettoAndrea/loadActors",
-	    			data:"stringActor="+request.term,
+	    			url: link,
+	    			data:"stringDirector="+request.term,
 	    			success: function( data ) {
 	    				response(data);
 	    			},

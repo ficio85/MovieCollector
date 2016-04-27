@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dao.ActorDAO;
 import com.dao.InsertMovieDAO;
 import com.dao.SearchMovieDAO;
+import com.dto.DirectorDTO;
 import com.dto.MovieDTO;
 import com.eccezione.WarningException;
 import com.util.JsoupUtil;
@@ -96,14 +97,55 @@ private List<Integer> getMovieYears(int year) {
 	return years;
 	
 }
+@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
+public void updateMoviesByDirector(List <MovieDTO> movies, String director){
+	
+	List <DirectorDTO>directorList = new ArrayList <DirectorDTO>();
+	DirectorDTO directorDto = new DirectorDTO();
+	directorDto.setName(director);
+	directorList.add(directorDto);
+	for(MovieDTO movie:movies)
+	{
+		//la cosa più scontata
+		
+		List <MovieDTO> movieList  = searchMovieDAO.getMovieByDirectorTitle(movie.getTitle(), directorList);
+		
+		//aggiorno l'internazionalizzazione
+		if(movieList.size()==1)
+		{
+			movie.setMovieKey(movieList.get(0).getMovieKey());
+			insertMovieDAO.updateInternationlization(movie);
+			
+		}
+		else
+		{
+			WarningException warn = new WarningException();
+			warn.setTipo("INSERIMENTO LOCALIZZAZIONE DA WIKIPEDIA");
+			warn.setMovieTitle(movie.getTitle());
+			warn.setMessaggio("Titolo nn reperito in db");
+		}
+		
+	}
+	
+	
+}
 
 @Async
-public Future<Boolean> insertTranslation(List <String> actors) throws Exception{
+public Future<Boolean> insertTranslation(List <String> values,String type) throws Exception{
 	System.out.println("Inizio thread");
-	for(String actor:actors)
+	List<MovieDTO> movies;
+	for(String value:values)
 	{
-		List<MovieDTO> moviesByActor = JsoupUtil.wikiInspect(actor);
-		updateMoviesByActor(moviesByActor, actor);	
+		 movies = JsoupUtil.wikiInspect(value,type);
+		 if(type.equals("actor"))
+			{
+				updateMoviesByActor(movies, value);	
+
+			}
+			else if(type.equals("director"))
+			{
+				updateMoviesByDirector(movies, value);	
+			}
 	}
 
 	System.out.println("I'm done!");

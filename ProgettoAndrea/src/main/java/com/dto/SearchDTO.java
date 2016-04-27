@@ -14,9 +14,18 @@ public class SearchDTO {
 	
 	List <String> actors;
 	List <String> genres;
+	List <String> directors;
 	
 	
 	
+	
+	
+	public List<String> getDirectors() {
+		return directors;
+	}
+	public void setDirectors(List<String> directors) {
+		this.directors = directors;
+	}
 	public List<String> getActors() {
 		return actors;
 	}

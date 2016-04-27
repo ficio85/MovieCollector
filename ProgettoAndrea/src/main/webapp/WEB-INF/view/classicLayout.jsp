@@ -11,6 +11,7 @@
 	
 	    <title><tiles:insertAttribute name="title"/></title>
 		<meta charset="utf-8" />
+		<script>var myContextPath = "${pageContext.request.contextPath}"</script>
 		<link href="${pageContext.request.contextPath}/assets/application.min.css" rel="stylesheet" id="bootstrap" />
 		<script src="${pageContext.request.contextPath}/assets/application.min.js"></script>
 		<meta http-equiv="Expires" content="0"></meta>
@@ -23,6 +24,7 @@
 	<body>
 	<% try { %>
 		<div class="container">
+			<input type="hidden" id="contextPath" value="${pageContext.request.contextPath}">
 			<div class="clearfix page-header">
 				<tiles:insertAttribute name="header" flush="true" />
 			</div>

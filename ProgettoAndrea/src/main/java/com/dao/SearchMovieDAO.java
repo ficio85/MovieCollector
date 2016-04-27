@@ -49,6 +49,24 @@ public class SearchMovieDAO {
 
 	}
 
+	public List<String> getMoviesByDirector(List <String> directors) {
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("namesDirector", directors);
+		List<String> result;
+		try {
+			result=jdbcTemplate.queryForList(" SELECT distinct movie FROM moviedirector where director in (:namesDirector) ",parameters, String.class);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
+
+
+	}
 
 
 

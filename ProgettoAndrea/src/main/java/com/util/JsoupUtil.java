@@ -23,9 +23,11 @@ import com.dto.MovieDTO;
 
 public class JsoupUtil {
 
-	private static String [] parsingArray={"Cinema","Cinema_2","Attore","Attrice","Filmografia"};
-	
-	public static List <MovieDTO> wikiInspect(String actor) throws Exception {
+	private static String [] parsingArrayActors={"Cinema","Cinema_2","Attore","Attrice","Filmografia"};
+	private static String [] parsingArrayDirectors={"Cinema","Cinema_2","Regista","Lungometraggi","Cortometraggi","Cortometraggi_documentari","Filmografia"};
+
+
+	public static List <MovieDTO> wikiInspect(String actor, String type) throws Exception {
 		// TODO Auto-generated method stub
 		String actorToQuery = parseActor(actor);
 		URL url = new URL("https://it.wikipedia.org/wiki/"+actorToQuery);
@@ -34,7 +36,7 @@ public class JsoupUtil {
 		StringBuffer tmp = new StringBuffer();
 		BufferedReader in;
 		try{
-			 in = new BufferedReader(new InputStreamReader(uc.getInputStream(),"UTF-8"));
+			in = new BufferedReader(new InputStreamReader(uc.getInputStream(),"UTF-8"));
 
 		}
 		catch(FileNotFoundException ex)
@@ -47,7 +49,7 @@ public class JsoupUtil {
 		Document doc = Jsoup.parse(String.valueOf(tmp));
 		List<Node> childNodes;
 		try {
-			childNodes = extractChildNodes(doc);
+			childNodes = extractChildNodes(doc,type);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -160,7 +162,7 @@ public class JsoupUtil {
 					matching="0";
 				}
 			}
-			
+
 			year=Integer.parseInt(matching);
 
 		}
@@ -168,28 +170,41 @@ public class JsoupUtil {
 
 	}
 
-	private static List<Node> extractChildNodes(Document doc) throws Exception{
-
-		List<Node> childNodes = null;
-		for(String parsingString:parsingArray)
+	private static List<Node> extractChildNodes(Document doc,String type) throws Exception{
+		String[] parsingArray = null;
+		if(type.equals("actor")){
+			parsingArray=parsingArrayActors;
+		}
+		else if(type.equals("director"))
 		{
-			Element content = doc.getElementById(parsingString);
-			if(content==null)
+			parsingArray=parsingArrayDirectors;
+
+		}
+		List<Node> childNodes = new ArrayList <Node>();
+		for(int i=0;i<=2;i++)
+		{
+			for(String parsingString:parsingArray)
 			{
-				continue;
-			}
-			else
-			{
-				childNodes = extractNodes(content, childNodes);
-				if (childNodes!=null)
+				Element content = doc.getElementById(parsingString);
+				if(content==null)
 				{
-					return childNodes;
+					continue;
+				}
+				else
+				{
+					List<Node> nodeParsed = null;
+
+					nodeParsed = extractNodes(content, childNodes,i);
+					if (nodeParsed!=null)
+					{
+						 childNodes.addAll(nodeParsed);
+					}
+
 				}
 
 			}
-
 		}
-		
+
 		if(childNodes==null)
 		{
 			throw new Exception();
@@ -198,11 +213,26 @@ public class JsoupUtil {
 
 	}
 
-	private static List<Node> extractNodes(Element content, List<Node> childNodes) {
-		Tag tag =((Element)content.parentNode().nextSibling()).tag();
+	private static List<Node> extractNodes(Element content, List<Node> childNodes,int deep) {
+
+		Node uncle = null;
+		if(deep ==0)
+		{
+			uncle=content.parentNode().nextSibling();
+		}
+		else if (deep ==1)
+		{
+			uncle=content.parentNode().nextSibling().nextSibling();
+
+		}
+		else if (deep==2)
+		{
+			uncle=content.parentNode().nextSibling().nextSibling().nextSibling();
+		}
+		Tag tag =((Element)uncle).tag();
 		if(tag.getName().equals("ul"))
 		{
-			childNodes = content.parentNode().nextSibling().childNodes();
+			childNodes = uncle.childNodes();
 		}
 		return childNodes;
 	}

@@ -47,6 +47,7 @@ public class SearchMovieController {
 		directors.add(searchMovie.getDirector());
 		search.setDirectors(directors);
 		search.setActors(actors);
+
 		//insertMovieService.insertTranslation(search.getActors());
 		insertMovieService.insertTranslation(search.getDirectors(),"director");
 

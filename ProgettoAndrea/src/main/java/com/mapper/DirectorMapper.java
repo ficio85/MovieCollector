@@ -16,7 +16,7 @@ public class DirectorMapper implements RowMapper<DirectorDTO>{
 			throws SQLException {
 		
 		DirectorDTO director = new DirectorDTO();
-		director.setName("director");
+		director.setName(rset.getString("director"));
 		director.setIndexList(rset.getInt("indexList"));
 		
 		return director;

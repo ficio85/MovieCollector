@@ -16,6 +16,7 @@ public class MovieMapper implements RowMapper<MovieDTO>{
 		MovieDTO movie = new MovieDTO();
 		movie.setMovieKey(rset.getString("idmovie"));
 		movie.setTitle(rset.getString("name"));
+		movie.setYear(rset.getInt("year"));
 		movie.setLength(rset.getInt("length"));
 		movie.setPoster(rset.getString("poster"));
 

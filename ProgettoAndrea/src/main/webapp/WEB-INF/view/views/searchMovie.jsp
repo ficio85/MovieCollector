@@ -23,7 +23,15 @@
 		<label for="directors">Directors: </label>
 		<form:input type="text" path="director" id="directors"></form:input>
 	</div>
-	<div></div>
+	<div>
+		<label for="length">Length </label>
+		<form:input type="text" path="minLength" id="lengthMin"></form:input>
+		<form:input type="text" path="maxLength" id="lengthMag"></form:input>
+	</div>
+	<div>
+		<label for="year">Year</label>
+		<form:input type="text" path="year" id="year"></form:input>
+	</div>
 	<button type="submit" name="action" value="search"
 		class="btn btn-default">Search</button>
 
@@ -38,7 +46,6 @@
 		<tr>
 			<th>#</th>
 			<th>Title</th>
-			<th>Titolo Italiano</th>
 			<th>Year</th>
 			<th>Genre</th>
 			<th>Director</th>
@@ -50,18 +57,16 @@
 			<tr>
 				<td><img class="img-responsive img-thumbnail"
 					style="width: 140px; height: 180px;" src="${movie.poster}"></td>
-				<td>${movie.title}</td>
-				<td>${movie.titoloItaliano}</td>
+				<td>${movie.titoloItaliano}(${movie.title})</td>
 				<td>${movie.year}</td>
 				<td><c:forEach var="genere" items="${movie.genre}">
-				${genere.desGenre}
-					</c:forEach>
-				</td>
+					${genere.desGenre}
+					</c:forEach></td>
 				<td><c:forEach var="regista" items="${movie.directors}">
 				${regista.name}
 					</c:forEach></td>
 				<td><c:forEach var="attore" items="${movie.actors}">
-				${attore.name}
+				${attore.name}<br>
 					</c:forEach></td>
 				<td>Buttons</td>
 			</tr>

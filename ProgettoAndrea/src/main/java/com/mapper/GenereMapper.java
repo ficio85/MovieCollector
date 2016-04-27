@@ -17,8 +17,8 @@ public class GenereMapper implements RowMapper<GenereDTO>{
 			throws SQLException {
 		
 		GenereDTO genere = new GenereDTO();
-		genere.setCodGenre("codGenre");
-		genere.setDesGenre("desGenre");
+		genere.setCodGenre(rset.getString("codGenre"));
+		genere.setDesGenre(rset.getString("desGenre"));
 		genere.setIndexList(rset.getInt("indexList"));
 		
 		return genere;

@@ -11,8 +11,25 @@ public class SearchMovieForm {
 	private List <GenereDTO> genereList;
 	private String genere;
 	private String director;
+	private String minLength;
+	private String maxLength;
+	private int year;
+	
+	
 
 	
+	public String getMinLength() {
+		return minLength;
+	}
+	public void setMinLength(String minLength) {
+		this.minLength = minLength;
+	}
+	public String getMaxLength() {
+		return maxLength;
+	}
+	public void setMaxLength(String maxLength) {
+		this.maxLength = maxLength;
+	}
 	public String getDirector() {
 		return director;
 	}
@@ -37,9 +54,6 @@ public class SearchMovieForm {
 	public void setGenere(String genere) {
 		this.genere = genere;
 	}
-	private int year;
-
-
 
 	public int getYear() {
 		return year;

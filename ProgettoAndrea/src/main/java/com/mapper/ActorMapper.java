@@ -15,7 +15,7 @@ public class ActorMapper implements RowMapper<ActorDTO>{
 			throws SQLException {
 		
 		ActorDTO actor = new ActorDTO();
-		actor.setName("actor");
+		actor.setName(rset.getString("actor"));
 		actor.setIndexList(rset.getInt("indexList"));
 		
 		return actor;

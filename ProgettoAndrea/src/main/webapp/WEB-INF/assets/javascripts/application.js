@@ -2,7 +2,7 @@
 
 $(function(){
 	
-	    $( "#actors" ).autocomplete({
+	    $( ".autoCompleteClass" ).autocomplete({
 	    	source: function( request, response ) {
 	    		var link=$('#contextPath').val()+"/loadActors";
 	    		$.ajax({
@@ -22,7 +22,7 @@ $(function(){
 	    	minLength: 3,
 	    });
 	
-	    $( "#directors" ).autocomplete({
+	    $( "autoCompleteClass" ).autocomplete({
 	    	source: function( request, response ) {
 	    		var link=$('#contextPath').val()+"/loadDirectors";
 	    		$.ajax({

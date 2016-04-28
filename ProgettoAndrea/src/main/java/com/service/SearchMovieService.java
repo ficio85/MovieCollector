@@ -36,12 +36,12 @@ public class SearchMovieService {
 	public List <MovieDTO> getListaFilm(SearchDTO search){
 
 		List <String> codMovies = new ArrayList <String>();
-	
+		
 		if(search.isSearchActor())
 		{
 			if(!codMovies.isEmpty())
 			{
-//				codMovies.addAll(searchMovieDAO.getMoviesByActor( search.getActors(),codMovies));
+				codMovies.addAll(searchMovieDAO.getMoviesByActor( search.getActors(),codMovies));
 			}
 			else
 			{
@@ -52,7 +52,7 @@ public class SearchMovieService {
 		{
 			if(!codMovies.isEmpty())
 			{
-//				 prova2=searchMovieDAO.getMoviesByGenre( search.getGenres(),codResults);
+				codMovies=searchMovieDAO.getMoviesByDirector( search.getDirectors(),codMovies);
 			}
 			else
 			{
@@ -65,11 +65,22 @@ public class SearchMovieService {
 		{
 			if(!codMovies.isEmpty())
 			{
-//				 prova2=searchMovieDAO.getMoviesByGenre( search.getGenres(),codResults);
+				codMovies.addAll(searchMovieDAO.getMoviesByGenre( search.getGenres(),codMovies));
 			}
 			else
 			{
-				codMovies = searchMovieDAO.getMoviesByGenre( search.getGenres());
+				codMovies.addAll(searchMovieDAO.getMoviesByGenre( search.getGenres()));
+			}
+		}
+		if(search.isSearchYear())
+		{
+			if(!codMovies.isEmpty())
+			{
+				codMovies.addAll(searchMovieDAO.getMoviesByYear( search.getYears(), codMovies));
+			}
+			else
+			{
+				codMovies.addAll(searchMovieDAO.getMoviesByYear( search.getYears()));
 			}
 		}
 		List <MovieDTO> movies =searchMovieDAO.getMoviesByIndex(codMovies);

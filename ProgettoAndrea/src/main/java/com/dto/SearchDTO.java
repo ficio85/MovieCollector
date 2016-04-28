@@ -3,7 +3,7 @@ package com.dto;
 import java.util.List;
 
 public class SearchDTO {
-	
+
 	boolean isSearchActor;
 	boolean isSearchGenre;
 	boolean isSearchDirector;
@@ -11,15 +11,36 @@ public class SearchDTO {
 	boolean isSearchLenght;
 	boolean isSearchYear;
 	boolean isSearchTagMovie;
-	
+
 	List <String> actors;
 	List <String> genres;
 	List <String> directors;
-	
-	
-	
-	
-	
+	List <Integer> years;
+	String start;
+	String offset;
+
+
+
+
+
+	public List<Integer> getYears() {
+		return years;
+	}
+	public void setYears(List<Integer> years) {
+		this.years = years;
+	}
+	public String getStart() {
+		return start;
+	}
+	public void setStart(String start) {
+		this.start = start;
+	}
+	public String getOffset() {
+		return offset;
+	}
+	public void setOffset(String offset) {
+		this.offset = offset;
+	}
 	public List<String> getDirectors() {
 		return directors;
 	}
@@ -50,7 +71,7 @@ public class SearchDTO {
 	public void setSearchWriter(boolean isSearchWriter) {
 		this.isSearchWriter = isSearchWriter;
 	}
-	
+
 	public boolean isSearchGenre() {
 		return isSearchGenre;
 	}
@@ -81,9 +102,9 @@ public class SearchDTO {
 	public void setSearchTagMovie(boolean isSearchTagMovie) {
 		this.isSearchTagMovie = isSearchTagMovie;
 	}
-	
-	
-	
-	
+
+
+
+
 
 }

@@ -2,6 +2,7 @@ package com.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +50,66 @@ public class SearchMovieDAO {
 
 	}
 
+	public List<String> getMoviesByActor(List <String> actors, List <String> indexes) {
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("namesActor", actors);
+		parameters.addValue("indexes", indexes);
+		List<String> result;
+		try {
+			result=jdbcTemplate.queryForList(" SELECT distinct movie FROM movieactor where actor in (:namesActor) and indexes in (:indexes) ",parameters, String.class);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
+
+
+	}
+
+	public List<String> getMoviesByYear(List <Integer> years) {
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("year", years);
+		List<String> result;
+		try {
+			result=jdbcTemplate.queryForList(" SELECT idmovie FROM movie where year in (:years) order by year ",parameters, String.class);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
+
+	}
+	
+	public List<String> getMoviesByYear(List <Integer> years,List <String> indexes) {
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("year", years);
+		parameters.addValue("indexes", indexes);
+
+		List<String> result;
+		try {
+			result=jdbcTemplate.queryForList(" SELECT idmovie FROM movie where year in (:years) and idmovie in (:indexes) order by year ",parameters, String.class);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
+
+	}
+	
+	
+	
 	public List<String> getMoviesByDirector(List <String> directors) {
 		// TODO Auto-generated method stub
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
@@ -56,6 +117,27 @@ public class SearchMovieDAO {
 		List<String> result;
 		try {
 			result=jdbcTemplate.queryForList(" SELECT distinct movie FROM moviedirector where director in (:namesDirector) ",parameters, String.class);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
+
+
+	}
+
+	public List<String> getMoviesByDirector(List <String> directors, List <String> indexes) {
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("namesDirector", directors);
+		parameters.addValue("indexes", indexes);
+
+		List<String> result;
+		try {
+			result=jdbcTemplate.queryForList(" SELECT distinct movie FROM moviedirector where movie in (:indexes) and director in (:namesDirector) ",parameters, String.class);
 		} 
 		catch(Exception e){
 			e.printStackTrace();
@@ -76,18 +158,45 @@ public class SearchMovieDAO {
 
 
 
-
-
 	public List<String> getMoviesByGenre(List<String> genres, List<String> codResults) {
 		// TODO Auto-generated method stub
-		return null;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("genres", genres);
+		parameters.addValue("codMovies", codResults);
+		List<String> result;
+		try {
+			result=jdbcTemplate.queryForList(" SELECT distinct moviegenre FROM moviegenre where movie in (:codResults) and genre in (:genres) ",parameters, String.class);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
+
+
 	}
 
 
 
 	public List<String> getMoviesByGenre(List<String> genres) {
 		// TODO Auto-generated method stub
-		return null;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("genres", genres);
+		List<String> result;
+		try {
+			result=jdbcTemplate.queryForList(" SELECT distinct moviegenre FROM moviegenre where genre in (:genres) ",parameters, String.class);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
+
+
 	}
 
 
@@ -340,6 +449,8 @@ public class SearchMovieDAO {
 
 
 	}
+
+	
 
 
 

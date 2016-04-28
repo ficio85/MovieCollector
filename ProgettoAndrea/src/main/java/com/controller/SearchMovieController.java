@@ -38,9 +38,11 @@ public class SearchMovieController {
 
 		
 		model.addAttribute("tableResult", true);
+	
 		SearchDTO search = new SearchDTO();
 		search.setSearchActor(false);
 		search.setSearchDirector(true);
+		search.setSearchYear(true);
 		List <String> actors = new ArrayList <String> ();
 		actors.add(searchMovie.getActor());
 		List <String> directors = new ArrayList <String> ();

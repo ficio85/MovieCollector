@@ -17,11 +17,11 @@
 	</div>
 	<div class="ui-widget">
 		<label for="actors">Actors: </label>
-		<form:input type="text" path="actor" id="actors"></form:input>
+		<form:input type="text" class="autoCompleteClass" data-servlet="/loadActors" path="actor" id="actors"></form:input>
 	</div>
 	<div class="ui-widget">
 		<label for="directors">Directors: </label>
-		<form:input type="text" path="director" id="directors"></form:input>
+		<form:input type="text" class="autoCompleteClass" data-servlet="/loadDirectors" path="director" id="directors"></form:input>
 	</div>
 	<div>
 		<label for="length">Length </label>

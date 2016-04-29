@@ -38,20 +38,9 @@ public class SearchMovieController {
 
 		
 		model.addAttribute("tableResult", true);
-	
-		SearchDTO search = new SearchDTO();
-		search.setSearchActor(false);
-		search.setSearchDirector(true);
-		search.setSearchYear(true);
-		List <String> actors = new ArrayList <String> ();
-		actors.add(searchMovie.getActor());
-		List <String> directors = new ArrayList <String> ();
-		directors.add(searchMovie.getDirector());
-		search.setDirectors(directors);
-		search.setActors(actors);
+		SearchDTO search =SearchUtil.convertFromModelToSearchDTO(searchMovie);
 
-		//insertMovieService.insertTranslation(search.getActors());
-		insertMovieService.insertTranslation(search.getDirectors(),"director");
+		//insertMovieService.insertTranslation(search.getDirectors(),"director");
 
 		List<MovieDTO> movieList = searchMovieService.getListaFilm(search);
 		model.addAttribute("generiList",searchMovieService.getListaGeneri());

@@ -11,6 +11,7 @@
 	<div>
 		<label for="actors">Genre: </label>
 		<form:select path="genere">
+			<form:option value="">--Select Genre--</form:option>
 			<form:options items="${generiList}" itemValue="codGenre"
 				itemLabel="desGenre" />
 		</form:select>

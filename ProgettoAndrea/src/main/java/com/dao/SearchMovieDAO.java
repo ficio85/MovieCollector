@@ -70,33 +70,34 @@ public class SearchMovieDAO {
 
 	}
 
-	public List<String> getMoviesByYear(List <Integer> years) {
+
+	public List<String> getMoviesByYear(List <Integer> years,List <String> indexes,int offset, int limit) {
 		// TODO Auto-generated method stub
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("year", years);
-		List<String> result;
-		try {
-			result=jdbcTemplate.queryForList(" SELECT idmovie FROM movie where year in (:years) order by year ",parameters, String.class);
-		} 
-		catch(Exception e){
-			e.printStackTrace();
-			throw e;
-
+		parameters.addValue("years", years);
+		if(indexes!=null)
+		{
+			parameters.addValue("indexes", indexes);
+		}
+		if(limit != 0) 
+		{
+			parameters.addValue("limit", limit);
+			parameters.addValue("offset", offset);
 		}
 
-		return  result;
-
-	}
-	
-	public List<String> getMoviesByYear(List <Integer> years,List <String> indexes) {
-		// TODO Auto-generated method stub
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("year", years);
-		parameters.addValue("indexes", indexes);
+		String sql="SELECT idmovie FROM movie where year in (:years) ";
+		if(indexes!=null)
+		{
+			sql+=" and idmovie in (:indexes) ";
+		}
+		if(limit!=0)
+		{
+			sql+=" LIMIT :limit OFFSET :offset ";
+		}
 
 		List<String> result;
 		try {
-			result=jdbcTemplate.queryForList(" SELECT idmovie FROM movie where year in (:years) and idmovie in (:indexes) order by year ",parameters, String.class);
+			result=jdbcTemplate.queryForList(sql,parameters, String.class);
 		} 
 		catch(Exception e){
 			e.printStackTrace();
@@ -158,14 +159,40 @@ public class SearchMovieDAO {
 
 
 
-	public List<String> getMoviesByGenre(List<String> genres, List<String> codResults) {
+	public List<String> getMoviesByGenre(List<String> genres, List<String> indexes,int offset, int limit) {
 		// TODO Auto-generated method stub
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("genres", genres);
-		parameters.addValue("codMovies", codResults);
+		parameters.addValue("indexes", indexes);
+		parameters.addValue("limit", limit);
+		parameters.addValue("offset", offset);
+
+
+		if(indexes!=null)
+		{
+			parameters.addValue("indexes", indexes);
+		}
+		if(limit != 0) 
+		{
+			parameters.addValue("limit", limit);
+			parameters.addValue("offset", offset);
+		}
+
+		String sql="SELECT movie FROM moviegenre where genre in (:genres) ";
+		if(indexes!=null)
+		{
+			sql+=" and movie in (:indexes) ";
+		}
+		if(limit!=0)
+		{
+			sql+=" LIMIT :limit OFFSET :offset ";
+		}
+
+
+	
 		List<String> result;
 		try {
-			result=jdbcTemplate.queryForList(" SELECT distinct moviegenre FROM moviegenre where movie in (:codResults) and genre in (:genres) ",parameters, String.class);
+			result=jdbcTemplate.queryForList(sql,parameters, String.class);
 		} 
 		catch(Exception e){
 			e.printStackTrace();
@@ -180,25 +207,7 @@ public class SearchMovieDAO {
 
 
 
-	public List<String> getMoviesByGenre(List<String> genres) {
-		// TODO Auto-generated method stub
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("genres", genres);
-		List<String> result;
-		try {
-			result=jdbcTemplate.queryForList(" SELECT distinct moviegenre FROM moviegenre where genre in (:genres) ",parameters, String.class);
-		} 
-		catch(Exception e){
-			e.printStackTrace();
-			throw e;
-
-		}
-
-		return  result;
-
-
-	}
-
+	
 
 	public  List<MovieDTO> getMoviesByIndex(List <String> indexes)
 	{

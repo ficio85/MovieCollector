@@ -14,7 +14,7 @@ public class SearchUtil {
 	public static SearchDTO convertFromModelToSearchDTO(SearchMovieForm searchMovie)
 	{
 		SearchDTO searchDto = new SearchDTO();
-		if(searchMovie.getActor()!=null && searchMovie.getActor().trim().equals(""))
+		if(searchMovie.getActor()!=null && !searchMovie.getActor().trim().equals(""))
 		{
 			searchDto.setSearchActor(true);
 			List <String> actors = new ArrayList <String>();
@@ -24,7 +24,7 @@ public class SearchUtil {
 			}
 			searchDto.setActors(actors);
 		}
-		if(searchMovie.getDirector()!=null && searchMovie.getDirector().trim().equals(""))
+		if(searchMovie.getDirector()!=null && !searchMovie.getDirector().trim().equals(""))
 		{
 			searchDto.setSearchDirector(true);
 			List <String> directors = new ArrayList <String>();
@@ -34,7 +34,7 @@ public class SearchUtil {
 			}
 			searchDto.setDirectors(directors);
 		}
-		if(searchMovie.getGenere()!=null && searchMovie.getGenere().trim().equals(""))
+		if(searchMovie.getGenere()!=null && !searchMovie.getGenere().trim().equals(""))
 		{
 			searchDto.setSearchGenre(true);
 			List <String> genre = new ArrayList <String>();

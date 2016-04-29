@@ -36,16 +36,18 @@ public class SearchMovieService {
 	public List <MovieDTO> getListaFilm(SearchDTO search){
 
 		List <String> codMovies = new ArrayList <String>();
+		int offset=0;
+		int limit=15;
 		
 		if(search.isSearchActor())
 		{
 			if(!codMovies.isEmpty())
 			{
-				codMovies.addAll(searchMovieDAO.getMoviesByActor( search.getActors(),codMovies));
+				codMovies=(searchMovieDAO.getMoviesByActor( search.getActors(),codMovies));
 			}
 			else
 			{
-				codMovies.addAll(searchMovieDAO.getMoviesByActor( search.getActors()));
+				codMovies=(searchMovieDAO.getMoviesByActor( search.getActors()));
 			}
 		}
 		if(search.isSearchDirector())
@@ -59,28 +61,27 @@ public class SearchMovieService {
 				codMovies = searchMovieDAO.getMoviesByDirector( search.getDirectors());
 			}
 		}
-		
-		
+				
 		if(search.isSearchGenre())
 		{
 			if(!codMovies.isEmpty())
 			{
-				codMovies.addAll(searchMovieDAO.getMoviesByGenre( search.getGenres(),codMovies));
+				codMovies=searchMovieDAO.getMoviesByGenre( search.getGenres(),codMovies,offset,limit);
 			}
 			else
 			{
-				codMovies.addAll(searchMovieDAO.getMoviesByGenre( search.getGenres()));
+				codMovies=searchMovieDAO.getMoviesByGenre( search.getGenres(),null, offset,limit);
 			}
 		}
 		if(search.isSearchYear())
 		{
 			if(!codMovies.isEmpty())
 			{
-				codMovies.addAll(searchMovieDAO.getMoviesByYear( search.getYears(), codMovies));
+				codMovies=searchMovieDAO.getMoviesByYear( search.getYears(), codMovies,offset,limit);
 			}
 			else
 			{
-				codMovies.addAll(searchMovieDAO.getMoviesByYear( search.getYears()));
+				codMovies=searchMovieDAO.getMoviesByYear( search.getYears(),null, offset,limit);
 			}
 		}
 		List <MovieDTO> movies =searchMovieDAO.getMoviesByIndex(codMovies);

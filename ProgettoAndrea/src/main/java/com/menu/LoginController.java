@@ -16,7 +16,7 @@ public class LoginController {
 	@Qualifier("provaDAO")
 	private ProvaDAO provaDAO;
 
-	@RequestMapping(value = "/informativa/accetta", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/accetta", method = { RequestMethod.GET, RequestMethod.POST })
 	public String accetta ( HttpServletRequest request,Model model) throws Exception {
 		ProvaDTO dto = provaDAO.provaQuery();
 		model.addAttribute("user",dto);

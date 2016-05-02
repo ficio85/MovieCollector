@@ -13,7 +13,7 @@
 </head>
 <body>
 
-	<c:url value="/informativa/accetta" var="messageUrl" />
+	<c:url value="/accetta" var="messageUrl" />
 
 	<span class="label label-default">FARE LA LOGIN</span>	
 

@@ -1,12 +1,66 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Header</title>
-</head>
-<body>
+<nav class="navbar navbar-inverse navbar-fixed-top app-navbar">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-main">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">
+        <img src="assets/images/brand-white.png" alt="brand">
+      </a>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar-collapse-main">
 
-</body>
-</html>
+        <ul class="nav navbar-nav hidden-xs">
+          <li class="active">
+            <a href="index.html">Home</a>
+          </li>
+          <li>
+            <a href="profile/index.html">Profile</a>
+          </li>
+          <li>
+            <a data-toggle="modal" href="#msgModal">Messages</a>
+          </li>
+          <li>
+            <a href="docs/index.html">Docs</a>
+          </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right m-r-0 hidden-xs">
+          <li>
+            <a class="app-notifications" href="notifications/index.html">
+              <span class="icon icon-bell"></span>
+            </a>
+          </li>
+          <li>
+            <button class="btn btn-default navbar-btn navbar-btn-avitar" data-toggle="popover" data-original-title="" title="">
+              <img class="img-circle" src="assets/images/avatar-dhg.png">
+            </button>
+          </li>
+        </ul>
+
+        <form class="navbar-form navbar-right app-search" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" data-action="grow" placeholder="Search">
+          </div>
+        </form>
+
+        <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="profile/index.html">Profile</a></li>
+          <li><a href="notifications/index.html">Notifications</a></li>
+          <li><a data-toggle="modal" href="#msgModal">Messages</a></li>
+          <li><a href="docs/index.html">Docs</a></li>
+          <li><a href="#" data-action="growl">Growl</a></li>
+          <li><a href="login/index.html">Logout</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav hidden">
+          <li><a href="#" data-action="growl">Growl</a></li>
+          <li><a href="login/index.html">Logout</a></li>
+        </ul>
+      </div>
+  </div>
+</nav>

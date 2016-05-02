@@ -1,12 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title></title>
-</head>
-<body>
-CIAOAO
-</body>
-</html>
+<div class="profile-header text-center" style="background-image: url(${context}/assets/images/AscoliPiceno.jpg); ">
+  <div class="container-fluid">
+    <div class="container-inner">
+      <img class="img-circle media-object" src="${context}/assets/images/logo_dgco.gif">
+      <h3 class="profile-header-user">Andrea Ficeti</h3>
+      <p class="profile-header-bio">I wish i was a little bit taller, wish i was a baller, wish i had a girl… also.</p>
+    </div>
+  </div>
+  <nav class="profile-header-nav">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#">Photos</a></li>
+      <li><a href="#">Others</a></li>
+      <li><a href="#">Anothers</a></li>
+    </ul>
+  </nav>
+</div>

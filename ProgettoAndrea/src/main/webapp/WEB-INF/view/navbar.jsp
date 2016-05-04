@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="index.html">
-        <img src="/assets/images/brand-white.png" alt="brand">
+        <img src="${context}/assets/images/brand-white.png" alt="brand">
       </a>
     </div>
     <div class="navbar-collapse collapse" id="navbar-collapse-main">
@@ -18,7 +18,7 @@
             <a href="index.html">Home</a>
           </li>
           <li>
-            <a href="profile/index.html">Profile</a>
+            <a href="<%= request.getContextPath() %>/searchMovie">Search Movie</a>
           </li>
           <li>
             <a data-toggle="modal" href="#msgModal">Messages</a>
@@ -36,7 +36,7 @@
           </li>
           <li>
             <button class="btn btn-default navbar-btn navbar-btn-avitar" data-toggle="popover" data-original-title="" title="">
-              <img class="img-circle" src="assets/images/avatar-dhg.png">
+              <img class="img-circle" src="${context}/assets/images/avatar-dhg.png">
             </button>
           </li>
         </ul>
@@ -83,7 +83,7 @@
             <a href="index.html">Home</a>
           </li>
           <li>
-            <a href="profile/index.html">Profile</a>
+            <a href="profile/index.html">Search Movie</a>
           </li>
           <li>
             <a data-toggle="modal" href="#msgModal">Messages</a>
@@ -101,7 +101,7 @@
           </li>
           <li>
             <button class="btn btn-default navbar-btn navbar-btn-avitar" data-toggle="popover" data-original-title="" title="">
-              <img class="img-circle" src="assets/images/avatar-dhg.png">
+              <img class="img-circle" src="${context}/assets/images/avatar-dhg.png">
             </button>
           </li>
         </ul>

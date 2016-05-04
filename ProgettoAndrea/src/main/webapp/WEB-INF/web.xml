@@ -1,42 +1,59 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://java.sun.com/xml/ns/javaee"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         id="WebApp_ID" version="2.5">
+	id="WebApp_ID" version="2.5">
 
-    <display-name>ProgettoAndrea</display-name>
-    
-   <!--
-		- Location of the XML file that defines the root application context.
-		- Applied by ContextLoaderListener.
-	-->
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring/application-config.xml</param-value>
-    </context-param>
+	<display-name>ProgettoAndrea</display-name>
 
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    
-    
-    <!--
-		- Servlet that dispatches request to registered handlers (Controller implementations).
-	-->
-    <servlet>
-        <servlet-name>dispatcherServlet</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/mvc-config.xml</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+	<!-- - Location of the XML file that defines the root application context. 
+		- Applied by ContextLoaderListener. -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring/application-config.xml</param-value>
+	</context-param>
 
-    <servlet-mapping>
-        <servlet-name>dispatcherServlet</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+
+	<!-- - Servlet that dispatches request to registered handlers (Controller 
+		implementations). -->
+	<servlet>
+		<servlet-name>dispatcherServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/mvc-config.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dispatcherServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<mime-mapping>
+		<extension>eot</extension>
+		<mime-type>application/vnd.ms-fontobject</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>otf</extension>
+		<mime-type>font/opentype</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>ttf</extension>
+		<mime-type>font/truetype</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>woff</extension>
+		<mime-type>application/font-woff</mime-type>
+	</mime-mapping>
 
 </web-app>

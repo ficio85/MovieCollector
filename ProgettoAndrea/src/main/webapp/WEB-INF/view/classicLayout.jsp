@@ -14,7 +14,6 @@
 	
 	    <title><tiles:insertAttribute name="title"/></title>
 		<meta charset="utf-8" />
-		<script>var myContextPath = "${pageContext.request.contextPath}"</script>
 		<link href="${pageContext.request.contextPath}/assets/application.min.css" rel="stylesheet" id="bootstrap" />
 		<script src="${pageContext.request.contextPath}/assets/application.min.js"></script>
 		<meta http-equiv="Expires" content="0"></meta>
@@ -26,17 +25,14 @@
 	
 	<body>
 	<% try { %>
-		<div class="container">
-			<input type="hidden" id="contextPath" value="${pageContext.request.contextPath}">
+		<div >
 			<div class="clearfix page-header">
 				<tiles:insertAttribute name="header" flush="true" />
 			</div>
-			<div class="row">
-				<div class="span12">
+			<div class="container p-t-md">
 					
 					<tiles:insertAttribute name="body"/>
 			
-				</div>
 			</div>
 			<div class="footer">
 				<tiles:insertAttribute name="footer" flush="true" />
@@ -44,7 +40,7 @@
 		</div>
 			<% } catch (Exception e) {
 					%>
-					Errore di sistema. Si consiglia di attendere qualche minuto e ripetere l'accesso da <a href="http://archivio.pubblica.istruzione.it/istanzeonline/" >Istanze OnLine</a>.
+					Errore di sistema. Si consiglia di attendere qualche minuto .
 					<%		
 				}					
 				%>

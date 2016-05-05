@@ -21,6 +21,7 @@ import com.form.SearchMovieForm;
 import com.service.InsertMovieService;
 import com.service.SearchMovieService;
 import com.util.JsoupUtil;
+import com.util.MessageErrorWrapper;
 import com.util.SearchUtil;
 
 @Controller
@@ -46,7 +47,10 @@ public class SearchMovieController {
 		model.addAttribute("generiList",searchMovieService.getListaGeneri());
 		model.addAttribute("listMovies",movieList);
 
-//		searchMovieService..SearchUtil.convertFromModelToSearchDTO(searchMovie);
+		if(movieList == null || movieList.isEmpty())
+		{
+			MessageErrorWrapper.saveMessage(model, "Non sono stati trovati risultati","Ripetere la ricerca");
+		}
 		return "searchMovie.page";  
 		 
 	}

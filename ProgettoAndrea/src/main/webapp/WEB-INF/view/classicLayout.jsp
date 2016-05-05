@@ -26,6 +26,8 @@
 	<body>
 	<% try { %>
 		<div >
+					<input type="hidden" id="contextPath" value="${pageContext.request.contextPath}">
+		
 			<div class="clearfix page-header">
 				<tiles:insertAttribute name="header" flush="true" />
 			</div>

@@ -36,9 +36,11 @@ public class SearchMovieService {
 	public List <MovieDTO> getListaFilm(SearchDTO search){
 
 		List <String> codMovies = new ArrayList <String>();
+		List<MovieDTO> movies = null;
+
 		int offset=0;
 		int limit=15;
-		
+
 		if(search.isSearchActor())
 		{
 			if(!codMovies.isEmpty())
@@ -61,7 +63,7 @@ public class SearchMovieService {
 				codMovies = searchMovieDAO.getMoviesByDirector( search.getDirectors());
 			}
 		}
-				
+
 		if(search.isSearchGenre())
 		{
 			if(!codMovies.isEmpty())
@@ -84,8 +86,12 @@ public class SearchMovieService {
 				codMovies=searchMovieDAO.getMoviesByYear( search.getYears(),null, offset,limit);
 			}
 		}
-		List <MovieDTO> movies =searchMovieDAO.getMoviesByIndex(codMovies);
-		completeMovies(movies);
+		if(!codMovies.isEmpty())
+		{
+			movies =searchMovieDAO.getMoviesByIndex(codMovies);
+			completeMovies(movies);
+		}
+
 		return movies;
 
 	}

@@ -1,7 +1,6 @@
 <div class="profile-header text-center" style="background-image: url(${context}/assets/images/AscoliPiceno.jpg); ">
   <div class="container-fluid">
     <div class="container-inner">
-      <img class="img-circle media-object" src="${context}/assets/images/logo_dgco.gif">
       <h3 class="profile-header-user">Andrea Ficeti</h3>
       <p class="profile-header-bio">Frase profilo</p>
     </div>

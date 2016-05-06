@@ -67,7 +67,7 @@
 <div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-md-6">
-		<ul class="media-list media-list-stream">
+		<ul class="list-group media-list media-list-stream">
 			<c:forEach var="movie" items="${listMovies}">
 
 				<li class="media well backgroundtablewhite">

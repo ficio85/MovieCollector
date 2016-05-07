@@ -8,19 +8,20 @@
 					class="icon-bar"></span>
 			</button>
 
+
 			<button class="btn btn-small navbar-btn navbar-btn-avitar"
 				data-toggle="popover" data-original-title="" title="">
 				<img class="img-circle"
 					src="${context}/assets/images/movieIcon1.png">
 			</button>
-		
 
 		</div>
 		<div class="navbar-collapse collapse" id="navbar-collapse-main">
 
 			<ul class="nav navbar-nav hidden-xs">
-				<li class="active"><a href="home.jsp">Home</a></li>
-				<li><a href="<%= request.getContextPath() %>/searchMovie">Search
+				<li class="active"><a
+					href="<%=request.getContextPath()%>/goHome">Home</a></li>
+				<li><a href="<%=request.getContextPath()%>/searchMovie">Search
 						Movie</a></li>
 				<li><a>Guida tv</a></li>
 				<li><a>My filmoteque</a></li>

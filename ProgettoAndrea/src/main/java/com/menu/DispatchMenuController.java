@@ -52,7 +52,12 @@ public class DispatchMenuController {
 		 
 	}
 	
-	
+	@RequestMapping(value = "/goHome", method = { RequestMethod.GET, RequestMethod.POST })
+	public String goHome ( HttpServletRequest request,@ModelAttribute("searchMovie") SearchMovieForm searchMovie,Model model) throws Exception {
+
+		return "main.page";  
+		 
+	}
 	
 
 

@@ -3,18 +3,15 @@
 <definition name="main.page" template="/WEB-INF/view/classicLayout.jsp">
 		<put-attribute name="title" value="Progetto Andrea" />
 		<put-attribute name="header" value="/WEB-INF/view/navbar.jsp" />
-		<put-attribute name="body" value="/WEB-INF/view/home.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/home/homeLayout.jsp" />
 		<put-attribute name="message" value="/WEB-INF/view/message.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/view/footer.jsp" />
 </definition>
 	
 
-<definition name="imdbSearch.page" extends="main.page">
-		<put-attribute name="body" value="/WEB-INF/view/views/imdbSearch.jsp" />
-</definition>
 
 <definition name="searchMovie.page" extends="main.page">
-		<put-attribute name="body" value="/WEB-INF/view/views/searchMovie.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/searchMovie/searchMovieLayout.jsp" />
 </definition>
 
 </tiles-definitions>

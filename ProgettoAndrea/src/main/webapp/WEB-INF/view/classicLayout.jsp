@@ -6,14 +6,18 @@
 <html lang="it">
 
 	<head>
-	
-	    <meta charset="utf-8">
+
+
+
+
+
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	<c:set var="context" scope="session" value="${pageContext.request.contextPath}"/>
 	
 	    <title><tiles:insertAttribute name="title"/></title>
 		<meta charset="utf-8" />
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
 		<link href="${pageContext.request.contextPath}/assets/application.min.css" rel="stylesheet" id="bootstrap" />
 		<script src="${pageContext.request.contextPath}/assets/application.min.js"></script>
 		<meta http-equiv="Expires" content="0"></meta>

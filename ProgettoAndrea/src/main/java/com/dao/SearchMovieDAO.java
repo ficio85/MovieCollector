@@ -178,16 +178,12 @@ public class SearchMovieDAO {
 			parameters.addValue("offset", offset);
 		}
 		String sql;
-		if(count)
-		{
-			 sql="SELECT count(movie) FROM moviegenre where genre";
-	
-		}
-		else
-		{
-			 sql="SELECT movie FROM moviegenre where genre" ;
+		
+		
+		
+			 sql="SELECT distinct movie FROM moviegenre where genre" ;
 
-		}
+		
 		if(andGenre)
 		{
 			parameters.addValue("count", genres.size());
@@ -207,7 +203,13 @@ public class SearchMovieDAO {
 			sql+=" LIMIT :limit OFFSET :offset ";
 		}
 
-
+		if(count)
+		{
+			
+			String sql2="SELECT count(*) FROM moviegenre where movie in ("+sql+")";
+			sql=sql2;
+	
+		}
 	
 		List<String> result;
 		try {

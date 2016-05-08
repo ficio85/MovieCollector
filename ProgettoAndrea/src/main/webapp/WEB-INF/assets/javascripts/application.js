@@ -64,6 +64,7 @@ $(function(){
 	    			"									                                                                                            "+
 	    			"			</div>                                                                                                              "+
 	    			"			<div class=\"col-md-2 plusPadding\">                                                                                "+
+	    			"					<button type=\"button\" class=\"btn btn-info addGenreClass btn-sm\" id=\"resetGenre"+contGenre+"\"><span class=\"fa fa-undo fa-1x\"></span></button>     "+	    			
 	    			"					<button type=\"button\" class=\"btn btn-info addGenreClass btn-sm\" id=\"addGenre"+contGenre+"\"><span class=\"fa fa-plus fa-1x\"></span></button>     "+
 	    			"			</div>                                                                                                              "+
 	    			"</div>                                                                                                                          "+

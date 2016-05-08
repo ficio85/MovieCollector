@@ -39,7 +39,7 @@ public class SearchMovieController {
 		int recordPerPage=15;
 		
 		model.addAttribute("tableResult", true);
-		SearchDTO search =SearchUtil.convertFromModelToSearchDTO(searchMovie,request);
+		SearchDTO search =SearchUtil.convertFromModelToSearchDTO(request);
 		
 		//insertMovieService.insertTranslation(search.getDirectors(),"director");
 		Integer count;

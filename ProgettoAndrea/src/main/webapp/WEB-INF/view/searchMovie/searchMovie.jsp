@@ -21,6 +21,10 @@
 			</div>
 			<div class="col-md-2 plusPadding">
 				<button type="button" class="btn btn-info btn-sm addGenreClass"
+					id="resetGenre0">
+					<span class="fa fa-undo fa-1x"></span>
+				</button>
+				<button type="button" class="btn btn-info btn-sm addGenreClass"
 					id="addGenre0">
 					<span class="fa fa-plus fa-1x"></span>
 				</button>

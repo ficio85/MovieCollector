@@ -10,8 +10,8 @@
 	</c:forEach>
 	<input type="hidden" name="numPages" id="numPages" value="${numPages}">
 	<input type="hidden" name="curPage" id="curPage" >
-	<input type="hidden" name="unisciGeneri" value="0">
-	<input type="hidden" name="year" value="0">
+	<input type="hidden" name="unisciGeneri" value="${unisciGeneri}">
+	<input type="hidden" name="year" value="${year}">
 	
 </form>
 

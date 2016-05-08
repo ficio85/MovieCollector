@@ -14,28 +14,31 @@ public class SearchUtil {
 	
 	
 	
-	public static SearchDTO convertFromModelToSearchDTO(SearchMovieForm searchMovie, HttpServletRequest request)
+	public static SearchDTO convertFromModelToSearchDTO(HttpServletRequest request)
 	{
 		String []genres=request.getParameterValues("genere");
 		
 		String[] actors=request.getParameterValues("actor");
+		String director = request.getParameter("director");
+		String []yearArray= request.getParameterValues("year");
 		String unisciGeneri=request.getParameter("unisciGeneri");
+		String unisciAttori=request.getParameter("unisciAttori");
+
 		SearchDTO searchDto = new SearchDTO();
 		if(actors!=null && actors.length!=0)
 		{
 			searchDto.setSearchActor(true);
-			
+			if(request.getParameter("unisciAttori")!=null && request.getParameter("unisciAttori").equals("1"))
+			{
+				searchDto.setAndActors(true);
+			}
 			searchDto.setActors(new ArrayList<String>(Arrays.asList(actors)));
 		}
-		if(searchMovie.getDirector()!=null && !searchMovie.getDirector().trim().equals(""))
+		if(director!=null && !director.trim().equals(""))
 		{
 			searchDto.setSearchDirector(true);
-			List <String> directors = new ArrayList <String>();
-			for(int i=0;i<1;i++)
-			{
-				directors.add(searchMovie.getDirector());
-			}
-			searchDto.setDirectors(directors);
+
+			searchDto.setDirectors(new ArrayList<String>(Arrays.asList(director)));
 		}
 		if(genres!=null && genres.length!=0 &&!(genres.length==1 && genres[0].trim().equals("")))
 		{
@@ -46,15 +49,15 @@ public class SearchUtil {
 			}
 			searchDto.setGenres(new ArrayList<String>(Arrays.asList(genres)));
 		}
-		if(searchMovie.getYear()!=0 )
+		if(yearArray!=null && yearArray.length!=0 &&!(yearArray.length==1 && yearArray[0].trim().equals("")))
 		{
 			searchDto.setSearchYear(true);
 			List <Integer> years = new ArrayList <Integer>();
-			for(int i=0;i<1;i++)
+			for(int i=0;i<yearArray.length;i++)
 			{
-				years.add(searchMovie.getYear());
+				years.add(Integer.parseInt(yearArray[i]));
 			}
-			searchDto.setYears(years);
+			searchDto.setYears(new ArrayList<Integer>());
 		}
 		//controllo se devo fare la count, se ho spinto sulla submit
 		if(request.getParameter("actionHidden")!=null && request.getParameter("actionHidden").equals("search"))

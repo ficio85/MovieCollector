@@ -12,6 +12,8 @@ public class SearchDTO {
 	boolean isSearchYear;
 	boolean isSearchTagMovie;
 	boolean andGenres;
+	boolean andActors;
+
 	List <String> actors;
 	List <String> genres;
 	List <String> directors;
@@ -31,6 +33,12 @@ public class SearchDTO {
 
 
 
+	public boolean isAndActors() {
+		return andActors;
+	}
+	public void setAndActors(boolean andActors) {
+		this.andActors = andActors;
+	}
 	public int getCurrPage() {
 		return currPage;
 	}

@@ -1,33 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
-<form class="hiddenFormSearch" id="hiddenFormSearch">
-	<c:forEach var="genre" items="${genereList}" varStatus="loop">
-			<input type="hidden" name="genere"  value="${genre}">
-	</c:forEach>
-	<c:forEach var="actor" items="${actorList}" varStatus="loopq">
-			<input type="hidden" name="actor"  value="${actor}">
-	</c:forEach>
-	<input type="hidden" name="numPages" id="numPages" value="${numPages}">
-	<input type="hidden" name="curPage" id="curPage" >
-	<input type="hidden" name="unisciGeneri" value="0">
-	<input type="hidden" name="year" value="0">
-	
-</form>
-
-<div class="row">
-
-	<div class="col-md-1"></div>
-
-	<div class="col-md-10 text-right">
-		<ul id="pagination-movie" class="pagination-sm"></ul>
-	</div>
-
-	<div class="col-md-1"></div>
-
-</div>
-
-<div class="row" id="elencoMovie">
 <div class="col-md-1"></div>
 	<div class="col-md-10">
 		<ul class="list-group media-list media-list-stream">
@@ -141,5 +111,3 @@
 	</div>
 
 	<div class="col-md-1"></div>
-
-</div>

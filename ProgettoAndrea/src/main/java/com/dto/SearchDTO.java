@@ -11,34 +11,68 @@ public class SearchDTO {
 	boolean isSearchLenght;
 	boolean isSearchYear;
 	boolean isSearchTagMovie;
-
+	boolean andGenres;
 	List <String> actors;
 	List <String> genres;
 	List <String> directors;
 	List <Integer> years;
-	String start;
-	String offset;
+	int start;
+	int offset;
+	int countResult;
+	boolean count;
+	int currPage;
+	
+	
+	
+	
+	
 
 
 
 
 
+	public int getCurrPage() {
+		return currPage;
+	}
+	public void setCurrPage(int currPage) {
+		this.currPage = currPage;
+		this.start = (currPage-1)*(this.offset)+1;
+	}
+	public boolean isCount() {
+		return count;
+	}
+	public void setCount(boolean count) {
+		this.count = count;
+	}
+	public int getCountResult() {
+		return countResult;
+	}
+	public void setCountResult(int countResult) {
+		this.countResult = countResult;
+	}
+	public boolean isAndGenres() {
+		return andGenres;
+	}
+	public void setAndGenres(boolean andGenres) {
+		this.andGenres = andGenres;
+	}
 	public List<Integer> getYears() {
 		return years;
 	}
 	public void setYears(List<Integer> years) {
 		this.years = years;
 	}
-	public String getStart() {
+	
+	public int getStart() {
 		return start;
 	}
-	public void setStart(String start) {
+	public void setStart(int start) {
 		this.start = start;
 	}
-	public String getOffset() {
+	public int getOffset() {
 		return offset;
 	}
-	public void setOffset(String offset) {
+	public void setOffset(int offset) {
 		this.offset = offset;
 	}
 	public List<String> getDirectors() {

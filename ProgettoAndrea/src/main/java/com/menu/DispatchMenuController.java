@@ -45,7 +45,6 @@ public class DispatchMenuController {
 	@RequestMapping(value = "/searchMovie", method = { RequestMethod.GET, RequestMethod.POST })
 	public String ricerca ( HttpServletRequest request,@ModelAttribute("searchMovie") SearchMovieForm searchMovie,Model model) throws Exception {
 //		searchMovie.setGenereList(searchMovieService.getListaGeneri());
-		searchMovie.setActor("Robert De Niro");
 		model.addAttribute("searchMovieForm",searchMovie);
 		model.addAttribute("generiList",searchMovieService.getListaGeneri());
 		return "searchMovie.page";  

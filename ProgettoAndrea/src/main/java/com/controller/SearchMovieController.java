@@ -34,15 +34,15 @@ public class SearchMovieController {
 	@Qualifier("insertMovieService")
 	private InsertMovieService insertMovieService;
 
-	@RequestMapping(value = "movie/searchMovieResult", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/searchMovieResult", method = { RequestMethod.GET, RequestMethod.POST })
 	public String ricercaFilmRisultati ( HttpServletRequest request,@ModelAttribute("searchMovieForm") SearchMovieForm searchMovie,Model model) throws Exception {
-
+		int recordPerPage=15;
 		
 		model.addAttribute("tableResult", true);
-		SearchDTO search =SearchUtil.convertFromModelToSearchDTO(searchMovie);
-
+		SearchDTO search =SearchUtil.convertFromModelToSearchDTO(searchMovie,request);
+		
 		//insertMovieService.insertTranslation(search.getDirectors(),"director");
-
+		Integer count;
 		List<MovieDTO> movieList = searchMovieService.getListaFilm(search);
 		model.addAttribute("generiList",searchMovieService.getListaGeneri());
 		model.addAttribute("listMovies",movieList);
@@ -50,9 +50,32 @@ public class SearchMovieController {
 		if(movieList == null || movieList.isEmpty())
 		{
 			MessageErrorWrapper.saveMessage(model, "Non sono stati trovati risultati","Ripetere la ricerca");
+			return "errors.page";
 		}
-		return "searchMovie.page";  
+		
+		int numPages=search.getCountResult()/recordPerPage;
+		if(numPages>10)
+		{
+			MessageErrorWrapper.saveMessage(model, "Numero di risultati elevato. Verranno visualizzate le prime dieci pagine","Ripetere la ricerca con criteri più restrittivi");
+		}
+		generateHiddenForm(search,request);
+		request.setAttribute("numPages", numPages);
+		
+		System.out.println(search.getCountResult());
+		return "searchMovieResult.page";  
 		 
+	}
+
+	private void generateHiddenForm(SearchDTO search, HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		request.setAttribute("genereList", search.getGenres());
+		request.setAttribute("actorList", search.getActors());
+		if(search.isAndGenres())
+		{
+			request.setAttribute("unisciGeneri", 1);
+		}
+		request.setAttribute("year", search.getYears());
+
 	}
 
 

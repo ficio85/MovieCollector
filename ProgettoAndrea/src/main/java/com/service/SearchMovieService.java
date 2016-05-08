@@ -38,8 +38,8 @@ public class SearchMovieService {
 		List <String> codMovies = new ArrayList <String>();
 		List<MovieDTO> movies = null;
 
-		int offset=0;
-		int limit=15;
+		int offset=search.getStart();
+		int limit=search.getOffset();
 
 		if(search.isSearchActor())
 		{
@@ -68,11 +68,17 @@ public class SearchMovieService {
 		{
 			if(!codMovies.isEmpty())
 			{
-				codMovies=searchMovieDAO.getMoviesByGenre( search.getGenres(),codMovies,offset,limit);
+				
+				codMovies=searchMovieDAO.getMoviesByGenre( search.getGenres(),codMovies,offset,limit,search.isAndGenres(),false);
 			}
 			else
 			{
-				codMovies=searchMovieDAO.getMoviesByGenre( search.getGenres(),null, offset,limit);
+				if(search.isCount())
+				{
+					search.setCountResult(Integer.parseInt(searchMovieDAO.getMoviesByGenre( search.getGenres(),null, 0,0,search.isAndGenres(),true).get(0)));
+
+				}
+				codMovies=searchMovieDAO.getMoviesByGenre( search.getGenres(),null, offset,limit,search.isAndGenres(),false);
 			}
 		}
 		if(search.isSearchYear())

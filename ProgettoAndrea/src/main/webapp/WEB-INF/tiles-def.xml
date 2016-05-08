@@ -14,5 +14,11 @@
 		<put-attribute name="body" value="/WEB-INF/view/searchMovie/searchMovieLayout.jsp" />
 </definition>
 
+<definition name="searchMovieResult.page" template="/WEB-INF/view/searchMovie/resultMovies.jsp" >
+</definition>
+
+<definition name="errors.page" template="/WEB-INF/view/errors.jsp" >
+</definition>
+
 </tiles-definitions>
  

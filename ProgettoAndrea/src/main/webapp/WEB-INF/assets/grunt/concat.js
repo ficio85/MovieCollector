@@ -19,7 +19,7 @@ module.exports = {
             'javascripts/bootstrap/affix.js',
             'javascripts/jquery/jquery-ui.js',
             'javascripts/jquery/datepicker-it.js',
-//            'javascripts/bootstrap/bootstrap.js',
+           'javascripts/bootstrap/bootstrap.js',
      //       'javascripts/jquery-data-struts.js',
       //      'javascripts/jquery-filter-by-text.js',
             'javascripts/helpers.js',
@@ -28,7 +28,9 @@ module.exports = {
             'javascripts/array.js',
             'javascripts/templates.js',
             'javascripts/application.js',
-            'javascripts/sceltaPreferenzeForm.js'
+            'javascripts/star-rating.js',
+            'javascripts/jquery.bootpag.min.js',
+
           ],
     dest : 'build/application.js'
   }

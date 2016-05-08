@@ -159,7 +159,7 @@ public class SearchMovieDAO {
 
 
 
-	public List<String> getMoviesByGenre(List<String> genres, List<String> indexes,int offset, int limit) {
+	public List<String> getMoviesByGenre(List<String> genres, List<String> indexes,int offset, int limit, boolean andGenre,boolean count) {
 		// TODO Auto-generated method stub
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("genres", genres);
@@ -177,8 +177,27 @@ public class SearchMovieDAO {
 			parameters.addValue("limit", limit);
 			parameters.addValue("offset", offset);
 		}
+		String sql;
+		if(count)
+		{
+			 sql="SELECT count(movie) FROM moviegenre where genre";
+	
+		}
+		else
+		{
+			 sql="SELECT movie FROM moviegenre where genre" ;
 
-		String sql="SELECT movie FROM moviegenre where genre in (:genres) ";
+		}
+		if(andGenre)
+		{
+			parameters.addValue("count", genres.size());
+
+			sql+=" in (:genres) group by movie having count(movie) = :count ";
+		}
+		else
+		{
+			sql+=" in (:genres) ";
+		}
 		if(indexes!=null)
 		{
 			sql+=" and movie in (:indexes) ";

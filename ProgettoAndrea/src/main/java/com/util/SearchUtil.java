@@ -1,7 +1,10 @@
 package com.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.dto.SearchDTO;
 import com.form.SearchMovieForm;
@@ -11,18 +14,18 @@ public class SearchUtil {
 	
 	
 	
-	public static SearchDTO convertFromModelToSearchDTO(SearchMovieForm searchMovie)
+	public static SearchDTO convertFromModelToSearchDTO(SearchMovieForm searchMovie, HttpServletRequest request)
 	{
+		String []genres=request.getParameterValues("genere");
+		
+		String[] actors=request.getParameterValues("actor");
+		String unisciGeneri=request.getParameter("unisciGeneri");
 		SearchDTO searchDto = new SearchDTO();
-		if(searchMovie.getActor()!=null && !searchMovie.getActor().trim().equals(""))
+		if(actors!=null && actors.length!=0)
 		{
 			searchDto.setSearchActor(true);
-			List <String> actors = new ArrayList <String>();
-			for(int i=0;i<1;i++)
-			{
-				actors.add(searchMovie.getActor());
-			}
-			searchDto.setActors(actors);
+			
+			searchDto.setActors(new ArrayList<String>(Arrays.asList(actors)));
 		}
 		if(searchMovie.getDirector()!=null && !searchMovie.getDirector().trim().equals(""))
 		{
@@ -34,15 +37,14 @@ public class SearchUtil {
 			}
 			searchDto.setDirectors(directors);
 		}
-		if(searchMovie.getGenere()!=null && !searchMovie.getGenere().trim().equals(""))
+		if(genres!=null && genres.length!=0 &&!(genres.length==1 && genres[0].trim().equals("")))
 		{
 			searchDto.setSearchGenre(true);
-			List <String> genre = new ArrayList <String>();
-			for(int i=0;i<1;i++)
+			if(request.getParameter("unisciGeneri")!=null && request.getParameter("unisciGeneri").equals("1"))
 			{
-				genre.add(searchMovie.getGenere());
+				searchDto.setAndGenres(true);
 			}
-			searchDto.setGenres(genre);
+			searchDto.setGenres(new ArrayList<String>(Arrays.asList(genres)));
 		}
 		if(searchMovie.getYear()!=0 )
 		{
@@ -53,6 +55,16 @@ public class SearchUtil {
 				years.add(searchMovie.getYear());
 			}
 			searchDto.setYears(years);
+		}
+		//controllo se devo fare la count, se ho spinto sulla submit
+		if(request.getParameter("actionHidden")!=null && request.getParameter("actionHidden").equals("search"))
+		{
+			searchDto.setCount(true);
+		}
+		searchDto.setOffset(15);
+		if(request.getParameter("curPage")!=null)
+		{
+			searchDto.setCurrPage(Integer.parseInt(request.getParameter("curPage")));
 		}
 		return searchDto;
 

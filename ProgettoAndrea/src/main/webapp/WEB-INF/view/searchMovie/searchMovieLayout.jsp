@@ -6,7 +6,8 @@
 
 
 	</div>
-	<div class="row">
+
+	<div  id="movieResult">
 		<c:import url="searchMovie/resultMovies.jsp" />
 
 	</div>

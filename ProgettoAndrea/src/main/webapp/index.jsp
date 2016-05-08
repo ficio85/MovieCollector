@@ -14,8 +14,8 @@
 <body>
 
 	<c:url value="/accetta" var="messageUrl" />
+	<span class="label label-default">FARE LA LOGIN</span>
 
-	<span class="label label-default">FARE LA LOGIN</span>	
 
 
 	<div>

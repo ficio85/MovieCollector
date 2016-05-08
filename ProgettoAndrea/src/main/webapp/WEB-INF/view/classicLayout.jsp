@@ -19,6 +19,7 @@
 		<meta charset="utf-8" />
 		<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
 		<link href="${pageContext.request.contextPath}/assets/application.min.css" rel="stylesheet" id="bootstrap" />
+		
 		<script src="${pageContext.request.contextPath}/assets/application.min.js"></script>
 		<meta http-equiv="Expires" content="0"></meta>
 		<meta http-equiv="Cache-Control" content="no-cache"></meta>

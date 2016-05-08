@@ -52,7 +52,7 @@
 	<div class="panel-body">
 		<iframe
 			src="https://embed.spotify.com/?uri=spotify%3Aalbum%3A2rp5riHULWgrXPsDtsp1ir&theme=white"
-			width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+			 frameborder="0" allowtransparency="true"></iframe>
 	</div>
 </div>
 

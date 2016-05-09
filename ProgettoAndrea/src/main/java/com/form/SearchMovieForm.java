@@ -13,7 +13,7 @@ public class SearchMovieForm {
 	private String director;
 	private String minLength;
 	private String maxLength;
-	private int year;
+	private String year;
 	
 	
 
@@ -54,14 +54,20 @@ public class SearchMovieForm {
 	public void setGenere(String genere) {
 		this.genere = genere;
 	}
-
-	public int getYear() {
+	/**
+	 * @return the year
+	 */
+	public String getYear() {
 		return year;
 	}
-	public void setYear(int year) {
+	/**
+	 * @param year the year to set
+	 */
+	public void setYear(String year) {
 		this.year = year;
 	}
 
+	
 
 
 }

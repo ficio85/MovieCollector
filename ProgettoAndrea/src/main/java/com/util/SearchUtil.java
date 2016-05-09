@@ -49,7 +49,7 @@ public class SearchUtil {
 			}
 			searchDto.setGenres(new ArrayList<String>(Arrays.asList(genres)));
 		}
-		if(yearArray!=null && yearArray.length!=0 &&!(yearArray.length==1 && yearArray[0].trim().equals("")))
+		if(yearArray!=null && yearArray.length!=0 &&!(yearArray.length==1 && yearArray[0].trim().equals("")) &&!(yearArray.length==1 && yearArray[0].trim().equals("0")))
 		{
 			searchDto.setSearchYear(true);
 			List <Integer> years = new ArrayList <Integer>();

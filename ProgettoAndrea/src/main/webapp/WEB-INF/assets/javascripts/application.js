@@ -2,7 +2,7 @@
 
 $(function(){
 	
-	    $( "#actors" ).autocomplete({
+	    $( ".autoCompleteActorRender" ).autocomplete({
 	    	source: function( request, response ) {
 	    		var link=$('#contextPath').val()+"/loadActors";
 	    		$.ajax({
@@ -56,21 +56,72 @@ $(function(){
 	    	  var contGenre= varCurrentCont+1;
 	    	  $("#contGenre").val(contGenre);
 	    	$( "#replaceGenre" ).replaceWith( "<div class=\"form-group\">                                                                                                      "+
-	    			"			<label for=\"genre\" class=\"col-md-2 control-label\">Genre "+contGenre+"</label>                                               "+
+	    			"			<label for=\"genre\" class=\"col-md-2 control-label\">Genre "+(contGenre+1)+":</label>                                               "+
 	    			"			<div class=\"col-md-6\">                                                                                            "+
 	    			"				<select id=\"genere"+contGenre+"\" name=\"genere\" class=\"form-control \">                                                 "+
-	    			"					<option value=\"\">--Select Genre--</option>                                                                "+
 	    			"				</select>	                                                                                                    "+
 	    			"									                                                                                            "+
 	    			"			</div>                                                                                                              "+
 	    			"			<div class=\"col-md-2 plusPadding\">                                                                                "+
-	    			"					<button type=\"button\" class=\"btn btn-info addGenreClass btn-sm\" id=\"resetGenre"+contGenre+"\"><span class=\"fa fa-undo fa-1x\"></span></button>     "+	    			
+	    			"					<button type=\"button\" class=\"btn btn-info emptyGenreClass btn-sm\" id=\"resetGenre"+contGenre+"\"><span class=\"fa fa-undo fa-1x\"></span></button>     "+	    			
 	    			"					<button type=\"button\" class=\"btn btn-info addGenreClass btn-sm\" id=\"addGenre"+contGenre+"\"><span class=\"fa fa-plus fa-1x\"></span></button>     "+
 	    			"			</div>                                                                                                              "+
 	    			"</div>                                                                                                                          "+
 	    			"		<div id=\"replaceGenre\"></div>");
-	    	$('#genere option').clone().appendTo('#genere'+contGenre);
+	    	$('#genere0 option').clone().appendTo('#genere'+contGenre);
+	    	if(contGenre===2)
+	    		{
+	    			$("#addGenre"+contGenre).prop("disabled",true);
+	    		}
 	    });
+	    
+	    
+	  //searchMovie jquery
+	    $("#search-by-title-form").on("click",".addActorClass",function(event ){
+	    	event.preventDefault();
+	    	var  varCurrentCont=parseInt($("#contActor").val());
+	    	if(varCurrentCont===0)
+	    	{
+	    		$( "#unisciAttori" ).append("	<div class=\"col-md-2 control-label text-right\">                                       "+
+	    				"			<input type=\"checkbox\" name=\"unisciAttori\" value=\"1\">             "+
+	    				"		</div>                                                                      "+
+	    				"		<div class=\"col-md-5 control-label-left\">                            "+
+	    				"				Unisci gli attori                                                     "+
+	    		"		</div>                                                                      ");
+	    	}
+	    	$("#addActor"+varCurrentCont).remove();
+	    	var contActor= varCurrentCont+1;
+	    	$("#contActor").val(contActor);
+	    	$( "#replaceActor" ).replaceWith( "<div class=\"form-group\">                                                                                                      "+
+	    			"			<label for=\"actor\" class=\"col-md-2 control-label\">Actor "+(contActor+1)+":</label>                                               "+
+	    			"	<div class=\"col-md-6\">                                                                    "+
+	    			"			<input type=\"text\" class=\"autoCompleteActorRender form-control\"                  "+
+	    			"				data-servlet=\"/loadActors\" name=\"actor\" id=\"actor"+contActor+"\"></form:input>         "+
+	    			"		</div>																					"+	    				    			
+	    			"			<div class=\"col-md-2 plusPadding\">                                                                                "+
+	    			"					<button type=\"button\" class=\"btn btn-info addActorClass btn-sm\" id=\"addActor"+contActor+"\"><span class=\"fa fa-plus fa-1x\"></span></button>     "+
+	    			"			</div>                                                                                                              "+
+	    			"</div>                                                                                                                          "+
+	    	"		<div id=\"replaceActor\"></div>");
+	    	if(contActor===2)
+	    	{
+	    		$("#addActor"+contActor).prop("disabled",true);
+	    	}
+	    });
+	    
+	    
+	    
+	    
+	    
+		    $("#search-by-title-form").on("click",".emptyGenreClass",function(event ){
+		    	event.preventDefault();
+		    	var attrId=$(this).attr('id');
+		    	var index=parseInt(attrId.substring(attrId.length-1));
+		    	alert("#select"+index);
+		    	$('#genere'+index).val('').prop('selected',true);
+		    	});
+	    
+	    
 	    $("#search-by-title-form").submit(function(){
 	    		event.preventDefault();
 	    		var form=$(this).serialize();

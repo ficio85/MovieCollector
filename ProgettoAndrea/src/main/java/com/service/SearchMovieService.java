@@ -45,11 +45,11 @@ public class SearchMovieService {
 		{
 			if(!codMovies.isEmpty())
 			{
-				codMovies=(searchMovieDAO.getMoviesByActor( search.getActors(),codMovies));
+				codMovies=searchMovieDAO.getMoviesByActor( search.getActors(),codMovies,0,0,search.isAndActors(),false);
 			}
 			else
 			{
-				codMovies=(searchMovieDAO.getMoviesByActor( search.getActors()));
+				codMovies=searchMovieDAO.getMoviesByActor( search.getActors(),null,0,0,search.isAndActors(),false);
 			}
 		}
 		if(search.isSearchDirector())
@@ -69,32 +69,32 @@ public class SearchMovieService {
 			if(!codMovies.isEmpty())
 			{
 				
-				codMovies=searchMovieDAO.getMoviesByGenre( search.getGenres(),codMovies,offset,limit,search.isAndGenres(),false);
+				codMovies=searchMovieDAO.getMoviesByGenre( search.getGenres(),codMovies,0,0,search.isAndGenres(),false);
 			}
 			else
 			{
-				if(search.isCount())
-				{
-					search.setCountResult(Integer.parseInt(searchMovieDAO.getMoviesByGenre( search.getGenres(),null, 0,0,search.isAndGenres(),true).get(0)));
-
-				}
-				codMovies=searchMovieDAO.getMoviesByGenre( search.getGenres(),null, offset,limit,search.isAndGenres(),false);
+				
+				codMovies=searchMovieDAO.getMoviesByGenre( search.getGenres(),null, 0,0,search.isAndGenres(),false);
 			}
 		}
 		if(search.isSearchYear())
 		{
 			if(!codMovies.isEmpty())
 			{
-				codMovies=searchMovieDAO.getMoviesByYear( search.getYears(), codMovies,offset,limit);
+				codMovies=searchMovieDAO.getMoviesByYear( search.getYears(), codMovies,0,0);
 			}
 			else
 			{
-				codMovies=searchMovieDAO.getMoviesByYear( search.getYears(),null, offset,limit);
+				codMovies=searchMovieDAO.getMoviesByYear( search.getYears(),null, 0,0);
 			}
 		}
 		if(!codMovies.isEmpty())
 		{
-			movies =searchMovieDAO.getMoviesByIndex(codMovies);
+			if(search.isCount())
+			{
+				search.setCountResult(searchMovieDAO.getCountMoviesByIndex(codMovies));
+			}
+			movies =searchMovieDAO.getMoviesByIndex(codMovies,offset, limit);
 			completeMovies(movies);
 		}
 

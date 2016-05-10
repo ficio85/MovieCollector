@@ -226,17 +226,104 @@ public class SearchMovieDAO {
 
 	}
 
+	public List<String> getMoviesByActor(List<String> actors, List<String> indexes,int offset, int limit, boolean andActors,boolean count) {
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("actors", actors);
+		parameters.addValue("indexes", indexes);
+		parameters.addValue("limit", limit);
+		parameters.addValue("offset", offset);
+
+
+		if(indexes!=null)
+		{
+			parameters.addValue("indexes", indexes);
+		}
+		if(limit != 0) 
+		{
+			parameters.addValue("limit", limit);
+			parameters.addValue("offset", offset);
+		}
+		String sql;
+		
+		
+		
+			 sql="SELECT distinct movie FROM movieactor where actor" ;
+
+		
+		if(andActors)
+		{
+			parameters.addValue("count", actors.size());
+
+			sql+=" in (:actors) group by movie having count(movie) = :count ";
+		}
+		else
+		{
+			sql+=" in (:actors) ";
+		}
+		if(indexes!=null)
+		{
+			sql+=" and movie in (:indexes) ";
+		}
+		if(limit!=0)
+		{
+			sql+=" LIMIT :limit OFFSET :offset ";
+		}
+
+		if(count)
+		{
+			
+			String sql2="SELECT count(*) FROM movieactor where movie in ("+sql+")";
+			sql=sql2;
+	
+		}
+	
+		List<String> result;
+		try {
+			result=jdbcTemplate.queryForList(sql,parameters, String.class);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
+
+
+	}
 
 
 	
 
-	public  List<MovieDTO> getMoviesByIndex(List <String> indexes)
+	public  List<MovieDTO> getMoviesByIndex(List <String> indexes,int offset, int limit)
 	{
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("indexes", indexes);
-		String sql ="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`release`,`rated`,`awards`,`poster`,`type`"
-				+ " FROM movie where idmovie in (:indexes) order by year asc ";
+		parameters.addValue("limit", limit);
+		parameters.addValue("offset", offset);
+
+		String sql="";
+
+			sql +="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`release`,`rated`,`awards`,`poster`,`type`";
+
+		
+			
+				sql += " FROM movie where idmovie in (:indexes) order by year asc LIMIT :limit OFFSET :offset";
 		return jdbcTemplate.query(sql,parameters,new MovieMapper());
+
+	}
+	
+	public  int getCountMoviesByIndex(List <String> indexes)
+	{
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("indexes", indexes);
+		String sql="";
+	
+			sql+="select count(*) FROM movie where idmovie in (:indexes) order by year asc";
+		
+
+					return jdbcTemplate.queryForInt(sql,parameters);
 
 	}
 

@@ -25,7 +25,7 @@ public class SearchUtil {
 		String unisciAttori=request.getParameter("unisciAttori");
 
 		SearchDTO searchDto = new SearchDTO();
-		if(actors!=null && actors.length!=0)
+		if(actors!=null && actors.length!=0 &&!(actors.length==1 && actors[0].trim().equals("")))
 		{
 			searchDto.setSearchActor(true);
 			if(request.getParameter("unisciAttori")!=null && request.getParameter("unisciAttori").equals("1"))

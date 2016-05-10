@@ -2,25 +2,7 @@
 
 $(function(){
 	
-	    $( ".autoCompleteActorRender" ).autocomplete({
-	    	source: function( request, response ) {
-	    		var link=$('#contextPath').val()+"/loadActors";
-	    		$.ajax({
-	    			url: link,
-	    			data:"stringActor="+request.term,
-	    			success: function( data ) {
-	    				var url="/loadActors";
 
-	    				response(data);
-	    			},
-	    			error: function(XMLHttpRequest, textStatus, errorThrown) { 
-	    				alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-	    				alert(link);
-	    			} 
-	    		});
-	    	},
-	    	minLength: 3,
-	    });
 	
 	    $( "#directors" ).autocomplete({
 	    	source: function( request, response ) {
@@ -121,7 +103,27 @@ $(function(){
 		    	$('#genere'+index).val('').prop('selected',true);
 		    	});
 	    
-	    
+		    $("#search-by-title-form").on("keydown.autocomplete",".autoCompleteActorRender",function(event ){ $( this).autocomplete({
+		    	source: function( request, response ) {
+		    		var link=$('#contextPath').val()+"/loadActors";
+		    		$.ajax({
+		    			url: link,
+		    			data:"stringActor="+request.term,
+		    			success: function( data ) {
+		    				var url="/loadActors";
+
+		    				response(data);
+		    			},
+		    			error: function(XMLHttpRequest, textStatus, errorThrown) { 
+		    				alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+		    				alert(link);
+		    			} 
+		    		});
+		    	},
+		    	minLength: 3,
+		    });});
+		    
+		    
 	    $("#search-by-title-form").submit(function(){
 	    		event.preventDefault();
 	    		var form=$(this).serialize();

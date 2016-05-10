@@ -15,13 +15,20 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.dto.ActorDTO;
+import com.dto.CountryDTO;
 import com.dto.DirectorDTO;
 import com.dto.GenereDTO;
+import com.dto.LanguageDTO;
 import com.dto.MovieDTO;
+import com.dto.WriterDTO;
 import com.mapper.ActorMapper;
+import com.mapper.CountryMapper;
 import com.mapper.DirectorMapper;
 import com.mapper.GenereMapper;
+import com.mapper.LanguageMapper;
 import com.mapper.MovieMapper;
+import com.mapper.MovieMapperComplete;
+import com.mapper.WriterMapper;
 
 @Repository("searchMovieDAO")
 public class SearchMovieDAO {
@@ -296,7 +303,7 @@ public class SearchMovieDAO {
 
 	
 
-	public  List<MovieDTO> getMoviesByIndex(List <String> indexes,int offset, int limit)
+	public  List<MovieDTO> getMoviesByIndex(List <String> indexes,int offset, int limit,boolean complete)
 	{
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("indexes", indexes);
@@ -305,12 +312,25 @@ public class SearchMovieDAO {
 
 		String sql="";
 
-			sql +="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`release`,`rated`,`awards`,`poster`,`type`";
+		sql +="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`release`,`rated`,`awards`,`poster`,`type`";
 
-		
-			
-				sql += " FROM movie where idmovie in (:indexes) order by year asc LIMIT :limit OFFSET :offset";
-		return jdbcTemplate.query(sql,parameters,new MovieMapper());
+
+
+		sql += " FROM movie where idmovie in (:indexes) order by year asc ";
+		if(limit!=0)
+		{
+			sql+="LIMIT :limit OFFSET :offset";
+		}
+		if(complete)
+		{
+			return jdbcTemplate.query(sql,parameters,new MovieMapperComplete());
+
+		}
+		else
+		{
+			return jdbcTemplate.query(sql,parameters,new MovieMapper());
+
+		}
 
 	}
 	
@@ -441,10 +461,69 @@ public class SearchMovieDAO {
 	}
 
 
+	public List<LanguageDTO> getMovieLanguages(String key) {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("key", key);
+		List<LanguageDTO> result;
+		try {
+			result=jdbcTemplate.query(" SELECT * FROM movielanguage movlang,language lan where lan.cod=movlang.language and movie = (:key) ",parameters, new LanguageMapper());
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
 
 
+	}
+
+	public List<CountryDTO> getMovieCountry(String key) {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("key", key);
+		List<CountryDTO> result;
+		try {
+			result=jdbcTemplate.query(" SELECT * FROM movienation,nations where movienation.nation=nations.idnations and movie = (:key) ",parameters, new CountryMapper());
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
 
 
+	}
+
+
+	public List<WriterDTO> getMovieWriter(String key) {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("key", key);
+		List<WriterDTO> result;
+		try {
+			result=jdbcTemplate.query(" SELECT * FROM moviewriter where movie = (:key) ",parameters, new WriterMapper());
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
+
+
+	}
 
 
 

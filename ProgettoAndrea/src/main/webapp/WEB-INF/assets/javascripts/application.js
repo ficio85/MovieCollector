@@ -161,6 +161,7 @@ $(function(){
 	    
 	    function generatePagination(){
 	    	var numPages=parseInt($("#numPages").val());
+	    	alert(numPages);
 	    	 $('#pagination-movie').twbsPagination({
 	    	        totalPages: numPages,
 	    	        visiblePages: 10,

@@ -14,6 +14,11 @@
 		<put-attribute name="body" value="/WEB-INF/view/searchMovie/searchMovieLayout.jsp" />
 </definition>
 
+<definition name="detailMovie.page" extends="main.page">
+		<put-attribute name="body" value="/WEB-INF/view/movieDetail.jsp" />
+</definition>
+
+
 <definition name="searchMovieResult.page" template="/WEB-INF/view/searchMovie/resultMovies.jsp" >
 </definition>
 

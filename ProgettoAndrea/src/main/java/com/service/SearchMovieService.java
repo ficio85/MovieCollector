@@ -1,6 +1,7 @@
 package com.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -92,9 +93,9 @@ public class SearchMovieService {
 		{
 			if(search.isCount())
 			{
-				search.setCountResult(searchMovieDAO.getCountMoviesByIndex(codMovies));
+				search.setCountResult(codMovies.size());
 			}
-			movies =searchMovieDAO.getMoviesByIndex(codMovies,offset, limit);
+			movies =searchMovieDAO.getMoviesByIndex(codMovies,offset, limit,false);
 			completeMovies(movies);
 		}
 
@@ -103,6 +104,22 @@ public class SearchMovieService {
 	}
 
 
+	public MovieDTO getAllMovieDetail(String index){
+
+		ArrayList <String> indexes= new ArrayList(Arrays.asList(index));
+		MovieDTO movieDto = searchMovieDAO.getMoviesByIndex(indexes, 0, 0,true).get(0);
+		movieDto.setTitoloItaliano(searchMovieDAO.getMovieInternationalization(movieDto.getMovieKey()));
+		movieDto.setActors(searchMovieDAO.getMovieActors(movieDto.getMovieKey()));
+		movieDto.setGenre(searchMovieDAO.getMovieGenre(movieDto.getMovieKey()));
+		movieDto.setDirectors(searchMovieDAO.getMovieDirector(movieDto.getMovieKey()));
+		movieDto.setLanguages(searchMovieDAO.getMovieLanguages(movieDto.getMovieKey()));
+		movieDto.setCountries(searchMovieDAO.getMovieCountry(movieDto.getMovieKey()));
+		movieDto.setWriters(searchMovieDAO.getMovieWriter(movieDto.getMovieKey()));
+		return movieDto;
+
+
+
+	}
 
 	private void completeMovies(List<MovieDTO> movies) {
 

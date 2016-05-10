@@ -53,7 +53,7 @@ public class SearchMovieController {
 			return "errors.page";
 		}
 		
-		int numPages=search.getCountResult()/recordPerPage;
+		int numPages=search.getCountResult()/recordPerPage+1;
 		if(numPages>10)
 		{
 			MessageErrorWrapper.saveMessage(model, "Numero di risultati elevato. Verranno visualizzate le prime dieci pagine","Ripetere la ricerca con criteri più restrittivi");

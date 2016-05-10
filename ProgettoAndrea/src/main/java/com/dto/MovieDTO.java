@@ -16,13 +16,13 @@ public class MovieDTO {
 	List <ActorDTO> actors;
 	String plot;
 	List <GenereDTO> genre;
-	List <String> countries;
+	List <CountryDTO> countries;
 	String movieKey;
 	String imdbKey;
 	List <DirectorDTO> directors;
-	List <String> writers;
+	List <WriterDTO> writers;
 	List <String> workwriters;
-	List <String> languages;
+	List <LanguageDTO> languages;
 	String rated;
 	String awards;
 	String poster;
@@ -79,12 +79,7 @@ public class MovieDTO {
 	public void setImdbSerieKey(String imdbSerieKey) {
 		this.imdbSerieKey = imdbSerieKey;
 	}
-	public List<String> getLanguages() {
-		return languages;
-	}
-	public void setLanguages(List<String> languages) {
-		this.languages = languages;
-	}
+
 	public String getRated() {
 		return rated;
 	}
@@ -123,12 +118,7 @@ public class MovieDTO {
 		this.releaseDate = releaseDate;
 	}
 	
-	public List<String> getWriters() {
-		return writers;
-	}
-	public void setWriters(List<String> writers) {
-		this.writers = writers;
-	}
+
 	public Float getNumImdbRating() {
 		return numImdbRating;
 	}
@@ -148,12 +138,7 @@ public class MovieDTO {
 	public void setMovieKey(String movieKey) {
 		this.movieKey = movieKey;
 	}
-	public List<String> getCountries() {
-		return countries;
-	}
-	public void setCountries(List<String> countries) {
-		this.countries = countries;
-	}
+
 	
 	public int getLength() {
 		return length;
@@ -194,6 +179,42 @@ public class MovieDTO {
 	}
 	public void setMetaScore(float metaScore) {
 		this.metaScore = metaScore;
+	}
+	/**
+	 * @return the countries
+	 */
+	public List<CountryDTO> getCountries() {
+		return countries;
+	}
+	/**
+	 * @param countries the countries to set
+	 */
+	public void setCountries(List<CountryDTO> countries) {
+		this.countries = countries;
+	}
+	/**
+	 * @return the writers
+	 */
+	public List<WriterDTO> getWriters() {
+		return writers;
+	}
+	/**
+	 * @param writers the writers to set
+	 */
+	public void setWriters(List<WriterDTO> writers) {
+		this.writers = writers;
+	}
+	/**
+	 * @return the languages
+	 */
+	public List<LanguageDTO> getLanguages() {
+		return languages;
+	}
+	/**
+	 * @param languages the languages to set
+	 */
+	public void setLanguages(List<LanguageDTO> languages) {
+		this.languages = languages;
 	}
 	
 	

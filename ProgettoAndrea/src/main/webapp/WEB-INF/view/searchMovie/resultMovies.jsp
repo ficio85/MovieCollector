@@ -1,18 +1,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+
 <form class="hiddenFormSearch" id="hiddenFormSearch">
 	<c:forEach var="genre" items="${genereList}" varStatus="loop">
-			<input type="hidden" name="genere"  value="${genre}">
+		<input type="hidden" name="genere" value="${genre}">
 	</c:forEach>
 	<c:forEach var="actor" items="${actorList}" varStatus="loopq">
-			<input type="hidden" name="actor"  value="${actor}">
+		<input type="hidden" name="actor" value="${actor}">
 	</c:forEach>
 	<input type="hidden" name="numPages" id="numPages" value="${numPages}">
-	<input type="hidden" name="curPage" id="curPage" >
-	<input type="hidden" name="unisciGeneri" value="${unisciGeneri}">
-	<input type="hidden" name="year" value="${year}">
-	
+	<input type="hidden" name="curPage" id="curPage"> <input
+		type="hidden" name="unisciGeneri" value="${unisciGeneri}"> <input
+		type="hidden" name="year" value="${year}">
+
 </form>
 
 <div class="row">
@@ -28,7 +29,7 @@
 </div>
 
 <div class="row" id="elencoMovie">
-<div class="col-md-1"></div>
+	<div class="col-md-1"></div>
 	<div class="col-md-10">
 		<ul class="list-group media-list media-list-stream">
 			<c:forEach var="movie" items="${listMovies}" varStatus="loop">
@@ -92,7 +93,15 @@
 
 						</div>
 						<div class="col-md-5">
-							<div class="row">Scheda Film</div>
+						<c:url value="/detailMovie" var="actionUrl" />
+						
+							<div class="row">
+								<form action="${actionUrl}">
+									<button class="btn btn-primary-outline">Scheda Film</button>
+									<input type="hidden" name="indexMovie"
+										value="${movie.movieKey} ">
+								</form>
+							</div>
 							<div class="row">Rate social</div>
 							<div class="row">
 

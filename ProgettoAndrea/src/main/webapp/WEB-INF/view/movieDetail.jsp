@@ -4,79 +4,134 @@
 <c:url value="/detailMovie" var="actionUrl" />
 
 <div class="row media list-group-item" id="elencoMovie">
-	<div class="col-md-10">
-		<div class="row p-b-md">
-			<div class="col-md-8 movieTitle">
-				${movie.titoloItaliano}(${movie.title}) di
-				<c:forEach var="regista" items="${movie.directors}">
+	<div class="row p-b-md">
+		<div class="col-md-8 movieTitle p-t-md">
+			${movie.titoloItaliano}(${movie.title}) di
+			<c:forEach var="regista" items="${movie.directors}">
 											${regista.name}				
 										</c:forEach>
-				anno :${movie.year};
-
-			</div>
-			<div class="col-md-4 ">
-				<span class="fa-stack fa-lg">
-				 <i class="fa icon icon-star fa-stack-2x"></i>
-				  <i class="fa fa-flag fa-stack-1x fa-inverse"></i>
-				</span>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-5 p-l-md">
-				<div class="row">
-					<img class="img-responsive img-thumbnail"
-						style="width: 240px; height: 300px;" src="${movie.poster}">
-				</div>
-				<div class="row">
-					<div class="label label-success">Cool</div>
-					<div class="label label-info">Label Prova</div>
-				</div>
-
-
-			</div>
-			<div class="col-md-7">
-				<div class="row">
-					<label for="input-2" class="control-label">Rate Completo</label> <input
-						id="starinput" class="rating rating-loading" data-min="0"
-						data-max="10" data-stars="10" data-step="0.1" data-size="xs">
-				</div>
-				<div class="row">
-					<button type="submit" name="action" value="search"
-						class="btn btn-default btn-info">Submit Rate</button>
-				</div>
-				<div class="row">
-					<textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			Attori:
-			<c:forEach var="attore" items="${movie.actors}">
-				<a>${attore.name}</a>
-			</c:forEach>
+			(${movie.year});
 
 		</div>
-		<div class="row">Plot: ${movie.plot}</div>
-		<div class="row">
-			Genere:
-			<c:forEach var="genere" items="${movie.genre}">
-											${genere.desGenre}
-	</c:forEach>
-		</div>
-		<div class="row">
-			Sceneggiatori:
-			<c:forEach var="writer" items="${movie.writers}">
-											${writer.name}
-			</c:forEach>
-		</div>
-		<div class="row">
-			Lingue:
-			<c:forEach var="language" items="${movie.languages}">
-											${language.des}
-			</c:forEach>
+		<div class="col-md-4 p-r-lg text-center">
+
+			<span class="fa-stack fa-3x"> <i
+				class="fa fa-star fa-stack-2x star-outline-render"></i> <i
+				class="fa fa-stack-1x star-text-render">7.6</i>
+			</span>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-md-5 p-l-md text-center">
+			<div class="row">
+				<img class="img-responsive img-thumbnail"
+					style="width: 240px; height: 300px;" src="${movie.poster}">
+			</div>
+			<div class="row">
+				<div class="label label-success lb-md">Cool</div>
+				<div class="label label-info lb-md">Label Prova</div>
+			</div>
 
 
+		</div>
+		<div class="col-md-7">
 
+			<div class="row">
+				<label for="input-2" class="control-label">Rate Completo</label>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<input id="starinput-detail" class="rating rating-loading" data-min="0"
+						data-max="10" data-stars="10" data-step="0.1" data-size="xs">
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<input id="intRank" name="minLength"
+						class="form-control col-sm-3" type="text" value=""> <input
+						id="decRank" name="maxLength" class="form-control col-sm-3"
+						type="text" value="">
+				</div>
+				<div class="col-md-8 text-left">
+					<button type="submit" name="action" value="search"
+						class="btn btn-default btn-sm btn-info">Submit Rate</button>
+				</div>
+			</div>
+			<div class="row">
+				<label for="input-2" class="control-label ">Recensione</label>
+			</div>
+			<div class="row">
+				<textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+			</div>
+			<div class="row">
+				<label for="input-2" class="control-label ">Label</label>
+			</div>
+			<div class="row">
+				<input type="text" name="label form-control ">
+			</div>
+		</div>
+
+	</div>
+	<div class="row p-t-md"></div>
+	<div class="row p-l-md">
+		<strong>Attori:</strong>
+		<c:forEach var="attore" items="${movie.actors}">
+			<a>${attore.name}</a>
+		</c:forEach>
+
+	</div>
+	<div class="row p-l-md">
+		<strong>Plot: </strong>${movie.plot}</div>
+	<div class="row p-l-md">
+		<strong> Genere: </strong>
+		<c:forEach var="genere" items="${movie.genre}">
+											${genere.desGenre}
+	</c:forEach>
+	</div>
+	<div class="row p-l-md">
+		<strong> Sceneggiatori: </strong>
+		<c:forEach var="writer" items="${movie.writers}">
+											${writer.name}
+			</c:forEach>
+	</div>
+	<div class="row p-l-md">
+		<strong> Lingue: </strong>
+		<c:forEach var="language" items="${movie.languages}">
+											${language.des}
+			</c:forEach>
+	</div>
+</div>
+<div class="row">
+	<ul class="list-group media-list media-list-stream">
+
+		<li class="media list-group-item p-a"><a class="media-left"
+			href="#"> <img class="media-object img-circle"
+				src="assets/img/avatar-fat.jpg">
+		</a>
+			<div class="media-body">
+				<div class="media-body-text">
+					<div class="media-heading">
+						<small class="pull-right text-muted">12 min</small>
+						<h5>ficio85</h5>
+					</div>
+					<p>Donec id elit non mi porta gravida at eget metus. Integer
+						posuere erat a ante venenatis dapibus posuere velit aliquet. Cum
+						sociis natoque penatibus et magnis dis parturient montes, nascetur
+						ridiculus mus. Morbi leo risus, porta ac consectetur ac,
+						vestibulum at eros. Lorem ipsum dolor sit amet, consectetur
+						adipiscing elit.</p>
+				</div>
+			</div></li>
+		<li class="media list-group-item p-a">
+			<div class="input-group">
+				<textarea id="areaMess" class="form-control" placeholder="Message"></textarea>
+				<div class="input-group-btn">
+					<button type="button" class="btn btn-default">
+						<span class="icon icon-edit"></span>
+					</button>
+				</div>
+			</div>
+		</li>
+	</ul>
 </div>

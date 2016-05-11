@@ -191,4 +191,17 @@ $(function(){
     		});
 	    	
 	    }
+	   //detail.jsp
+	    $('#starinput-detail').on('rating.hover', function(event, value, caption, target) {
+	    	var substr=value.split(".");
+	    	$("#intRank").val(substr[0]);
+	    	$("#decRank").val(substr[1]);
+
+	    });
+	    
+	    
+	    autosize($('areaMess'));
+
+	  
+	    
 });

@@ -18,6 +18,7 @@ import org.jsoup.nodes.Node;
 import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
 
+import com.dto.ActorDTO;
 import com.dto.DirectorDTO;
 import com.dto.MovieDTO;
 
@@ -240,6 +241,63 @@ public class JsoupUtil {
 	private static String parseActor(String actor) {
 		// TODO Auto-generated method stub
 		return actor.trim().replace(" ", "_");
+
+	}
+
+	
+	public static List<ActorDTO> imdbInspect(String imdbIndex) throws Exception {
+		// TODO Auto-generated method stub
+		URL url = new URL("http://www.imdb.com/title/"+imdbIndex+"/fullcredits?ref_=tt_ql_1");
+		HttpURLConnection uc = ProxyUtil.connect(url);
+		String line = null;
+		StringBuffer tmp = new StringBuffer();
+		BufferedReader in;
+		try{
+			in = new BufferedReader(new InputStreamReader(uc.getInputStream(),"UTF-8"));
+
+		}
+		catch(FileNotFoundException ex)
+		{
+			throw ex;
+		}
+		while ((line = in.readLine()) != null) {
+			tmp.append(line);
+		}
+		Document doc = Jsoup.parse(String.valueOf(tmp));
+		Element table = doc.select("table.cast_list").get(0); //select the first table.
+		Elements rows = table.select("tr");
+
+		for (int i = 1; i < rows.size(); i++) { //first row is the col names so skip it.
+		    Element row = rows.get(i);
+		    Element colNameActor = row.select("td.itemprop").get(0);
+		    List<Node> nodeChildren = colNameActor.childNodes();
+		    for(Node node:nodeChildren)
+		    {
+		    	if(((Element)node).tag().getName().equals("a"))
+		    	{
+		    		String link =node.attr("href");
+		    		
+		    		System.out.println(link);
+		    		//prendo il nome dell'attore
+		    		Node nodeActor=((Element)node).children().get(0);
+		    		System.out.println(((Element)nodeActor).ownText());
+		    		
+		    	}
+		    	else
+		    	{
+		    		
+		    	}
+		    }
+		    Element colNameCharacter = row.select("td.character").get(0);
+		    Node nodeCharacter = colNameActor.childNodes().get(0).childNodes().get(0);
+		    System.out.println(((Element)nodeCharacter).ownText());
+		  
+		    
+		}
+		return null;
+		
+
+
 
 	}
 

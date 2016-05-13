@@ -99,7 +99,7 @@
 								<form action="${actionUrl}">
 									<button class="btn btn-primary-outline">Scheda Film</button>
 									<input type="hidden" name="indexMovie"
-										value="${movie.movieKey} ">
+										value="${movie.imdbKey} ">
 								</form>
 							</div>
 							<div class="row">Rate social</div>

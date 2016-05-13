@@ -200,7 +200,6 @@ $(function(){
 	    });
 	    
 	    
-	    autosize($('areaMess'));
 
 	  
 	    

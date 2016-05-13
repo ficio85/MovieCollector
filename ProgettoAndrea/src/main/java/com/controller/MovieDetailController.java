@@ -26,10 +26,16 @@ public class MovieDetailController {
 	@Qualifier("searchMovieService")
 	private SearchMovieService searchMovieService;
 
+	@Autowired
+	@Qualifier("insertMovieService")
+	private InsertMovieService insertMovieService;
+	
+	
 	@RequestMapping(value = "/detailMovie", method = { RequestMethod.GET, RequestMethod.POST })
-	public String ricercaFilmRisultati ( HttpServletRequest request,Model model) {
+	public String ricercaFilmRisultati ( HttpServletRequest request,Model model) throws Exception {
 		String indexMovie= (String) request.getParameter("indexMovie");
 		MovieDTO movie= searchMovieService.getAllMovieDetail(indexMovie);
+		insertMovieService.inspectImdb(indexMovie);
 		request.setAttribute("movie", movie);
 		return "detailMovie.page";
 	}

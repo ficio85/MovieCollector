@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dao.ActorDAO;
 import com.dao.InsertMovieDAO;
 import com.dao.SearchMovieDAO;
+import com.dto.ActorDTO;
 import com.dto.DirectorDTO;
 import com.dto.MovieDTO;
 import com.eccezione.WarningException;
@@ -153,5 +154,17 @@ public Future<Boolean> insertTranslation(List <String> values,String type) throw
 
 
 }
+
+@Async
+public Future<Boolean> inspectImdb(String indexMovie) throws Exception{
+	System.out.println("Inizio thread");
+	List<MovieDTO> movies;
+	List <ActorDTO> actors = JsoupUtil.imdbInspect(indexMovie);
+	System.out.println("I'm done!");
+	return new AsyncResult<Boolean>(true);
+
+
+}
+
 
 }

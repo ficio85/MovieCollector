@@ -63,7 +63,7 @@
 			</label>
 			<div class="col-md-6">
 				<form:input type="text" class="autoCompleteClass form-control"
-					 id="labels"></form:input>
+					 id="labels" path="label"></form:input>
 			</div>
 			<div class="col-md-2 plusPadding">
 

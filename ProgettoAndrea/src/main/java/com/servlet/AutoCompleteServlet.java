@@ -14,12 +14,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dto.LabelDTO;
 import com.service.ActorService;
 import com.service.DirectorService;
+import com.service.SearchMovieService;
 
 @RestController
 public class AutoCompleteServlet  {
-
+	@Autowired
+	@Qualifier("searchMovieService")
+	private SearchMovieService searchMovieService;
+	
+	
        @Autowired
        @Qualifier("directorService")
        private DirectorService directorService;
@@ -49,19 +55,19 @@ public class AutoCompleteServlet  {
        @ResponseBody
        public   String[] getLabelList(@RequestParam(value="stringLabel") String stringLabelSearch) {
     	   
-              List<String> listaLabels = directorService.getLabelList(stringLabelSearch); 
+              List<LabelDTO> listaLabels = searchMovieService.getListaLabel(stringLabelSearch); 
 
-              String [] arrayDirectors= new String[listaLabels.size()];;
+              String [] arrayLabels= new String[listaLabels.size()];;
               if(listaLabels!=null && listaLabels.size()!=0)
               {
                  
                   for(int j=0;  j< listaLabels.size() ;j++)
                   {
-                	  arrayDirectors[j]=listaLabels.get(j); 
+                	  arrayLabels[j]=listaLabels.get(j).getName(); 
                   }
 
               }
-              return arrayDirectors;
+              return arrayLabels;
        }
 
        

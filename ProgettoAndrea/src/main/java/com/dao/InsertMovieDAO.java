@@ -199,33 +199,7 @@ public class InsertMovieDAO {
 	
 	}
 	
-	public int insertUserLaber (String codPers,String movie, LabelDTO label)
-	{
-
-		// TODO Auto-generated method stub
-
-		int result;
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("user", codPers);
-		parameters.addValue("movie", movie);
-		parameters.addValue("label", label.getName());
-
-
-		try {
-			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`usermovielabel`(`user`,`movie`,`label`)"
-					+ "VALUES (:user,:movie,:label)", parameters);
-		} 
-		catch(Exception e){
-			e.printStackTrace();
-			throw e;
-
-		}
-		return  result;
-		
-
 	
-	}
-
 	public int deleteUserLaber(String codPers, String movie, LabelDTO label) {
 
 		// TODO Auto-generated method stub

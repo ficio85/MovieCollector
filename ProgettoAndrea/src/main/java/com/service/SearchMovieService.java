@@ -11,9 +11,11 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
 
 import com.dao.GenereDAO;
+import com.dao.LabelDAO;
 //import com.dao.GenereDAO;
 import com.dao.SearchMovieDAO;
 import com.dto.GenereDTO;
+import com.dto.LabelDTO;
 import com.dto.MovieDTO;
 import com.dto.SearchDTO;
 
@@ -32,7 +34,9 @@ public class SearchMovieService {
 	@Qualifier("genereDAO")
 	GenereDAO genereDAO;
 
-
+	@Autowired
+	@Qualifier("labelDAO")
+	LabelDAO labelDAO;
 
 	public List <MovieDTO> getListaFilm(SearchDTO search){
 
@@ -153,7 +157,21 @@ public class SearchMovieService {
 		List <GenereDTO> generi =genereDAO.getListaGeneri();
 		return generi;
 	}
+	
+	public List<LabelDTO> getListaLabel(String search) {
+		// TODO Auto-generated method stub
 
+		List <LabelDTO> labels =labelDAO.getListaLabelbySearch(search);
+		return labels;
+	}
 
+//	public List<GenereDTO> getListaLabelbySearch(String name) {
+//		// TODO Auto-generated method stub
+//
+//		return labelDAO.getListaLabelbySearch(name);
+//	
+//	}
+//	
+	
 
 }

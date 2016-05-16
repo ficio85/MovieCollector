@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dao.ActorDAO;
 import com.dao.InsertMovieDAO;
+import com.dao.LabelDAO;
 import com.dao.SearchMovieDAO;
 import com.dto.ActorDTO;
 import com.dto.DirectorDTO;
@@ -34,6 +35,11 @@ public class InsertMovieService {
 	@Autowired
 	@Qualifier("searchMovieDAO")
 	SearchMovieDAO searchMovieDAO;
+	
+	
+	@Autowired
+	@Qualifier("labelDAO")
+	LabelDAO labelDAO;
 
 	@Async
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
@@ -136,7 +142,7 @@ public class InsertMovieService {
 	public void insertUserLabel(String codPers, String movie,ArrayList <LabelDTO> labels){
 		for(LabelDTO label:labels)
 		{
-			insertMovieDAO.insertUserLaber(codPers,movie, label);
+			labelDAO.insertUserLaber(codPers,movie, label);
 
 		}
 	}
@@ -166,6 +172,36 @@ public class InsertMovieService {
 
 	}
 
+	@Async
+	public Future<Boolean> updateLabelTable(String movie,List <LabelDTO> labels) throws Exception{
+		System.out.println("Inizio thread");
+		List<LabelDTO> oldLabels = labelDAO.getListaLabelbyMovie(movie);
+		
+		boolean isSame=true;
+		
+		for(int j=0;j<oldLabels.size();j++)
+		{
+			if(!oldLabels.get(j).equals(labels.get(j)))
+			{
+				isSame=false;
+			}
+		}
+		if(!isSame)
+		{
+			labelDAO.deleteLabelsFromMovie(movie);
+			for(LabelDTO label : labels)
+			{
+				labelDAO.updateLabelsbyMovie(movie, label.getName());
+			}
+		}
+		System.out.println("I'm done!");
+		return new AsyncResult<Boolean>(true);
+
+
+	}
+
+	
+	
 	@Async
 	public Future<Boolean> inspectImdb(String indexMovie) throws Exception{
 		System.out.println("Inizio thread");

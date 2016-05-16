@@ -15,6 +15,7 @@ public class MovieMapperComplete extends MovieMapper{
 		
 		MovieDTO movie = new MovieDTO();
 		movie.setMovieKey(rset.getString("idmovie"));
+		movie.setImdbKey(rset.getString("indexImdb"));
 		movie.setTitle(rset.getString("name"));
 		movie.setYear(rset.getInt("year"));
 		movie.setLength(rset.getInt("length"));

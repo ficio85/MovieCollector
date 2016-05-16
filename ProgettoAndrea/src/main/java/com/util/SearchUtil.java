@@ -23,8 +23,16 @@ public class SearchUtil {
 		String []yearArray= request.getParameterValues("year");
 		String unisciGeneri=request.getParameter("unisciGeneri");
 		String unisciAttori=request.getParameter("unisciAttori");
+		String title = request.getParameter("movieTitle");
+		String title2 = request.getParameter("onlytext");
 
+		
 		SearchDTO searchDto = new SearchDTO();
+		if(title!=null && !title.trim().equals(""))
+		{
+			searchDto.setSearchTitle(true);
+			searchDto.setTitle(title);
+		}
 		if(actors!=null && actors.length!=0 &&!(actors.length==1 && actors[0].trim().equals("")))
 		{
 			searchDto.setSearchActor(true);

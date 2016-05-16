@@ -100,6 +100,8 @@
 									<button class="btn btn-primary-outline">Scheda Film</button>
 									<input type="hidden" name="indexMovie"
 										value="${movie.imdbKey} ">
+									<input type="hidden" name="movieKey"
+										value="${movie.movieKey} ">
 								</form>
 							</div>
 							<div class="row">Rate social</div>

@@ -18,6 +18,7 @@ import com.dto.ActorDTO;
 import com.dto.CountryDTO;
 import com.dto.DirectorDTO;
 import com.dto.GenereDTO;
+import com.dto.LabelDTO;
 import com.dto.LanguageDTO;
 import com.dto.MovieDTO;
 import com.dto.WriterDTO;
@@ -25,6 +26,7 @@ import com.mapper.ActorMapper;
 import com.mapper.CountryMapper;
 import com.mapper.DirectorMapper;
 import com.mapper.GenereMapper;
+import com.mapper.LabelMapper;
 import com.mapper.LanguageMapper;
 import com.mapper.MovieMapper;
 import com.mapper.MovieMapperComplete;
@@ -415,6 +417,7 @@ public class SearchMovieDAO {
 
 	}
 
+	
 
 
 	public List<GenereDTO> getMovieGenre(String key) {
@@ -643,6 +646,73 @@ public class SearchMovieDAO {
 
 		return  result;
 
+
+	}
+
+	public Object getUserMovieRanking(String movieKey, String user) {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("key", movieKey);
+		parameters.addValue("user", user);
+
+		List<LabelDTO> result;
+		try {
+			result=jdbcTemplate.query(" SELECT * FROM usermovielabel where movie= :key and user=:user",parameters, new LabelMapper());
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
+
+
+	}
+
+	public List<LabelDTO> getUserMovieLabels(String movieKey, String user) {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("key", movieKey);
+		parameters.addValue("user", user);
+
+		List<LabelDTO> result;
+		try {
+			result=jdbcTemplate.query(" SELECT * FROM usermovielabel where movie= :key and user=:user",parameters, new LabelMapper());
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
+
+
+	}
+
+	public List<MovieDTO> getMovieLikeTitle(String title) {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("title", title);
+
+
+		String sql="";
+
+		sql +="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`release`,`rated`,`awards`,`poster`,`type`";
+
+
+
+		sql += " FROM movie where name = :title order by year asc ";
+
+			return jdbcTemplate.query(sql,parameters,new MovieMapperComplete());
+
+
+
+		
 
 	}
 

@@ -3,8 +3,6 @@
 <div class="container">
 	<div class="row">
 		<c:import url="searchMovie/searchMovie.jsp" />
-
-
 	</div>
 
 	<div  id="movieResult">

@@ -51,11 +51,26 @@
 		<div id="unisciAttori" class="form-group"></div>
 		
 		<div class="form-group ">
-			<label for="directors" class="col-md-2 control-label">Directors:
+			<label for="directors" class="col-md-2 control-label">Director
 			</label>
-			<div class="col-md-8">
+			<div class="col-md-6">
 				<form:input type="text" class="autoCompleteClass form-control"
 					data-servlet="/loadDirectors" path="director" id="directors"></form:input>
+			</div>
+		</div>
+		<div class="form-group ">
+			<label for="labels" class="col-md-2 control-label">Label
+			</label>
+			<div class="col-md-6">
+				<form:input type="text" class="autoCompleteClass form-control"
+					 id="labels"></form:input>
+			</div>
+			<div class="col-md-2 plusPadding">
+
+				<button type="button" class="btn btn-info btn-sm addLabelClass"
+					id="addLabel0">
+					<span class="fa fa-plus fa-1x"></span>
+				</button>
 			</div>
 		</div>
 		<div class="form-group">

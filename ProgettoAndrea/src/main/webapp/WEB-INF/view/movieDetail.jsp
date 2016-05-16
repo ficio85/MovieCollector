@@ -1,5 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ page import="com.dto.MovieDTO"%>
+<%@ page import="com.dto.LabelDTO"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.util.MovieGeneratorUtil"%>
+
 
 <c:url value="/detailMovie" var="actionUrl" />
 
@@ -41,34 +46,63 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12">
-					<input id="starinput-detail" class="rating rating-loading" data-min="0"
-						data-max="10" data-stars="10" data-step="0.1" data-size="xs">
+					<input id="starinput-detail" class="rating rating-loading"
+						data-min="0" data-max="10" data-stars="10" data-step="0.5"
+						data-size="xs">
 				</div>
 
 			</div>
 			<div class="row">
 				<div class="col-md-4">
-					<input id="intRank" name="minLength"
-						class="form-control col-sm-3" type="text" value=""> <input
-						id="decRank" name="maxLength" class="form-control col-sm-3"
-						type="text" value="">
+					<input id="intRank" name="minLength" class="form-control col-sm-3"
+						type="text" value=""> <input id="decRank" name="maxLength"
+						class="form-control col-sm-3" type="text" value="">
 				</div>
 				<div class="col-md-8 text-left">
 					<button type="submit" name="action" value="search"
 						class="btn btn-default btn-sm btn-info">Submit Rate</button>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row p-t-md">
 				<label for="input-2" class="control-label ">Recensione</label>
 			</div>
 			<div class="row">
 				<textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
 			</div>
-			<div class="row">
+			<div class="row p-t-md">
 				<label for="input-2" class="control-label ">Label</label>
 			</div>
 			<div class="row">
-				<input type="text" name="label form-control ">
+				<div class="col-md-6">
+					<input type="text" class="form-control" id="labelText"
+						name="label form-control ">
+				</div>
+				<div class="col-md-6">
+					<button type="submit" name="action" value="createLabel"
+						class="btn btn-default btn-sm btn-info" id="createLabel">Create
+						Label</button>
+					<button type="submit" name="action" value="submitLabels"
+						class="btn btn-default btn-sm btn-info" id="submitLabels">Submit
+						Labels</button>
+				</div>
+			</div>
+			<%
+				List<LabelDTO> labels = ((MovieDTO) request.getAttribute("movie")).getLabels();
+			%>
+			<div class="row">
+				<div id="labelSpace">
+					<%
+						for (LabelDTO label : labels) {
+					%>
+					<div class="col-md-2 p-t-md classToCancel">
+
+						<div class="label <%=MovieGeneratorUtil.getLabelRandomClass() %> lb-sm"><%= label.getName()%></div>
+						<i class="icon icon-circle-with-cross removeLabel"></i>
+					</div>
+					<%
+						}
+					%>
+				</div>
 			</div>
 		</div>
 
@@ -135,3 +169,4 @@
 		</li>
 	</ul>
 </div>
+<div id="key" data-id="${movie.movieKey}"></div>

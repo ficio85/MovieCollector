@@ -20,91 +20,100 @@ import com.dto.SearchDTO;
 @Service("searchMovieService")
 public class SearchMovieService {
 
-	
 
-	
+
+
 	@Autowired
 	@Qualifier("searchMovieDAO")
 	SearchMovieDAO searchMovieDAO;
-	
+
 
 	@Autowired
 	@Qualifier("genereDAO")
 	GenereDAO genereDAO;
-	
-	
-	
+
+
+
 	public List <MovieDTO> getListaFilm(SearchDTO search){
 
 		List <String> codMovies = new ArrayList <String>();
 		List<MovieDTO> movies = null;
+		if(search.isSearchTitle())
+		{
+			movies= searchMovieDAO.getMovieLikeTitle(search.getTitle());
+		}
+		else
+		{
+			int offset=search.getStart();
+			int limit=search.getOffset();
 
-		int offset=search.getStart();
-		int limit=search.getOffset();
+			if(search.isSearchActor())
+			{
+				if(!codMovies.isEmpty())
+				{
+					codMovies=searchMovieDAO.getMoviesByActor( search.getActors(),codMovies,0,0,search.isAndActors(),false);
+				}
+				else
+				{
+					codMovies=searchMovieDAO.getMoviesByActor( search.getActors(),null,0,0,search.isAndActors(),false);
+				}
+			}
+			if(search.isSearchDirector())
+			{
+				if(!codMovies.isEmpty())
+				{
+					codMovies=searchMovieDAO.getMoviesByDirector( search.getDirectors(),codMovies);
+				}
+				else
+				{
+					codMovies = searchMovieDAO.getMoviesByDirector( search.getDirectors());
+				}
+			}
 
-		if(search.isSearchActor())
-		{
+			if(search.isSearchGenre())
+			{
+				if(!codMovies.isEmpty())
+				{
+
+					codMovies=searchMovieDAO.getMoviesByGenre( search.getGenres(),codMovies,0,0,search.isAndGenres(),false);
+				}
+				else
+				{
+
+					codMovies=searchMovieDAO.getMoviesByGenre( search.getGenres(),null, 0,0,search.isAndGenres(),false);
+				}
+			}
+			if(search.isSearchYear())
+			{
+				if(!codMovies.isEmpty())
+				{
+					codMovies=searchMovieDAO.getMoviesByYear( search.getYears(), codMovies,0,0);
+				}
+				else
+				{
+					codMovies=searchMovieDAO.getMoviesByYear( search.getYears(),null, 0,0);
+				}
+			}
+
 			if(!codMovies.isEmpty())
 			{
-				codMovies=searchMovieDAO.getMoviesByActor( search.getActors(),codMovies,0,0,search.isAndActors(),false);
-			}
-			else
-			{
-				codMovies=searchMovieDAO.getMoviesByActor( search.getActors(),null,0,0,search.isAndActors(),false);
-			}
-		}
-		if(search.isSearchDirector())
-		{
-			if(!codMovies.isEmpty())
-			{
-				codMovies=searchMovieDAO.getMoviesByDirector( search.getDirectors(),codMovies);
-			}
-			else
-			{
-				codMovies = searchMovieDAO.getMoviesByDirector( search.getDirectors());
+				if(search.isCount())
+				{
+					search.setCountResult(codMovies.size());
+				}
+				movies =searchMovieDAO.getMoviesByIndex(codMovies,offset, limit,false);
 			}
 		}
 
-		if(search.isSearchGenre())
-		{
-			if(!codMovies.isEmpty())
-			{
-				
-				codMovies=searchMovieDAO.getMoviesByGenre( search.getGenres(),codMovies,0,0,search.isAndGenres(),false);
-			}
-			else
-			{
-				
-				codMovies=searchMovieDAO.getMoviesByGenre( search.getGenres(),null, 0,0,search.isAndGenres(),false);
-			}
-		}
-		if(search.isSearchYear())
-		{
-			if(!codMovies.isEmpty())
-			{
-				codMovies=searchMovieDAO.getMoviesByYear( search.getYears(), codMovies,0,0);
-			}
-			else
-			{
-				codMovies=searchMovieDAO.getMoviesByYear( search.getYears(),null, 0,0);
-			}
-		}
-		if(!codMovies.isEmpty())
-		{
-			if(search.isCount())
-			{
-				search.setCountResult(codMovies.size());
-			}
-			movies =searchMovieDAO.getMoviesByIndex(codMovies,offset, limit,false);
-			completeMovies(movies);
-		}
+
+		completeMovies(movies);
 
 		return movies;
 
 	}
 
 
-	public MovieDTO getAllMovieDetail(String index){
+	public MovieDTO getAllMovieDetail(String index, String user){
 
 		ArrayList <String> indexes= new ArrayList(Arrays.asList(index));
 		MovieDTO movieDto = searchMovieDAO.getMoviesByIndex(indexes, 0, 0,true).get(0);
@@ -115,6 +124,9 @@ public class SearchMovieService {
 		movieDto.setLanguages(searchMovieDAO.getMovieLanguages(movieDto.getMovieKey()));
 		movieDto.setCountries(searchMovieDAO.getMovieCountry(movieDto.getMovieKey()));
 		movieDto.setWriters(searchMovieDAO.getMovieWriter(movieDto.getMovieKey()));
+		//get user generated content
+		movieDto.setLabels(searchMovieDAO.getUserMovieLabels(movieDto.getMovieKey(),user));
+		//		movieDto.setUserRanking(searchMovieDAO.getUserMovieRanking(movieDto.getMovieKey(),user));
 		return movieDto;
 
 
@@ -123,7 +135,7 @@ public class SearchMovieService {
 
 	private void completeMovies(List<MovieDTO> movies) {
 
-		
+
 		for(MovieDTO movieDTO:movies)
 		{
 			movieDTO.setTitoloItaliano(searchMovieDAO.getMovieInternationalization(movieDTO.getMovieKey()));
@@ -137,7 +149,7 @@ public class SearchMovieService {
 
 	public List<GenereDTO> getListaGeneri() {
 		// TODO Auto-generated method stub
-		
+
 		List <GenereDTO> generi =genereDAO.getListaGeneri();
 		return generi;
 	}

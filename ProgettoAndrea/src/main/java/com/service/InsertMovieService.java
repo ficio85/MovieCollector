@@ -18,6 +18,7 @@ import com.dao.InsertMovieDAO;
 import com.dao.SearchMovieDAO;
 import com.dto.ActorDTO;
 import com.dto.DirectorDTO;
+import com.dto.LabelDTO;
 import com.dto.MovieDTO;
 import com.eccezione.WarningException;
 import com.util.JsoupUtil;
@@ -25,23 +26,23 @@ import com.util.JsoupUtil;
 @EnableAsync
 @Service("insertMovieService")
 public class InsertMovieService {
-	
+
 	@Autowired
 	@Qualifier("insertMovieDAO")
 	InsertMovieDAO insertMovieDAO;	
-	
+
 	@Autowired
 	@Qualifier("searchMovieDAO")
 	SearchMovieDAO searchMovieDAO;
 
-@Async
-@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
-public void updateMoviesByActor(List <MovieDTO> movies, String actor){
-		
+	@Async
+	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
+	public void updateMoviesByActor(List <MovieDTO> movies, String actor){
+
 		for(MovieDTO movie:movies)
 		{
 			//la cosa più scontata
-			
+
 			List <MovieDTO> movieList  = searchMovieDAO.getMovieByActorTitle(movie.getTitle(), actor);
 			if(movieList==null || movieList.isEmpty())
 			{
@@ -81,64 +82,74 @@ public void updateMoviesByActor(List <MovieDTO> movies, String actor){
 				warn.setMovieTitle(movie.getTitle());
 				warn.setMessaggio("Titolo nn reperito in db");
 			}
-			
+
 		}
-		
-		
+
+
 	}
 
-private List<Integer> getMovieYears(int year) {
-	// TODO Auto-generated method stub
-	List <Integer> years= new ArrayList <Integer>();
-	int yearPrec= year-1;
-	int yearSuc = year+1;
-	years.add(yearPrec);
-	years.add(yearSuc);
-	years.add(year);
-	return years;
-	
-}
-@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
-public void updateMoviesByDirector(List <MovieDTO> movies, String director){
-	
-	List <DirectorDTO>directorList = new ArrayList <DirectorDTO>();
-	DirectorDTO directorDto = new DirectorDTO();
-	directorDto.setName(director);
-	directorList.add(directorDto);
-	for(MovieDTO movie:movies)
-	{
-		//la cosa più scontata
-		
-		List <MovieDTO> movieList  = searchMovieDAO.getMovieByDirectorTitle(movie.getTitle(), directorList);
-		
-		//aggiorno l'internazionalizzazione
-		if(movieList.size()==1)
-		{
-			movie.setMovieKey(movieList.get(0).getMovieKey());
-			insertMovieDAO.updateInternationlization(movie);
-			
-		}
-		else
-		{
-			WarningException warn = new WarningException();
-			warn.setTipo("INSERIMENTO LOCALIZZAZIONE DA WIKIPEDIA");
-			warn.setMovieTitle(movie.getTitle());
-			warn.setMessaggio("Titolo nn reperito in db");
-		}
-		
-	}
-	
-	
-}
+	private List<Integer> getMovieYears(int year) {
+		// TODO Auto-generated method stub
+		List <Integer> years= new ArrayList <Integer>();
+		int yearPrec= year-1;
+		int yearSuc = year+1;
+		years.add(yearPrec);
+		years.add(yearSuc);
+		years.add(year);
+		return years;
 
-@Async
-public Future<Boolean> insertTranslation(List <String> values,String type) throws Exception{
-	System.out.println("Inizio thread");
-	List<MovieDTO> movies;
-	for(String value:values)
-	{
-		 movies = JsoupUtil.wikiInspect(value,type);
-		 if(type.equals("actor"))
+	}
+	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
+	public void updateMoviesByDirector(List <MovieDTO> movies, String director){
+
+		List <DirectorDTO>directorList = new ArrayList <DirectorDTO>();
+		DirectorDTO directorDto = new DirectorDTO();
+		directorDto.setName(director);
+		directorList.add(directorDto);
+		for(MovieDTO movie:movies)
+		{
+			//la cosa più scontata
+
+			List <MovieDTO> movieList  = searchMovieDAO.getMovieByDirectorTitle(movie.getTitle(), directorList);
+
+			//aggiorno l'internazionalizzazione
+			if(movieList.size()==1)
+			{
+				movie.setMovieKey(movieList.get(0).getMovieKey());
+				insertMovieDAO.updateInternationlization(movie);
+
+			}
+			else
+			{
+				WarningException warn = new WarningException();
+				warn.setTipo("INSERIMENTO LOCALIZZAZIONE DA WIKIPEDIA");
+				warn.setMovieTitle(movie.getTitle());
+				warn.setMessaggio("Titolo nn reperito in db");
+			}
+
+		}
+
+
+	}
+
+	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
+	public void insertUserLabel(String codPers, String movie,ArrayList <LabelDTO> labels){
+		for(LabelDTO label:labels)
+		{
+			insertMovieDAO.insertUserLaber(codPers,movie, label);
+
+		}
+	}
+
+
+	@Async
+	public Future<Boolean> insertTranslation(List <String> values,String type) throws Exception{
+		System.out.println("Inizio thread");
+		List<MovieDTO> movies;
+		for(String value:values)
+		{
+			movies = JsoupUtil.wikiInspect(value,type);
+			if(type.equals("actor"))
 			{
 				updateMoviesByActor(movies, value);	
 
@@ -147,24 +158,33 @@ public Future<Boolean> insertTranslation(List <String> values,String type) throw
 			{
 				updateMoviesByDirector(movies, value);	
 			}
+		}
+
+		System.out.println("I'm done!");
+		return new AsyncResult<Boolean>(true);
+
+
 	}
 
-	System.out.println("I'm done!");
-	return new AsyncResult<Boolean>(true);
+	@Async
+	public Future<Boolean> inspectImdb(String indexMovie) throws Exception{
+		System.out.println("Inizio thread");
+		List<MovieDTO> movies;
+		List <ActorDTO> actors = JsoupUtil.imdbInspect(indexMovie);
+		System.out.println("I'm done!");
+		return new AsyncResult<Boolean>(true);
 
 
-}
+	}
 
-@Async
-public Future<Boolean> inspectImdb(String indexMovie) throws Exception{
-	System.out.println("Inizio thread");
-	List<MovieDTO> movies;
-	List <ActorDTO> actors = JsoupUtil.imdbInspect(indexMovie);
-	System.out.println("I'm done!");
-	return new AsyncResult<Boolean>(true);
+	public void deleteUserLabel(String codPers, String movie, ArrayList<LabelDTO> labels) {
+		// TODO Auto-generated method stub
+		for(LabelDTO label:labels)
+		{
+			insertMovieDAO.deleteUserLaber(codPers,movie, label);
 
-
-}
+		}	
+	}
 
 
 }

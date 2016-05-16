@@ -271,8 +271,8 @@ public class JsoupUtil {
 		    Element row = rows.get(i);
 		    Element colNameActor = row.select("td.itemprop").get(0);
 		    List<Node> nodeChildren = colNameActor.childNodes();
-		    for(Node node:nodeChildren)
-		    {
+		    int prova = nodeChildren.size();
+		    Element node = (Element) nodeChildren.get(0);
 		    	if(((Element)node).tag().getName().equals("a"))
 		    	{
 		    		String link =node.attr("href");
@@ -287,9 +287,9 @@ public class JsoupUtil {
 		    	{
 		    		
 		    	}
-		    }
+		    
 		    Element colNameCharacter = row.select("td.character").get(0);
-		    Node nodeCharacter = colNameActor.childNodes().get(0).childNodes().get(0);
+		    Node nodeCharacter = colNameCharacter.childNodes().get(1);
 		    System.out.println(((Element)nodeCharacter).ownText());
 		  
 		    

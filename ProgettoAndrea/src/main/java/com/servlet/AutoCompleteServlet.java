@@ -18,7 +18,7 @@ import com.service.ActorService;
 import com.service.DirectorService;
 
 @RestController
-public class DirectorServlet  {
+public class AutoCompleteServlet  {
 
        @Autowired
        @Qualifier("directorService")
@@ -45,7 +45,24 @@ public class DirectorServlet  {
        }
 
        
-       
+       @RequestMapping(value = "/loadLabels",method = {RequestMethod.GET,RequestMethod.POST})
+       @ResponseBody
+       public   String[] getLabelList(@RequestParam(value="stringLabel") String stringLabelSearch) {
+    	   
+              List<String> listaLabels = directorService.getLabelList(stringLabelSearch); 
+
+              String [] arrayDirectors= new String[listaLabels.size()];;
+              if(listaLabels!=null && listaLabels.size()!=0)
+              {
+                 
+                  for(int j=0;  j< listaLabels.size() ;j++)
+                  {
+                	  arrayDirectors[j]=listaLabels.get(j); 
+                  }
+
+              }
+              return arrayDirectors;
+       }
 
        
        

@@ -3,8 +3,10 @@ package com.util;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.dto.ActorDTO;
+import com.dto.LabelDTO;
 import com.dto.MovieDTO;
 
 public class MovieGeneratorUtil {
@@ -223,6 +225,39 @@ public class MovieGeneratorUtil {
 			return 0;
 		}
 		
+	}
+
+	public static ArrayList <LabelDTO> getLabels(String[] parameterValues) {
+		// TODO Auto-generated method stub
+		ArrayList <LabelDTO> labels= new ArrayList<LabelDTO>();
+		for(String parameter: parameterValues)
+		{
+			LabelDTO label = new LabelDTO();
+			label.setName(parameter);
+			labels.add(label);
+		}
+		return labels;
+	}
+	
+	public static String getLabelRandomClass() {
+		// TODO Auto-generated method stub
+		Random rand = new Random();
+		String render="";
+		int randint =rand.nextInt(6);
+		switch (randint) { 
+		case 1: 
+			render= "label-primary ";break;
+		case 2: 
+			render= "label-success";	break;    			
+		case 3: 
+			render= "label-info";break;	    					
+		case 4: 
+			render= "label-warning";break;
+		case 5: 
+			render= "label-danger";break;
+		default: render= "label-default";
+		}
+		return render;
 	}
 
 	

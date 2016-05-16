@@ -1,5 +1,8 @@
 package com.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +20,14 @@ import com.dto.SearchDTO;
 import com.form.SearchMovieForm;
 import com.service.InsertMovieService;
 import com.service.SearchMovieService;
+import com.util.JsoupUtil;
 import com.util.MessageErrorWrapper;
+import com.util.MovieGeneratorUtil;
 import com.util.SearchUtil;
 import com.util.SessionUtil;
-@Controller
-public class MovieDetailController {
 
+@Controller
+public class InsertMovieController {
 	@Autowired
 	@Qualifier("searchMovieService")
 	private SearchMovieService searchMovieService;
@@ -30,18 +35,18 @@ public class MovieDetailController {
 	@Autowired
 	@Qualifier("insertMovieService")
 	private InsertMovieService insertMovieService;
-	
-	
-	@RequestMapping(value = "/detailMovie", method = { RequestMethod.GET, RequestMethod.POST })
-	public String ricercaFilmRisultati ( HttpServletRequest request,Model model) throws Exception {
-		String indexMovie= (String) request.getParameter("indexMovie");
-		String movieKey= (String) request.getParameter("movieKey");
-		MovieDTO movie= searchMovieService.getAllMovieDetail(movieKey,SessionUtil.getCodPers(request));
-		//insertMovieService.inspectImdb(indexMovie);
-		request.setAttribute("movie", movie);
-		return "detailMovie.page";
+
+	@RequestMapping(value = "/insertLabel", method = { RequestMethod.GET, RequestMethod.POST })
+	public String ricercaFilmRisultati ( HttpServletRequest request,@ModelAttribute("searchMovieForm") SearchMovieForm searchMovie,Model model) throws Exception {
+		//		String prova = request.getParameter("labels");
+		String movie= request.getParameter("indexMovie");
+		insertMovieService.deleteUserLabel(SessionUtil.getCodPers(request),movie,MovieGeneratorUtil.getLabels(request.getParameterValues("labels[]")));
+		insertMovieService.insertUserLabel(SessionUtil.getCodPers(request),movie,MovieGeneratorUtil.getLabels(request.getParameterValues("labels[]")));
+		return null;
 	}
-	
-	
-	
+
+
+
+
+
 }

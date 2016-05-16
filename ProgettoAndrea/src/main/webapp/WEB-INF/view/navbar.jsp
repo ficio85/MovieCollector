@@ -1,3 +1,9 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+
+<c:url value="/searchMovieResult" var="searchUrl" />
+
+
 <nav class="navbar navbar-inverse navbar-fixed-top app-navbar">
 	<div class="container">
 		<div class="navbar-header">
@@ -44,10 +50,11 @@
 				</li>
 			</ul>
 
-			<form class="navbar-form navbar-right app-search" role="search">
+			<form class="navbar-form navbar-right app-search" role="search" action="${searchUrl}">
 				<div class="form-group">
-					<input type="text" class="form-control" data-action="grow"
-						placeholder="Search Movie">
+					<input type="text" name="movieTitle" class="form-control" data-action="grow"
+						placeholder="Taxi Driver" value="Taxi Driver">
+					<input type="hidden" name="onlytext" value="onlytext">
 				</div>
 			</form>
 

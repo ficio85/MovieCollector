@@ -11,6 +11,8 @@ public class SearchDTO {
 	boolean isSearchLenght;
 	boolean isSearchYear;
 	boolean isSearchTagMovie;
+	boolean isSearchTitle;
+
 	boolean andGenres;
 	boolean andActors;
 
@@ -18,6 +20,7 @@ public class SearchDTO {
 	List <String> genres;
 	List <String> directors;
 	List <Integer> years;
+	String title;
 	int start;
 	int offset;
 	int countResult;
@@ -33,6 +36,18 @@ public class SearchDTO {
 
 
 
+	public boolean isSearchTitle() {
+		return isSearchTitle;
+	}
+	public void setSearchTitle(boolean isSearchTitle) {
+		this.isSearchTitle = isSearchTitle;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public boolean isAndActors() {
 		return andActors;
 	}

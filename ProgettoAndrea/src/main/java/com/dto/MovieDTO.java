@@ -27,6 +27,7 @@ public class MovieDTO {
 	String awards;
 	String poster;
 	String type;
+	List <LabelDTO> labels;
 	
 	
 	//valori da inserire in caso di serie tv
@@ -37,6 +38,12 @@ public class MovieDTO {
 	
 
 	
+	public List<LabelDTO> getLabels() {
+		return labels;
+	}
+	public void setLabels(List<LabelDTO> labels) {
+		this.labels = labels;
+	}
 	public List<ActorDTO> getActors() {
 		return actors;
 	}

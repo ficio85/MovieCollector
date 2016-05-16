@@ -40,9 +40,7 @@ public class SearchMovieController {
 		
 		model.addAttribute("tableResult", true);
 		SearchDTO search =SearchUtil.convertFromModelToSearchDTO(request);
-		
-		//insertMovieService.insertTranslation(search.getDirectors(),"director");
-		Integer count;
+
 		List<MovieDTO> movieList = searchMovieService.getListaFilm(search);
 		model.addAttribute("generiList",searchMovieService.getListaGeneri());
 		model.addAttribute("listMovies",movieList);
@@ -54,15 +52,19 @@ public class SearchMovieController {
 		}
 		
 		int numPages=search.getCountResult()/recordPerPage+1;
-		if(numPages>10)
-		{
-			MessageErrorWrapper.saveMessage(model, "Numero di risultati elevato. Verranno visualizzate le prime dieci pagine","Ripetere la ricerca con criteri più restrittivi");
-		}
+		
 		generateHiddenForm(search,request);
 		request.setAttribute("numPages", numPages);
-		
-		System.out.println(search.getCountResult());
-		return "searchMovieResult.page";  
+		if(search.isSearchTitle())
+		{
+			 return "searchMovie.page";  
+
+		}
+		else
+		{
+			return "searchMovieResult.page";  
+
+		}
 		 
 	}
 

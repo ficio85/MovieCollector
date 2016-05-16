@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.dto.GenereDTO;
+import com.dto.LabelDTO;
 import com.dto.MovieDTO;
 import com.eccezione.WarningException;
 import com.mapper.MovieMapper;
@@ -186,6 +187,58 @@ public class InsertMovieDAO {
 		try {
 			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`logwarning`(`idmovie`,`tipoEccezione`,`messaggioEccezione`,`title`,`stacktrace`)"
 					+ "VALUES (:idmovie,:tipoEccezione,:messaggioEccezione,:title,:stackTrace)", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+		
+
+	
+	}
+	
+	public int insertUserLaber (String codPers,String movie, LabelDTO label)
+	{
+
+		// TODO Auto-generated method stub
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", codPers);
+		parameters.addValue("movie", movie);
+		parameters.addValue("label", label.getName());
+
+
+		try {
+			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`usermovielabel`(`user`,`movie`,`label`)"
+					+ "VALUES (:user,:movie,:label)", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+		
+
+	
+	}
+
+	public int deleteUserLaber(String codPers, String movie, LabelDTO label) {
+
+		// TODO Auto-generated method stub
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", codPers);
+		parameters.addValue("movie", movie);
+		parameters.addValue("label", label.getName());
+
+
+		try {
+			result=jdbcTemplate.update("delete from usermovielabel where user=:user and movie=:movie and label=:label ", parameters);
 		} 
 		catch(Exception e){
 			e.printStackTrace();

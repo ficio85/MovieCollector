@@ -19,6 +19,7 @@ public class MovieMapper implements RowMapper<MovieDTO>{
 		movie.setYear(rset.getInt("year"));
 		movie.setLength(rset.getInt("length"));
 		movie.setPoster(rset.getString("poster"));
+		movie.setImdbKey(rset.getString("indexImdb"));
 
 		return movie;
 	}

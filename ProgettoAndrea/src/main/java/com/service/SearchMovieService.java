@@ -73,7 +73,17 @@ public class SearchMovieService {
 					codMovies = searchMovieDAO.getMoviesByDirector( search.getDirectors());
 				}
 			}
-
+			if(search.isSearchLabel())
+			{
+				if(!codMovies.isEmpty())
+				{
+					codMovies=searchMovieDAO.getMoviesByActor( search.getActors(),codMovies,0,0,search.isAndActors(),false);
+				}
+				else
+				{
+					codMovies=searchMovieDAO.getMoviesByActor( search.getActors(),null,0,0,search.isAndActors(),false);
+				}
+			}
 			if(search.isSearchGenre())
 			{
 				if(!codMovies.isEmpty())

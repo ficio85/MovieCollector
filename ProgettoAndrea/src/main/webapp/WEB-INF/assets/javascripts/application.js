@@ -110,7 +110,41 @@ $(function(){
 	});
 
 
-
+	$("#search-by-title-form").on("click",".addLabelClass",function(event ){
+		event.preventDefault();
+		var  varCurrentCont=parseInt($("#contLabel").val());
+		if(varCurrentCont===0)
+		{
+			$( "#unisciLabel" ).append("	<div class=\"col-md-2 control-label text-right\">                                       "+
+					"			<input type=\"checkbox\" name=\"unisciLabel\" value=\"1\">             "+
+					"		</div>                                                                      "+
+					"		<div class=\"col-md-5 control-label-left\">                            "+
+					"				Unisci le label                                                     "+
+			"		</div>                                                                      ");
+		}
+		$("#addLabel"+varCurrentCont).remove();
+		var contLabel= varCurrentCont+1;
+		$("#contLabel").val(contLabel);
+		$( "#replaceLabel" ).replaceWith( "<div class=\"form-group\">                                                                                                      "+
+				"			<label for=\"actor\" class=\"col-md-2 control-label\"> Label "+(contLabel+1)+":</label>                                               "+
+				"	<div class=\"col-md-6\">                                                                    "+
+				"			<input type=\"text\" class=\"autoCompleteLabelRender form-control\"                  "+
+				"				data-servlet=\"/loadLabels\" name=\"label\" id=\"label"+contLabel+"\"></form:input>         "+
+				"		</div>																					"+	    				    			
+				"			<div class=\"col-md-2 plusPadding\">                                                                                "+
+				"					<button type=\"button\" class=\"btn btn-info addLabelClass btn-sm\" id=\"addLabel"+contLabel+"\"><span class=\"fa fa-plus fa-1x\"></span></button>     "+
+				"			</div>                                                                                                              "+
+				"</div>                                                                                                                          "+
+		"		<div id=\"replaceLabel\"></div>");
+		if(contLabel===2)
+		{
+			$("#addLabel"+contLabel).prop("disabled",true);
+		}
+	});
+	
+	
+	
+	
 
 
 	$("#search-by-title-form").on("click",".emptyGenreClass",function(event ){

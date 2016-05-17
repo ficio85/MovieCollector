@@ -12,14 +12,17 @@ public class SearchDTO {
 	boolean isSearchYear;
 	boolean isSearchTagMovie;
 	boolean isSearchTitle;
+	boolean isSearchLabel;
 
 	boolean andGenres;
 	boolean andActors;
+	boolean andLabels;
 
 	List <String> actors;
 	List <String> genres;
 	List <String> directors;
 	List <Integer> years;
+	List <String> labels;
 	String title;
 	int start;
 	int offset;
@@ -27,15 +30,43 @@ public class SearchDTO {
 	boolean count;
 	int currPage;
 	
-	
-	
-	
-	
-
-
-
-
-
+				
+	/**
+	 * @return the labels
+	 */
+	public List<String> getLabels() {
+		return labels;
+	}
+	/**
+	 * @param labels the labels to set
+	 */
+	public void setLabels(List<String> labels) {
+		this.labels = labels;
+	}
+	/**
+	 * @return the andLabels
+	 */
+	public boolean isAndLabels() {
+		return andLabels;
+	}
+	/**
+	 * @param andLabels the andLabels to set
+	 */
+	public void setAndLabels(boolean andLabels) {
+		this.andLabels = andLabels;
+	}
+	/**
+	 * @return the isSearchLabel
+	 */
+	public boolean isSearchLabel() {
+		return isSearchLabel;
+	}
+	/**
+	 * @param isSearchLabel the isSearchLabel to set
+	 */
+	public void setSearchLabel(boolean isSearchLabel) {
+		this.isSearchLabel = isSearchLabel;
+	}
 	public boolean isSearchTitle() {
 		return isSearchTitle;
 	}

@@ -40,13 +40,13 @@ public class LabelDAO {
 		}
 		return  result;		
 	}
-	
+
 	public List <LabelDTO> getListaLabelbyMovie (String movie)
 	{
 
 		List<LabelDTO> result;
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("name", movie+"%");
+		parameters.addValue("name", movie);
 		try {
 			result=jdbcTemplate.query(" SELECT count(label)  FROM usermovielabel where movie = :name group by label order by count(label) LIMIT 5  ",parameters, new LabelMapper());
 		} 
@@ -57,9 +57,9 @@ public class LabelDAO {
 		}
 		return  result;		
 	}
-	
-	
-	
+
+
+
 	public int updateLabelsbyMovie (String movie, String label)
 	{
 
@@ -67,8 +67,8 @@ public class LabelDAO {
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("movie", movie);
 		parameters.addValue("label", label);
-	
-		
+
+
 		try {
 			result=jdbcTemplate.update("insert into movielabel (movie, label) values (:movie, :label)",parameters);
 		} 
@@ -86,8 +86,8 @@ public class LabelDAO {
 		int result;
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("movie", movie);
-	
-		
+
+
 		try {
 			result=jdbcTemplate.update("delete from movielabel where movie=:movie",parameters);
 		} 
@@ -98,7 +98,7 @@ public class LabelDAO {
 		}
 		return  result;		
 	}
-	
+
 	public int insertUserLaber (String codPers,String movie, LabelDTO label)
 	{
 
@@ -121,9 +121,31 @@ public class LabelDAO {
 
 		}
 		return  result;
-			
+
 	}
 
-	
-	
+	public int deleteUserLaber(String codPers, String movie) {
+
+		// TODO Auto-generated method stub
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", codPers);
+		parameters.addValue("movie", movie);
+
+
+		try {
+			result=jdbcTemplate.update("delete from usermovielabel where user=:user and movie=:movie  ", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+
+
+
+	}	
+
 }

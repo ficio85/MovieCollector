@@ -117,9 +117,9 @@ public class SearchMovieDAO {
 		return  result;
 
 	}
-	
-	
-	
+
+
+
 	public List<String> getMoviesByDirector(List <String> directors) {
 		// TODO Auto-generated method stub
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
@@ -187,12 +187,12 @@ public class SearchMovieDAO {
 			parameters.addValue("offset", offset);
 		}
 		String sql;
-		
-		
-		
-			 sql="SELECT distinct movie FROM moviegenre where genre" ;
 
-		
+
+
+		sql="SELECT distinct movie FROM moviegenre where genre" ;
+
+
 		if(andGenre)
 		{
 			parameters.addValue("count", genres.size());
@@ -214,12 +214,12 @@ public class SearchMovieDAO {
 
 		if(count)
 		{
-			
+
 			String sql2="SELECT count(*) FROM moviegenre where movie in ("+sql+")";
 			sql=sql2;
-	
+
 		}
-	
+
 		List<String> result;
 		try {
 			result=jdbcTemplate.queryForList(sql,parameters, String.class);
@@ -254,12 +254,12 @@ public class SearchMovieDAO {
 			parameters.addValue("offset", offset);
 		}
 		String sql;
-		
-		
-		
-			 sql="SELECT distinct movie FROM movieactor where actor" ;
 
-		
+
+
+		sql="SELECT distinct movie FROM movieactor where actor" ;
+
+
 		if(andActors)
 		{
 			parameters.addValue("count", actors.size());
@@ -281,12 +281,12 @@ public class SearchMovieDAO {
 
 		if(count)
 		{
-			
+
 			String sql2="SELECT count(*) FROM movieactor where movie in ("+sql+")";
 			sql=sql2;
-	
+
 		}
-	
+
 		List<String> result;
 		try {
 			result=jdbcTemplate.queryForList(sql,parameters, String.class);
@@ -302,8 +302,73 @@ public class SearchMovieDAO {
 
 	}
 
+	public List<String> getMoviesByLabel(List<String> labels, List<String> indexes,int offset, int limit, boolean andLabels,boolean count) {
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("labels", labels);
+		parameters.addValue("indexes", indexes);
+		parameters.addValue("limit", limit);
+		parameters.addValue("offset", offset);
 
-	
+
+		if(indexes!=null)
+		{
+			parameters.addValue("indexes", indexes);
+		}
+		if(limit != 0) 
+		{
+			parameters.addValue("limit", limit);
+			parameters.addValue("offset", offset);
+		}
+		String sql;
+
+
+
+		sql="SELECT distinct movie FROM movielabel where label" ;
+
+
+		if(andLabels)
+		{
+			parameters.addValue("count", labels.size());
+
+			sql+=" in (:labels) group by movie having count(movie) = :count ";
+		}
+		else
+		{
+			sql+=" in (:labels) ";
+		}
+		if(indexes!=null)
+		{
+			sql+=" and movie in (:indexes) ";
+		}
+		if(limit!=0)
+		{
+			sql+=" LIMIT :limit OFFSET :offset ";
+		}
+
+		if(count)
+		{
+
+			String sql2="SELECT count(*) FROM movielabel where movie in ("+sql+")";
+			sql=sql2;
+
+		}
+
+		List<String> result;
+		try {
+			result=jdbcTemplate.queryForList(sql,parameters, String.class);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
+
+	}
+
+
 
 	public  List<MovieDTO> getMoviesByIndex(List <String> indexes,int offset, int limit,boolean complete)
 	{
@@ -335,17 +400,17 @@ public class SearchMovieDAO {
 		}
 
 	}
-	
+
 	public  int getCountMoviesByIndex(List <String> indexes)
 	{
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("indexes", indexes);
 		String sql="";
-	
-			sql+="select count(*) FROM movie where idmovie in (:indexes) order by year asc";
-		
 
-					return jdbcTemplate.queryForInt(sql,parameters);
+		sql+="select count(*) FROM movie where idmovie in (:indexes) order by year asc";
+
+
+		return jdbcTemplate.queryForInt(sql,parameters);
 
 	}
 
@@ -417,7 +482,7 @@ public class SearchMovieDAO {
 
 	}
 
-	
+
 
 
 	public List<GenereDTO> getMovieGenre(String key) {
@@ -708,15 +773,15 @@ public class SearchMovieDAO {
 
 		sql += " FROM movie where name = :title order by year asc ";
 
-			return jdbcTemplate.query(sql,parameters,new MovieMapperComplete());
+		return jdbcTemplate.query(sql,parameters,new MovieMapperComplete());
 
 
 
-		
+
 
 	}
 
-	
+
 
 
 

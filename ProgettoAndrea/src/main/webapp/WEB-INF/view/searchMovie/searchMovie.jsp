@@ -6,7 +6,9 @@
 
 <div class="col-md-3"></div>
 <div class="col-md-6 ">
-	<form:form class="well form-horizontal p-t-md p-l-md" id="search-by-title-form" action="${actionUrl}" modelAttribute="searchMovieForm">
+	<form:form class="well form-horizontal p-t-md p-l-md"
+		id="search-by-title-form" action="${actionUrl}"
+		modelAttribute="searchMovieForm">
 		<div class="form-group">
 			<label for="actors" class="col-md-2 control-label">Genre: </label>
 			<div class="col-md-6">
@@ -49,7 +51,7 @@
 		<div id="replaceActor"></div>
 		<input type="hidden" name="contActor" id="contActor" value="0">
 		<div id="unisciAttori" class="form-group"></div>
-		
+
 		<div class="form-group ">
 			<label for="directors" class="col-md-2 control-label">Director
 			</label>
@@ -59,20 +61,22 @@
 			</div>
 		</div>
 		<div class="form-group ">
-			<label for="labels" class="col-md-2 control-label">Label
-			</label>
+			<label for="labels" class="col-md-2 control-label">Label </label>
 			<div class="col-md-6">
 				<form:input type="text" class="autoCompleteClass form-control"
-					 id="labels" path="label"></form:input>
+					id="labels" path="label"></form:input>
 			</div>
 			<div class="col-md-2 plusPadding">
-
 				<button type="button" class="btn btn-info btn-sm addLabelClass"
 					id="addLabel0">
 					<span class="fa fa-plus fa-1x"></span>
 				</button>
 			</div>
 		</div>
+		<input type="hidden" name="contLabel" id="contLabel" value="0">
+		<div id="replaceLabel"></div>
+		<div id="unisciLabel" class="form-group"></div>
+
 		<div class="form-group">
 			<label for="length" class="col-md-2 control-label">Length </label>
 			<div class="col-md-10">

@@ -20,12 +20,12 @@ public class LoginController {
 
 	@RequestMapping(value = "/accetta", method = { RequestMethod.GET, RequestMethod.POST })
 	public String accetta ( HttpServletRequest request,Model model) throws Exception {
-		ProvaDTO dto = provaDAO.provaQuery();
+		//ProvaDTO dto = provaDAO.provaQuery();
 		UserDTO userDto = new UserDTO();
 		userDto.setCodPers("ANDREAFICETIPROVA");
-		model.addAttribute("user",dto);
+//		model.addAttribute("user",dto);
 		request.getSession().setAttribute("userSession", userDto);
-		System.out.println(dto.getUser() + " "+ dto.getPassword());
+//		System.out.println(dto.getUser() + " "+ dto.getPassword());
 		return "main.page";  
 		 
 	}

@@ -139,12 +139,15 @@ public class InsertMovieService {
 	}
 
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
-	public void insertUserLabel(String codPers, String movie,ArrayList <LabelDTO> labels){
+	public void insertUserLabel(String codPers, String movie,ArrayList <LabelDTO> labels) throws Exception{
+
+		labelDAO.deleteUserLaber(codPers,movie);
 		for(LabelDTO label:labels)
 		{
 			labelDAO.insertUserLaber(codPers,movie, label);
-
 		}
+		updateLabelTable(movie,labels);
+		
 	}
 
 
@@ -196,8 +199,6 @@ public class InsertMovieService {
 		}
 		System.out.println("I'm done!");
 		return new AsyncResult<Boolean>(true);
-
-
 	}
 
 	
@@ -213,14 +214,14 @@ public class InsertMovieService {
 
 	}
 
-	public void deleteUserLabel(String codPers, String movie, ArrayList<LabelDTO> labels) {
-		// TODO Auto-generated method stub
-		for(LabelDTO label:labels)
-		{
-			insertMovieDAO.deleteUserLaber(codPers,movie, label);
-
-		}	
-	}
+//	public void deleteUserLabel(String codPers, String movie, ArrayList<LabelDTO> labels) {
+//		// TODO Auto-generated method stub
+//		for(LabelDTO label:labels)
+//		{
+//			insertMovieDAO.deleteUserLaber(codPers,movie, label);
+//
+//		}	
+//	}
 
 
 }

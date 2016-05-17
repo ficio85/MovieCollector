@@ -200,30 +200,7 @@ public class InsertMovieDAO {
 	}
 	
 	
-	public int deleteUserLaber(String codPers, String movie, LabelDTO label) {
-
-		// TODO Auto-generated method stub
-
-		int result;
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("user", codPers);
-		parameters.addValue("movie", movie);
-		parameters.addValue("label", label.getName());
-
-
-		try {
-			result=jdbcTemplate.update("delete from usermovielabel where user=:user and movie=:movie and label=:label ", parameters);
-		} 
-		catch(Exception e){
-			e.printStackTrace();
-			throw e;
-
-		}
-		return  result;
-		
-
 	
-	}
 	
 	
 }

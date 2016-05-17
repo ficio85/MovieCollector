@@ -14,9 +14,11 @@ public class SearchMovieForm {
 	private String minLength;
 	private String maxLength;
 	private String year;
+	private String label;
 	
 	
 
+	
 	
 	public String getMinLength() {
 		return minLength;
@@ -67,7 +69,18 @@ public class SearchMovieForm {
 		this.year = year;
 	}
 
-	
+	/**
+	 * @return the label
+	 */
+	public String getLabel() {
+		return label;
+	}
+	/**
+	 * @param label the label to set
+	 */
+	public void setLabel(String label) {
+		this.label = label;
+	}
 
 
 }

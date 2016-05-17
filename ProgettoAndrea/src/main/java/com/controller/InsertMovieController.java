@@ -40,7 +40,8 @@ public class InsertMovieController {
 	public String ricercaFilmRisultati ( HttpServletRequest request,@ModelAttribute("searchMovieForm") SearchMovieForm searchMovie,Model model) throws Exception {
 		//		String prova = request.getParameter("labels");
 		String movie= request.getParameter("indexMovie");
-		insertMovieService.deleteUserLabel(SessionUtil.getCodPers(request),movie,MovieGeneratorUtil.getLabels(request.getParameterValues("labels[]")));
+		
+		//insertMovieService.deleteUserLabel(SessionUtil.getCodPers(request),movie,MovieGeneratorUtil.getLabels(request.getParameterValues("labels[]")));
 		insertMovieService.insertUserLabel(SessionUtil.getCodPers(request),movie,MovieGeneratorUtil.getLabels(request.getParameterValues("labels[]")));
 		return null;
 	}

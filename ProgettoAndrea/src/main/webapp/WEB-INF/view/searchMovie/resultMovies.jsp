@@ -1,6 +1,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
+<%@ page import="com.dto.MovieDTO"%>
+<%@ page import="com.dto.LabelDTO"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.util.MovieGeneratorUtil"%>
 
 <form class="hiddenFormSearch" id="hiddenFormSearch">
 	<c:forEach var="genre" items="${genereList}" varStatus="loop">
@@ -34,12 +37,18 @@
 		<ul class="list-group media-list media-list-stream">
 			<c:forEach var="movie" items="${listMovies}" varStatus="loop">
 				<li class="media list-group-item p-a">
+					
 					<div class="row p-b-md">
 						<div class="col-md-8 movieTitle">
 							${movie.titoloItaliano}(${movie.title})</div>
 						<div class="col-md-4 text-right">
-							<div class="label label-success">Cool</div>
-							<div class="label label-info">Label Prova</div>
+
+							<c:forEach var="label" items="${movie.labels}" varStatus="loop">
+
+								<div
+									class="label <%=MovieGeneratorUtil.getLabelRandomClass()%> lb-sm">${label.name}</div>
+
+							</c:forEach>
 						</div>
 					</div>
 					<div class="row">
@@ -93,15 +102,14 @@
 
 						</div>
 						<div class="col-md-5">
-						<c:url value="/detailMovie" var="actionUrl" />
-						
+							<c:url value="/detailMovie" var="actionUrl" />
+
 							<div class="row">
 								<form action="${actionUrl}">
 									<button class="btn btn-primary-outline">Scheda Film</button>
 									<input type="hidden" name="indexMovie"
-										value="${movie.imdbKey} ">
-									<input type="hidden" name="movieKey"
-										value="${movie.movieKey} ">
+										value="${movie.imdbKey} "> <input type="hidden"
+										name="movieKey" value="${movie.movieKey} ">
 								</form>
 							</div>
 							<div class="row">Rate social</div>

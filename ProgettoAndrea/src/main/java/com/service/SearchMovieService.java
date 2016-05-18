@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.dao.GenereDAO;
 import com.dao.LabelDAO;
+import com.dao.MovieRankDAO;
 //import com.dao.GenereDAO;
 import com.dao.SearchMovieDAO;
 import com.dto.GenereDTO;
@@ -37,6 +38,10 @@ public class SearchMovieService {
 	@Autowired
 	@Qualifier("labelDAO")
 	LabelDAO labelDAO;
+	
+	@Autowired
+	@Qualifier("rateDAO")
+	MovieRankDAO rateDAO;
 
 	public List <MovieDTO> getListaFilm(SearchDTO search){
 
@@ -77,11 +82,11 @@ public class SearchMovieService {
 			{
 				if(!codMovies.isEmpty())
 				{
-					codMovies=searchMovieDAO.getMoviesByActor( search.getActors(),codMovies,0,0,search.isAndActors(),false);
+					codMovies=searchMovieDAO.getMoviesByLabel( search.getLabels(),codMovies,0,0,search.isAndActors(),false);
 				}
 				else
 				{
-					codMovies=searchMovieDAO.getMoviesByActor( search.getActors(),null,0,0,search.isAndActors(),false);
+					codMovies=searchMovieDAO.getMoviesByLabel( search.getLabels(),null,0,0,search.isAndActors(),false);
 				}
 			}
 			if(search.isSearchGenre())
@@ -156,6 +161,7 @@ public class SearchMovieService {
 			movieDTO.setActors(searchMovieDAO.getMovieActors(movieDTO.getMovieKey()));
 			movieDTO.setGenre(searchMovieDAO.getMovieGenre(movieDTO.getMovieKey()));
 			movieDTO.setDirectors(searchMovieDAO.getMovieDirector(movieDTO.getMovieKey()));
+			movieDTO.setLabels(labelDAO.getListaLabelbyMovie(movieDTO.getMovieKey()));
 		}
 	}
 
@@ -175,6 +181,14 @@ public class SearchMovieService {
 		return labels;
 	}
 
+	public float getMovieRate(List<String> indexes) {
+		// TODO Auto-generated method stub
+
+		float rate =searchMovieDAO.getMoviesByIndex(indexes, 0, 0,true).get(0).getRate();
+		return rate;
+	}
+	
+	
 //	public List<GenereDTO> getListaLabelbySearch(String name) {
 //		// TODO Auto-generated method stub
 //

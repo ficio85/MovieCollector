@@ -379,7 +379,7 @@ public class SearchMovieDAO {
 
 		String sql="";
 
-		sql +="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`release`,`rated`,`awards`,`poster`,`type`";
+		sql +="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`release`,`rated`,`awards`,`poster`,`type`,`rate` ";
 
 
 
@@ -767,7 +767,7 @@ public class SearchMovieDAO {
 
 		String sql="";
 
-		sql +="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`release`,`rated`,`awards`,`poster`,`type`";
+		sql +="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`release`,`rated`,`awards`,`poster`,`type`,`rate`";
 
 
 

@@ -299,6 +299,30 @@ $(function(){
 		});
 
 	});
+	
+	$("#submitRate").click(function(event){
+		event.preventDefault();
+		var rateInt = $("#rateInt").val();
+		var rateDec=$("#rateDec").val();
+		var labelArray=[];
+		var indexMovie=$("#key").data("id");
+
+		var link=$('#contextPath').val()+"/insertRate";
+		$.ajax({
+			url: link,
+			type:"POST",
+			dataType:'json',
+			data: {rateInt:rateInt,rateDec:rateDec,indexMovie:indexMovie},
+			success: function( data ) {
+				alert("ok");
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) { 
+				alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+			} 
+		});
+
+	});
+
 
 	$("#labelSpace").on("click",".removeLabel",function(){
 
@@ -338,8 +362,8 @@ $(function(){
 	$('#starinput-detail').on('rating.hover', function(event, value, caption) {
 		var valueInString=""+value;
 		var values = valueInString.split(".");
-		$("#intRank").val(values[0]);
-		$("#decRank").val(values[1]);
+		$("#rateInt").val(values[0]);
+		$("#rateDec").val(values[1]);
 	});
 
 

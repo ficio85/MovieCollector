@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dao.ActorDAO;
 import com.dao.InsertMovieDAO;
 import com.dao.LabelDAO;
+import com.dao.MovieRankDAO;
 import com.dao.SearchMovieDAO;
 import com.dto.ActorDTO;
 import com.dto.DirectorDTO;
@@ -36,6 +37,9 @@ public class InsertMovieService {
 	@Qualifier("searchMovieDAO")
 	SearchMovieDAO searchMovieDAO;
 	
+	@Autowired
+	@Qualifier("rateDAO")
+	MovieRankDAO rateDAO;
 	
 	@Autowired
 	@Qualifier("labelDAO")
@@ -150,6 +154,23 @@ public class InsertMovieService {
 		
 	}
 
+	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
+	public void insertUserRate(String codPers, String movie,float rate,float rateOld) throws Exception{
+
+		rateDAO.deleteUserRate(codPers,movie);
+		rateDAO.insertUserRate(codPers, movie, rate);
+		float sommaRateOld = rateDAO.getSumUserRate(movie);
+		int countRateOld = rateDAO.getCountUserRate(movie);
+			
+		float sommaRate =sommaRateOld+rate;
+		int countRate=countRateOld+1;
+		float mediaRate= sommaRate/countRate;
+		if(mediaRate!= rateOld)
+		{
+			rateDAO.updateMovieRank(movie, mediaRate);
+		}
+		
+	}
 
 	@Async
 	public Future<Boolean> insertTranslation(List <String> values,String type) throws Exception{
@@ -178,7 +199,7 @@ public class InsertMovieService {
 	@Async
 	public Future<Boolean> updateLabelTable(String movie,List <LabelDTO> labels) throws Exception{
 		System.out.println("Inizio thread");
-		List<LabelDTO> oldLabels = labelDAO.getListaLabelbyMovie(movie);
+		List<LabelDTO> oldLabels = labelDAO.getListaUserLabelbyMovie(movie);
 		
 		boolean isSame=true;
 		
@@ -192,9 +213,11 @@ public class InsertMovieService {
 		if(!isSame)
 		{
 			labelDAO.deleteLabelsFromMovie(movie);
+			int i=1;
 			for(LabelDTO label : labels)
 			{
-				labelDAO.updateLabelsbyMovie(movie, label.getName());
+				labelDAO.updateLabelsbyMovie(movie, label.getName(), i);
+				i++;
 			}
 		}
 		System.out.println("I'm done!");
@@ -213,6 +236,8 @@ public class InsertMovieService {
 
 
 	}
+
+	
 
 //	public void deleteUserLabel(String codPers, String movie, ArrayList<LabelDTO> labels) {
 //		// TODO Auto-generated method stub

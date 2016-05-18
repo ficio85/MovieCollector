@@ -23,6 +23,7 @@ public class MovieMapperComplete extends MovieMapper{
 		movie.setPlot(rset.getString("plot"));
 		movie.setReleaseDate(rset.getDate("release"));
 		movie.setRated(rset.getString("rated"));
+		movie.setRate(rset.getFloat("rate"));
 		return movie;
 	}
 	

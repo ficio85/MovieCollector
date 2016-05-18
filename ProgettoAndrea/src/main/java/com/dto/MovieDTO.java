@@ -28,6 +28,9 @@ public class MovieDTO {
 	String poster;
 	String type;
 	List <LabelDTO> labels;
+	List <LabelDTO> userLabels;
+	float rate;
+	float userRate;
 	
 	
 	//valori da inserire in caso di serie tv
@@ -38,6 +41,7 @@ public class MovieDTO {
 	
 
 	
+
 	public List<LabelDTO> getLabels() {
 		return labels;
 	}
@@ -224,9 +228,48 @@ public class MovieDTO {
 		this.languages = languages;
 	}
 	
-	
-	
 
+	/**
+	 * @return the userLabels
+	 */
+	public List<LabelDTO> getUserLabels() {
+		return userLabels;
+	}
+	/**
+	 * @param userLabels the userLabels to set
+	 */
+	public void setUserLabels(List<LabelDTO> userLabels) {
+		this.userLabels = userLabels;
+	}
+	/**
+	 * @return the rate
+	 */
+	public float getRate() {
+		return rate;
+	}
+	/**
+	 * @param rate the rate to set
+	 */
+	public void setRate(float rate) {
+		this.rate = rate;
+	}
+	/**
+	 * @return the userRate
+	 */
+	public float getUserRate() {
+		return userRate;
+	}
+	/**
+	 * @param userRate the userRate to set
+	 */
+	public void setUserRate(float userRate) {
+		this.userRate = userRate;
+	}
+	
+	/**
+	 * @return the rank
+	 */
+	
 
 
 }

@@ -18,11 +18,15 @@
 			(${movie.year});
 
 		</div>
+		<%
+				float rate  = ((MovieDTO) request.getAttribute("movie")).getRate();
+			%>
+
 		<div class="col-md-4 p-r-lg text-center">
 
 			<span class="fa-stack fa-3x"> <i
-				class="fa fa-star fa-stack-2x star-outline-render"></i> <i
-				class="fa fa-stack-1x star-text-render">7.6</i>
+				class="fa fa-star fa-stack-2x <%= MovieGeneratorUtil.getStarClass(rate) %>"></i>
+				<i class="fa fa-stack-1x star-text-render">${movie.rate}</i>
 			</span>
 		</div>
 	</div>
@@ -54,12 +58,12 @@
 			</div>
 			<div class="row">
 				<div class="col-md-4">
-					<input id="intRank" name="minLength" class="form-control col-sm-3"
-						type="text" value=""> <input id="decRank" name="maxLength"
+					<input id="rateInt" name="minLength" class="form-control col-sm-3"
+						type="text" value=""> <input id="rateDec" name="maxLength"
 						class="form-control col-sm-3" type="text" value="">
 				</div>
 				<div class="col-md-8 text-left">
-					<button type="submit" name="action" value="search"
+					<button type="submit" id="submitRate" name="action" value="search"
 						class="btn btn-default btn-sm btn-info">Submit Rate</button>
 				</div>
 			</div>
@@ -96,7 +100,8 @@
 					%>
 					<div class="col-md-2 p-t-md classToCancel">
 
-						<div class="label <%=MovieGeneratorUtil.getLabelRandomClass() %> lb-sm"><%= label.getName()%></div>
+						<div
+							class="label <%=MovieGeneratorUtil.getLabelRandomClass() %> lb-sm"><%= label.getName()%></div>
 						<i class="icon icon-circle-with-cross removeLabel"></i>
 					</div>
 					<%

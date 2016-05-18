@@ -41,14 +41,14 @@ public class LabelDAO {
 		return  result;		
 	}
 
-	public List <LabelDTO> getListaLabelbyMovie (String movie)
+	public List <LabelDTO> getListaUserLabelbyMovie (String movie)
 	{
 
 		List<LabelDTO> result;
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("name", movie);
 		try {
-			result=jdbcTemplate.query(" SELECT count(label)  FROM usermovielabel where movie = :name group by label order by count(label) LIMIT 5  ",parameters, new LabelMapper());
+			result=jdbcTemplate.query(" SELECT *  FROM usermovielabel where movie = :name group by label order by count(label) LIMIT 5  ",parameters, new LabelMapper());
 		} 
 		catch(Exception e){
 			e.printStackTrace();
@@ -58,19 +58,35 @@ public class LabelDAO {
 		return  result;		
 	}
 
+	public List <LabelDTO> getListaLabelbyMovie (String movie)
+	{
 
+		List<LabelDTO> result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("name", movie);
+		try {
+			result=jdbcTemplate.query(" SELECT *  FROM movielabel where movie = :name",parameters, new LabelMapper());
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
 
-	public int updateLabelsbyMovie (String movie, String label)
+		}
+		return  result;		
+	}
+
+	public int updateLabelsbyMovie (String movie, String label, int rank)
 	{
 
 		int result;
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("movie", movie);
 		parameters.addValue("label", label);
+		parameters.addValue("rank", rank);
 
 
 		try {
-			result=jdbcTemplate.update("insert into movielabel (movie, label) values (:movie, :label)",parameters);
+			result=jdbcTemplate.update("insert into movielabel (movie, label,rank) values (:movie, :label,:rank)",parameters);
 		} 
 		catch(Exception e){
 			e.printStackTrace();

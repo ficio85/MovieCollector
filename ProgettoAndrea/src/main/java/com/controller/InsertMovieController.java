@@ -3,6 +3,7 @@ package com.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +38,7 @@ public class InsertMovieController {
 	private InsertMovieService insertMovieService;
 
 	@RequestMapping(value = "/insertLabel", method = { RequestMethod.GET, RequestMethod.POST })
-	public String ricercaFilmRisultati ( HttpServletRequest request,@ModelAttribute("searchMovieForm") SearchMovieForm searchMovie,Model model) throws Exception {
+	public String inserisciLabel ( HttpServletRequest request,@ModelAttribute("searchMovieForm") SearchMovieForm searchMovie,Model model) throws Exception {
 		//		String prova = request.getParameter("labels");
 		String movie= request.getParameter("indexMovie");
 		
@@ -46,7 +47,17 @@ public class InsertMovieController {
 		return null;
 	}
 
-
+	@RequestMapping(value = "/insertRate", method = { RequestMethod.GET, RequestMethod.POST })
+	public String inserisciRate ( HttpServletRequest request,@ModelAttribute("searchMovieForm") SearchMovieForm searchMovie,Model model) throws Exception {
+		//		String prova = request.getParameter("labels");
+		String movie= request.getParameter("indexMovie");
+		String rateInt=request.getParameter("rateInt");
+		String rateDec= request.getParameter("rateDec");
+		ArrayList <String> indexes = new ArrayList(Arrays.asList(movie));
+		float rate = Float.parseFloat(rateInt+"."+rateDec);
+		insertMovieService.insertUserRate(SessionUtil.getCodPers(request),movie,rate,searchMovieService.getMovieRate(indexes));
+		return null;
+	}
 
 
 

@@ -260,6 +260,29 @@ public class MovieGeneratorUtil {
 		return render;
 	}
 
+	public static String getStarClass(float rank) {
+		// TODO Auto-generated method stub
+		String render="";
+		
+		if(rank<3)
+		{
+			render+="star-black-render ";
+		}
+		else if ( rank>=3 && rank<6)
+		{
+			render+="star-red-render ";
+		}
+		else if(rank>=6 && rank <8)
+		{
+			render+="star-green-render ";
+		}
+		else if(rank>=8)
+		{
+			render+="star-yellow-render ";
+		}
+		return render;
+		
+	}
 	
 
 

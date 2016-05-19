@@ -15,10 +15,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.dto.MovieDTO;
 import com.dto.SearchDTO;
 import com.form.SearchMovieForm;
+import com.jsonResponse.RateResponse;
 import com.service.InsertMovieService;
 import com.service.SearchMovieService;
 import com.util.JsoupUtil;
@@ -27,7 +30,7 @@ import com.util.MovieGeneratorUtil;
 import com.util.SearchUtil;
 import com.util.SessionUtil;
 
-@Controller
+@RestController
 public class InsertMovieController {
 	@Autowired
 	@Qualifier("searchMovieService")
@@ -38,6 +41,7 @@ public class InsertMovieController {
 	private InsertMovieService insertMovieService;
 
 	@RequestMapping(value = "/insertLabel", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
 	public String inserisciLabel ( HttpServletRequest request,@ModelAttribute("searchMovieForm") SearchMovieForm searchMovie,Model model) throws Exception {
 		//		String prova = request.getParameter("labels");
 		String movie= request.getParameter("indexMovie");
@@ -48,15 +52,22 @@ public class InsertMovieController {
 	}
 
 	@RequestMapping(value = "/insertRate", method = { RequestMethod.GET, RequestMethod.POST })
-	public String inserisciRate ( HttpServletRequest request,@ModelAttribute("searchMovieForm") SearchMovieForm searchMovie,Model model) throws Exception {
+	@ResponseBody
+	public RateResponse inserisciRate ( HttpServletRequest request,@ModelAttribute("searchMovieForm") SearchMovieForm searchMovie,Model model) throws Exception {
 		//		String prova = request.getParameter("labels");
 		String movie= request.getParameter("indexMovie");
 		String rateInt=request.getParameter("rateInt");
 		String rateDec= request.getParameter("rateDec");
+		
 		ArrayList <String> indexes = new ArrayList(Arrays.asList(movie));
 		float rate = Float.parseFloat(rateInt+"."+rateDec);
-		insertMovieService.insertUserRate(SessionUtil.getCodPers(request),movie,rate,searchMovieService.getMovieRate(indexes));
-		return null;
+		RateResponse response = new RateResponse();
+
+		response =insertMovieService.insertUserRate(SessionUtil.getCodPers(request),movie,rate,searchMovieService.getMovieRate(indexes));
+		
+		return response;
+//		moviedto.setMovieKey(movie);
+//		return moviedto;
 	}
 
 

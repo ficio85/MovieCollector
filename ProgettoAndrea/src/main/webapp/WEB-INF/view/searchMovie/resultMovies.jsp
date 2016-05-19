@@ -37,10 +37,26 @@
 		<ul class="list-group media-list media-list-stream">
 			<c:forEach var="movie" items="${listMovies}" varStatus="loop">
 				<li class="media list-group-item p-a">
-					
+
 					<div class="row p-b-md">
-						<div class="col-md-8 movieTitle">
-							${movie.titoloItaliano}(${movie.title})</div>
+						<div class="col-md-6 movieTitle">
+							${movie.titoloItaliano}(${movie.title}) 
+							<span class="fa-stack fa-14x" id="starContainer"> 
+								<i class="fa fa-star fa-stack-2x"></i>
+								 <i class="fa fa-stack-1x star-text-render">${movie.rate}</i>
+							</span>
+
+
+						</div>
+						<div class="col-md-2">
+							<form action="${actionUrl}">
+								<button class="btn btn-primary-outline btn-sm">Scheda
+									Film</button>
+								<input type="hidden" name="indexMovie" value="${movie.imdbKey} ">
+								<input type="hidden" name="movieKey" value="${movie.movieKey} ">
+							</form>
+						</div>
+
 						<div class="col-md-4 text-right">
 
 							<c:forEach var="label" items="${movie.labels}" varStatus="loop">
@@ -104,35 +120,28 @@
 						<div class="col-md-5">
 							<c:url value="/detailMovie" var="actionUrl" />
 
-							<div class="row">
-								<form action="${actionUrl}">
-									<button class="btn btn-primary-outline">Scheda Film</button>
-									<input type="hidden" name="indexMovie"
-										value="${movie.imdbKey} "> <input type="hidden"
-										name="movieKey" value="${movie.movieKey} ">
-								</form>
-							</div>
+							<div class="row"></div>
 							<div class="row">Rate social</div>
 							<div class="row">
 
 								<button type="button" data-index="${loop.index}" data-social
-									class="btn btn-pill social btn-default btn-default-outline">
+									class="btn btn-pill social btn-default btn-sm btn-default-outline">
 									<span class="icon icon-thumbs-down"></span>
 								</button>
 								<button type="button" data-index="${loop.index}" data-social
-									class="btn btn-pill social btn-default btn-default-outline">
+									class="btn btn-pill social btn-default btn-sm  btn-default-outline">
 									<span class="icon icon-emoji-sad"></span>
 								</button>
 								<button type="button" data-index="${loop.index}" data-social
-									class="btn btn-pill social btn-default btn-default-outline">
+									class="btn btn-pill social btn-default btn-sm btn-default-outline">
 									<span class="icon icon-thumbs-up"></span>
 								</button>
 								<button type="button" data-index="${loop.index}" data-social
-									class="btn btn-pill social btn-default btn-default-outline">
+									class="btn btn-pill social btn-default btn-sm btn-default-outline">
 									<span class="icon icon-star"></span>
 								</button>
 								<button type="button" data-index="${loop.index}" data-social
-									class="btn btn-pill social btn-default-outline">
+									class="btn btn-pill social btn-sm btn-default-outline">
 									<span class="icon icon-heart"></span>
 								</button>
 
@@ -148,7 +157,7 @@
 							</div>
 							<div class="row">
 								<button type="submit" name="action" value="search"
-									class="btn btn-default btn-info">Submit Rate</button>
+									class="btn btn-default btn-info btn-sm">Submit Rate</button>
 							</div>
 
 						</div>

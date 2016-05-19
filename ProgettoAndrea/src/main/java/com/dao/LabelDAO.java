@@ -47,6 +47,7 @@ public class LabelDAO {
 		List<LabelDTO> result;
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("name", movie);
+
 		try {
 			result=jdbcTemplate.query(" SELECT *  FROM usermovielabel where movie = :name group by label order by count(label) LIMIT 5  ",parameters, new LabelMapper());
 		} 

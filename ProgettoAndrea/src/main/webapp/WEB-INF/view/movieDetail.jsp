@@ -24,11 +24,13 @@
 
 		<div class="col-md-4 p-r-lg text-center">
 
-			<span class="fa-stack fa-3x"> <i
-				class="fa fa-star fa-stack-2x <%= MovieGeneratorUtil.getStarClass(rate) %>"></i>
+			<span class="fa-stack fa-3x" id="starContainer"> 
+				<i class="fa fa-star fa-stack-2x <%= MovieGeneratorUtil.getStarClass(rate) %>"></i>
 				<i class="fa fa-stack-1x star-text-render">${movie.rate}</i>
 			</span>
 		</div>
+	</div>
+	<div class="row">
 	</div>
 	<div class="row">
 		<div class="col-md-5 p-l-md text-center">

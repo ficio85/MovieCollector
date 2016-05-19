@@ -124,8 +124,10 @@ public class SearchMovieService {
 			}
 		}
 
-
-		completeMovies(movies);
+		if(movies!=null && movies.size()!=0)
+		{
+			completeMovies(movies);
+		}
 
 		return movies;
 

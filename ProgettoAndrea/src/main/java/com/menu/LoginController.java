@@ -22,7 +22,14 @@ public class LoginController {
 	public String accetta ( HttpServletRequest request,Model model) throws Exception {
 		//ProvaDTO dto = provaDAO.provaQuery();
 		UserDTO userDto = new UserDTO();
-		userDto.setCodPers("ANDREAFICETIPROVA");
+		if(request.getParameter("username")!=null && !request.getParameter("username").trim().equals(""))
+		{
+			userDto.setCodPers(request.getParameter("username"));
+		}
+		else
+		{
+			userDto.setCodPers("ANDREAFICETIPROVA");
+		}
 //		model.addAttribute("user",dto);
 		request.getSession().setAttribute("userSession", userDto);
 //		System.out.println(dto.getUser() + " "+ dto.getPassword());

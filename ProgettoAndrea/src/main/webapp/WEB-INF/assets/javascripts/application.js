@@ -313,8 +313,14 @@ $(function(){
 			type:"POST",
 			dataType:'json',
 			data: {rateInt:rateInt,rateDec:rateDec,indexMovie:indexMovie},
-			success: function( data ) {
-				alert("ok");
+			success: function( response ) {
+				if(response.rateChanged===true)
+					{
+						$("#starContainer").html(
+								"<i class=\"fa fa-star fa-stack-2x "+getStarClass(response.newRate)+"\"></i>"+
+								"<i class=\"fa fa-stack-1x star-text-render\">"+response.newRateString+"</i>	"
+						);
+					}
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) { 
 				alert("Status: " + textStatus); alert("Error: " + errorThrown); 
@@ -336,7 +342,29 @@ $(function(){
 
 	});
 
-
+	function getStarClass( rank) {
+		// TODO Auto-generated method stub
+		var render="";
+		
+		if(rank<3)
+		{
+			render+="star-black-render ";
+		}
+		else if ( rank>=3 && rank<6)
+		{
+			render+="star-red-render ";
+		}
+		else if(rank>=6 && rank <8)
+		{
+			render+="star-green-render ";
+		}
+		else if(rank>=8)
+		{
+			render+="star-yellow-render ";
+		}
+		return render;
+		
+	}
 
 	function generateLabelColor()
 	{

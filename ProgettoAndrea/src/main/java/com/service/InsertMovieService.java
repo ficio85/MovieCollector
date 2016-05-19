@@ -23,7 +23,9 @@ import com.dto.DirectorDTO;
 import com.dto.LabelDTO;
 import com.dto.MovieDTO;
 import com.eccezione.WarningException;
+import com.jsonResponse.RateResponse;
 import com.util.JsoupUtil;
+import com.util.SessionUtil;
 
 @EnableAsync
 @Service("insertMovieService")
@@ -155,20 +157,23 @@ public class InsertMovieService {
 	}
 
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
-	public void insertUserRate(String codPers, String movie,float rate,float rateOld) throws Exception{
-
+	public RateResponse insertUserRate(String codPers, String movie,float rate,float rateOld) throws Exception{
+		RateResponse rateResponse = new RateResponse();
 		rateDAO.deleteUserRate(codPers,movie);
 		rateDAO.insertUserRate(codPers, movie, rate);
-		float sommaRateOld = rateDAO.getSumUserRate(movie);
-		int countRateOld = rateDAO.getCountUserRate(movie);
-			
-		float sommaRate =sommaRateOld+rate;
-		int countRate=countRateOld+1;
+		float sommaRate= rateDAO.getSumUserRate(movie);
+		int countRate = rateDAO.getCountUserRate(movie);
+
 		float mediaRate= sommaRate/countRate;
 		if(mediaRate!= rateOld)
 		{
+			rateResponse.setRateChanged(true);
 			rateDAO.updateMovieRank(movie, mediaRate);
 		}
+		rateResponse.setNewRate(mediaRate);
+		rateResponse.setNewRateString(mediaRate);
+		rateResponse.setOldRate(rateOld);
+		return rateResponse;
 		
 	}
 
@@ -197,7 +202,7 @@ public class InsertMovieService {
 	}
 
 	@Async
-	public Future<Boolean> updateLabelTable(String movie,List <LabelDTO> labels) throws Exception{
+	public Future<Boolean> updateLabelTable( String movie,List <LabelDTO> labels) throws Exception{
 		System.out.println("Inizio thread");
 		List<LabelDTO> oldLabels = labelDAO.getListaUserLabelbyMovie(movie);
 		

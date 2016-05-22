@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.object.MappingSqlQueryWithParameters;
 import org.springframework.stereotype.Repository;
 
+import com.dto.ActorDTO;
+
 @Repository("actorDAO")
 public class ActorDAO {
 
@@ -25,4 +27,15 @@ public class ActorDAO {
 		result=jdbcTemplate.queryForList(" SELECT name FROM actor where name like :name ", parameters, String.class);			
 		return result;
 	}
+	
+	
+	public void updateActor(ActorDTO actor) {
+
+		List<String> result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("imdbkey", actor.getImdbIndex());
+		result=jdbcTemplate.update(" SELECT name FROM actor where name like :name ", parameters);			
+		return result;
+			
+	}	
 }

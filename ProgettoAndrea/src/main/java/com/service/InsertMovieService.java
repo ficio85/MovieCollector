@@ -47,6 +47,10 @@ public class InsertMovieService {
 	@Qualifier("labelDAO")
 	LabelDAO labelDAO;
 
+	@Autowired
+	@Qualifier("actorDAO")
+	LabelDAO actorDAO;
+	
 	@Async
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
 	public void updateMoviesByActor(List <MovieDTO> movies, String actor){
@@ -240,6 +244,17 @@ public class InsertMovieService {
 		return new AsyncResult<Boolean>(true);
 
 
+	}
+
+	public void completeActors(List<ActorDTO> actors, String movieKey) {
+		// TODO Auto-generated method stub
+		for(ActorDTO actor:actors)
+		{
+			insertMovieDAO.deleteMovieActorsRel(movieKey);
+			insertMovieDAO.insertMovieActorsRel( actor, movieKey);
+			actorDAO.updateActor(actor);
+
+		}
 	}
 
 	

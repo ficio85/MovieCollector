@@ -5,6 +5,8 @@
 <%@ page import="java.util.List"%>
 <%@ page import="com.util.MovieGeneratorUtil"%>
 
+<c:url value="/detailMovie" var="movieDetail" />
+
 <form class="hiddenFormSearch" id="hiddenFormSearch">
 	<c:forEach var="genre" items="${genereList}" varStatus="loop">
 		<input type="hidden" name="genere" value="${genre}">
@@ -153,7 +155,7 @@
 
 							<div class="row">
 								<label for="input-2" class="control-label">Rate Completo</label>
-								<div id="star-div${filmIndex.count}" data-starDiv>
+								<div id="star-div${filmIndex.count}" class="ratingDisplay">
 							
 								</div>
 

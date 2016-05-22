@@ -186,7 +186,9 @@ $(function(){
 			success: function( data ) {
 				$("#movieResult").html(data);
 				generatePagination();
-				$("#elencoMovie").data("starDiv").rating();
+				alert("movie");
+				$("#movieResult .ratingDisplay").rating({min:0, max:10, step:0.5, stars:10, size:'xs'});
+
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) { 
 				alert("Status: " + textStatus); alert("Error: " + errorThrown); 

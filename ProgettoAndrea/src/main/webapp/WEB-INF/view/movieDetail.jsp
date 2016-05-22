@@ -6,6 +6,7 @@
 <%@ page import="com.util.MovieGeneratorUtil"%>
 
 
+
 <c:url value="/detailMovie" var="actionUrl" />
 
 <div class="row media list-group-item" id="elencoMovie">
@@ -54,7 +55,7 @@
 				<div class="col-md-12">
 					<input id="starinput-detail" class="rating rating-loading"
 						data-min="0" data-max="10" data-stars="10" data-step="0.5"
-						data-size="xs">
+						data-size="md">
 				</div>
 
 			</div>

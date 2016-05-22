@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.dto.ActorDTO;
 import com.dto.MovieDTO;
 import com.dto.SearchDTO;
 import com.form.SearchMovieForm;
@@ -36,7 +37,8 @@ public class MovieDetailController {
 	public String ricercaFilmRisultati ( HttpServletRequest request,Model model) throws Exception {
 		String movieKey= (String) request.getParameter("movieKey").trim();
 		MovieDTO movie= searchMovieService.getAllMovieDetail(movieKey,SessionUtil.getCodPers(request));
-		//insertMovieService.inspectImdb(indexMovie);
+		List <ActorDTO> actors =insertMovieService.inspectImdb(movie.getImdbKey());
+		insertMovieService.completeActors(actors);
 		request.setAttribute("movie", movie);
 		return "detailMovie.page";
 	}

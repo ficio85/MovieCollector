@@ -4,10 +4,24 @@ public class ActorDTO {
 
 	String name;
 	String surname;
+	String role;
 	int age;
 	int indexList;
+	String imdbIndex;
 	
 	
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	public String getImdbIndex() {
+		return imdbIndex;
+	}
+	public void setImdbIndex(String imdbIndex) {
+		this.imdbIndex = imdbIndex;
+	}
 	public int getIndexList() {
 		return indexList;
 	}

@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.dto.ActorDTO;
 import com.dto.GenereDTO;
 import com.dto.LabelDTO;
 import com.dto.MovieDTO;
@@ -198,8 +199,54 @@ public class InsertMovieDAO {
 
 	
 	}
+
+	public int deleteMovieActorsRel( String movieKey) {
+
+		// TODO Auto-generated method stub
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("movieKey", movieKey);
+
+
+
+		try {
+			result=jdbcTemplate.update("delete from movieactor where movie=:moviekey", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+		
+
 	
+	}
 	
+	public int insertMovieActorsRel( ActorDTO actor, String movieKey) {
+
+		// TODO Auto-generated method stub
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("movieKey", movieKey);
+		parameters.addValue("actor", actor.getName());
+		parameters.addValue("indexList", actor.getIndexList());
+		parameters.addValue("role", actor.getRole());
+		try {
+			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`movieactor`(`movie`,`actor`,`indexList`,`role`) VALUES(:moviekey,:actor,:index,:role)", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+		
+
+	
+	}
 	
 	
 	

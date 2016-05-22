@@ -198,7 +198,7 @@ public class JsoupUtil {
 					nodeParsed = extractNodes(content, childNodes,i);
 					if (nodeParsed!=null)
 					{
-						 childNodes.addAll(nodeParsed);
+						childNodes.addAll(nodeParsed);
 					}
 
 				}
@@ -244,9 +244,10 @@ public class JsoupUtil {
 
 	}
 
-	
+
 	public static List<ActorDTO> imdbInspect(String imdbIndex) throws Exception {
 		// TODO Auto-generated method stub
+		List <ActorDTO> actorList = new ArrayList <ActorDTO>();
 		URL url = new URL("http://www.imdb.com/title/"+imdbIndex+"/fullcredits?ref_=tt_ql_1");
 		HttpURLConnection uc = ProxyUtil.connect(url);
 		String line = null;
@@ -267,35 +268,45 @@ public class JsoupUtil {
 		Element table = doc.select("table.cast_list").get(0); //select the first table.
 		Elements rows = table.select("tr");
 
-		for (int i = 1; i < rows.size(); i++) { //first row is the col names so skip it.
-		    Element row = rows.get(i);
-		    Element colNameActor = row.select("td.itemprop").get(0);
-		    List<Node> nodeChildren = colNameActor.childNodes();
-		    int prova = nodeChildren.size();
-		    Element node = (Element) nodeChildren.get(0);
-		    	if(((Element)node).tag().getName().equals("a"))
-		    	{
-		    		String link =node.attr("href");
-		    		
-		    		System.out.println(link);
-		    		//prendo il nome dell'attore
-		    		Node nodeActor=((Element)node).children().get(0);
-		    		System.out.println(((Element)nodeActor).ownText());
-		    		
-		    	}
-		    	else
-		    	{
-		    		
-		    	}
-		    
-		    Element colNameCharacter = row.select("td.character").get(0);
-		    Node nodeCharacter = colNameCharacter.childNodes().get(1);
-		    System.out.println(((Element)nodeCharacter).ownText());
-		  
-		    
+		for (int i = 1; i < rows.size(); i++) {
+			//first row is the col names so skip it.
+			ActorDTO actor = new ActorDTO();
+			Element row = rows.get(i);
+			Element colNameActor = row.select("td.itemprop").get(0);
+			List<Node> nodeChildren = colNameActor.childNodes();
+			int prova = nodeChildren.size();
+			Element node = (Element) nodeChildren.get(0);
+			if(((Element)node).tag().getName().equals("a"))
+			{
+				String link =node.attr("href");
+
+				System.out.println(link);
+				String prova3 = link.split("/")[1];
+				System.out.println(prova3);
+				 prova3 = link.split("/")[2];
+					System.out.println("Second try"+prova3);
+
+				//prendo il nome dell'attore
+				Node nodeActor=((Element)node).children().get(0);
+				actor.setName(((Element)nodeActor).ownText());
+				System.out.println(((Element)nodeActor).ownText());
+
+			}
+			else
+			{
+
+			}
+
+			Element colNameCharacter = row.select("td.character").get(0);
+			Node nodeCharacter = colNameCharacter.childNodes().get(1);
+			actor.setRole(((Element)nodeCharacter).ownText());
+			actor.setImdbIndex(imdbIndex);
+			System.out.println(((Element)nodeCharacter).ownText());
+
+
 		}
 		return null;
-		
+
 
 
 

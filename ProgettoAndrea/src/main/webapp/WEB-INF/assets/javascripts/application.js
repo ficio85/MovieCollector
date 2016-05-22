@@ -186,6 +186,7 @@ $(function(){
 			success: function( data ) {
 				$("#movieResult").html(data);
 				generatePagination();
+				$("#elencoMovie").data("starDiv").rating();
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) { 
 				alert("Status: " + textStatus); alert("Error: " + errorThrown); 
@@ -213,13 +214,11 @@ $(function(){
 
 	function generatePagination(){
 		var numPages=parseInt($("#numPages").val());
-		alert(numPages);
 		$('#pagination-movie').twbsPagination({
 			totalPages: numPages,
 			visiblePages: 10,
 			initiateStartPageClick :false,
 			onPageClick: function (event, page) {
-				alert('click');
 				loadNewPage(page);
 			}
 		});

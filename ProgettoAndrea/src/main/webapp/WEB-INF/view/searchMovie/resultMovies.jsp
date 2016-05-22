@@ -35,20 +35,21 @@
 	<div class="col-md-1"></div>
 	<div class="col-md-10">
 		<ul class="list-group media-list media-list-stream">
-			<c:forEach var="movie" items="${listMovies}" varStatus="loop">
+			<c:forEach var="movie" items="${listMovies}" varStatus="filmIndex">
+			
 				<li class="media list-group-item p-a">
 
 					<div class="row p-b-md">
-						<div class="col-md-6 movieTitle">
-							${movie.titoloItaliano}(${movie.title}) 
-							<span class="fa-stack fa-14x" id="starContainer"> 
-								<i class="fa fa-star fa-stack-2x"></i>
-								 <i class="fa fa-stack-1x star-text-render">${movie.rate}</i>
+						<div class="col-md-8 movieTitle">
+							${movie.titoloItaliano}(${movie.title}) <span
+								class="fa-stack fa-14x" id="starContainer"> <i
+								class="fa fa-star fa-stack-2x"></i> <i
+								class="fa fa-stack-1x star-text-render">${movie.rate}</i>
 							</span>
 
 
 						</div>
-						<div class="col-md-2">
+						<div class="col-md-4 text-right p-r-md">
 							<form action="${actionUrl}">
 								<button class="btn btn-primary-outline btn-sm">Scheda
 									Film</button>
@@ -57,22 +58,24 @@
 							</form>
 						</div>
 
-						<div class="col-md-4 text-right">
-
-							<c:forEach var="label" items="${movie.labels}" varStatus="loop">
-
-								<div
-									class="label <%=MovieGeneratorUtil.getLabelRandomClass()%> lb-sm">${label.name}</div>
-
-							</c:forEach>
-						</div>
+						<div class="col-md-4 text-right"></div>
 					</div>
 					<div class="row">
 						<div class="col-md-3 p-l-md">
-							<img class="img-responsive img-thumbnail"
-								style="width: 140px; height: 180px;" src="${movie.poster}">
+							<div class="row text-center">
+								<img class="img-responsive img-thumbnail"
+									style="width: 140px; height: 180px;" src="${movie.poster}">
+							</div>
+							<div class="row text-center">
+								<c:forEach var="label" items="${movie.labels}" varStatus="loop">
+
+									<div
+										class="label <%=MovieGeneratorUtil.getLabelRandomClass()%> lb-sm">${label.name}</div>
+
+								</c:forEach>
+							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-4 p-l-md">
 
 							<div class="row">
 
@@ -120,7 +123,6 @@
 						<div class="col-md-5">
 							<c:url value="/detailMovie" var="actionUrl" />
 
-							<div class="row"></div>
 							<div class="row">Rate social</div>
 							<div class="row">
 
@@ -151,9 +153,10 @@
 
 							<div class="row">
 								<label for="input-2" class="control-label">Rate Completo</label>
-								<input id="starinput-${loop.index}"
-									class="rating rating-loading" data-min="0" data-max="10"
-									data-stars="10" data-step="0.1" data-size="xs">
+								<div id="star-div${filmIndex.count}" data-starDiv>
+							
+								</div>
+
 							</div>
 							<div class="row">
 								<button type="submit" name="action" value="search"

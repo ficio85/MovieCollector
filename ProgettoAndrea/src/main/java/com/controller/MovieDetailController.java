@@ -37,8 +37,8 @@ public class MovieDetailController {
 	public String ricercaFilmRisultati ( HttpServletRequest request,Model model) throws Exception {
 		String movieKey= (String) request.getParameter("movieKey").trim();
 		MovieDTO movie= searchMovieService.getAllMovieDetail(movieKey,SessionUtil.getCodPers(request));
-		List <ActorDTO> actors =insertMovieService.inspectImdb(movie.getImdbKey());
-		insertMovieService.completeActors(actors);
+	//	List <ActorDTO> actors =insertMovieService.inspectImdb(movie.getImdbKey());
+		//insertMovieService.completeActors(actors);
 		request.setAttribute("movie", movie);
 		return "detailMovie.page";
 	}

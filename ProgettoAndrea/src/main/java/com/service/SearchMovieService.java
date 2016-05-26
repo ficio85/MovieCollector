@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
 
+import com.dao.ActorDAO;
 import com.dao.GenereDAO;
 import com.dao.LabelDAO;
 import com.dao.MovieRankDAO;
 //import com.dao.GenereDAO;
 import com.dao.SearchMovieDAO;
+import com.dto.ActorDTO;
 import com.dto.GenereDTO;
 import com.dto.LabelDTO;
 import com.dto.MovieDTO;
@@ -43,6 +45,10 @@ public class SearchMovieService {
 	@Qualifier("rateDAO")
 	MovieRankDAO rateDAO;
 
+	@Autowired
+	@Qualifier("actorDAO")
+	ActorDAO actorDAO;
+	
 	public List <MovieDTO> getListaFilm(SearchDTO search){
 
 		List <String> codMovies = new ArrayList <String>();
@@ -188,6 +194,12 @@ public class SearchMovieService {
 
 		float rate =searchMovieDAO.getMoviesByIndex(indexes, 0, 0,true).get(0).getRate();
 		return rate;
+	}
+
+
+	public ActorDTO getAllActorDetail(String name) {
+		// TODO Auto-generated method stub
+		return actorDAO.getActorsDetail(name);
 	}
 	
 	

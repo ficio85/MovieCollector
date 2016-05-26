@@ -119,7 +119,7 @@
 	<div class="row p-l-md">
 		<strong>Attori:</strong>
 		<c:forEach var="attore" items="${movie.actors}">
-			<a>${attore.name}</a>
+			<a class="actorList" href="/detailActor?actor=${attore.name}">${attore.name}</a>
 		</c:forEach>
 
 	</div>

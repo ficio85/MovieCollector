@@ -16,8 +16,7 @@ public class ActorMapper implements RowMapper<ActorDTO>{
 		
 		ActorDTO actor = new ActorDTO();
 		actor.setName(rset.getString("actor"));
-		actor.setIndexList(rset.getInt("indexList"));
-		
+		actor.setIndexList(rset.getInt("indexList"));	
 		return actor;
 	}
 	

@@ -11,6 +11,7 @@ import org.springframework.jdbc.object.MappingSqlQueryWithParameters;
 import org.springframework.stereotype.Repository;
 
 import com.dto.ActorDTO;
+import com.mapper.ActorMapper;
 
 @Repository("actorDAO")
 public class ActorDAO {
@@ -28,13 +29,23 @@ public class ActorDAO {
 		return result;
 	}
 	
-	
-	public void updateActor(ActorDTO actor) {
-
-		List<String> result;
+	public ActorDTO getActorsDetail(String name) 
+	{
+		ActorDTO result;
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("name", name);
+		result=jdbcTemplate.queryForObject(" SELECT * FROM actor where name = :name ", parameters, new ActorMapper());			
+		return result;
+	}
+	
+	public int updateActor(ActorDTO actor) {
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		//per adesso solo la chiave imdb
 		parameters.addValue("imdbkey", actor.getImdbIndex());
-		result=jdbcTemplate.update(" SELECT name FROM actor where name like :name ", parameters);			
+		parameters.addValue("name", actor.getName());
+		result=jdbcTemplate.update(" UPDATE actor set imdbkey=:imdbkey where name = :name ", parameters);			
 		return result;
 			
 	}	

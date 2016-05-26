@@ -25,5 +25,10 @@
 <definition name="errors.page" template="/WEB-INF/view/errors.jsp" >
 </definition>
 
+<definition name="detailActor.page" extends="main.page">
+		<put-attribute name="body" value="/WEB-INF/view/actorDetailLayout.jsp" />
+</definition>
+
+
 </tiles-definitions>
  

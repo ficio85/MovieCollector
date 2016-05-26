@@ -21,7 +21,7 @@ $(function(){
 		minLength: 3,
 
 	});
-	
+
 	$( "#labels" ).autocomplete({
 		source: function( request, response ) {
 			var link=$('#contextPath').val()+"/loadLabels";
@@ -141,10 +141,10 @@ $(function(){
 			$("#addLabel"+contLabel).prop("disabled",true);
 		}
 	});
-	
-	
-	
-	
+
+
+
+
 
 
 	$("#search-by-title-form").on("click",".emptyGenreClass",function(event ){
@@ -300,7 +300,7 @@ $(function(){
 		});
 
 	});
-	
+
 	$("#submitRate").click(function(event){
 		event.preventDefault();
 		var rateInt = $("#rateInt").val();
@@ -316,12 +316,12 @@ $(function(){
 			data: {rateInt:rateInt,rateDec:rateDec,indexMovie:indexMovie},
 			success: function( response ) {
 				if(response.rateChanged===true)
-					{
-						$("#starContainer").html(
-								"<i class=\"fa fa-star fa-stack-2x "+getStarClass(response.newRate)+"\"></i>"+
-								"<i class=\"fa fa-stack-1x star-text-render\">"+response.newRateString+"</i>	"
-						);
-					}
+				{
+					$("#starContainer").html(
+							"<i class=\"fa fa-star fa-stack-2x "+getStarClass(response.newRate)+"\"></i>"+
+							"<i class=\"fa fa-stack-1x star-text-render\">"+response.newRateString+"</i>	"
+					);
+				}
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) { 
 				alert("Status: " + textStatus); alert("Error: " + errorThrown); 
@@ -338,7 +338,7 @@ $(function(){
 		{
 			$("#createLabel").prop("disabled",false);
 		}
-		
+
 
 
 	});
@@ -346,7 +346,7 @@ $(function(){
 	function getStarClass( rank) {
 		// TODO Auto-generated method stub
 		var render="";
-		
+
 		if(rank<3)
 		{
 			render+="star-black-render ";
@@ -364,7 +364,7 @@ $(function(){
 			render+="star-yellow-render ";
 		}
 		return render;
-		
+
 	}
 
 	function generateLabelColor()
@@ -395,5 +395,14 @@ $(function(){
 		$("#rateDec").val(values[1]);
 	});
 
+	//movieDetail
+
+	$('.actorList').click(
+			function(event){
+				var actor = $(this).html();
+				
+			}
+
+	);
 
 });

@@ -252,7 +252,7 @@ public class InsertMovieService {
 		{
 			insertMovieDAO.deleteMovieActorsRel(movieKey);
 			insertMovieDAO.insertMovieActorsRel( actor, movieKey);
-			actorDAO.updateActor(actor);
+			//actorDAO.updateActor(actor);
 
 		}
 	}

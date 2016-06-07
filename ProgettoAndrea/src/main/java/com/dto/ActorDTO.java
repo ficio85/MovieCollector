@@ -1,15 +1,49 @@
 package com.dto;
 
+import java.util.List;
+
 public class ActorDTO {
 
 	String name;
 	String surname;
 	String role;
+	String image;
 	int age;
 	int indexList;
 	String imdbIndex;
+	float rate;
+	List <LabelDTO> labels;
 	
 	
+	
+	
+	
+	
+	
+	/**
+	 * @return the image
+	 */
+	public String getImage() {
+		return image;
+	}
+	/**
+	 * @param image the image to set
+	 */
+	public void setImage(String image) {
+		this.image = image;
+	}
+	/**
+	 * @return the rate
+	 */
+	public float getRate() {
+		return rate;
+	}
+	/**
+	 * @param rate the rate to set
+	 */
+	public void setRate(float rate) {
+		this.rate = rate;
+	}
 	public String getRole() {
 		return role;
 	}
@@ -47,5 +81,17 @@ public class ActorDTO {
 		this.age = age;
 	}
 	
+	/**
+	 * @return the labels
+	 */
+	public List<LabelDTO> getLabels() {
+		return labels;
+	}
+	/**
+	 * @param labels the labels to set
+	 */
+	public void setLabels(List<LabelDTO> labels) {
+		this.labels = labels;
+	}
 	
 }

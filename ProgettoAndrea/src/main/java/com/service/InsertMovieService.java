@@ -49,7 +49,7 @@ public class InsertMovieService {
 
 	@Autowired
 	@Qualifier("actorDAO")
-	LabelDAO actorDAO;
+	ActorDAO actorDAO;
 	
 	@Async
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)

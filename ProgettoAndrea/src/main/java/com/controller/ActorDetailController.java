@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +19,7 @@ import com.service.InsertMovieService;
 import com.service.SearchMovieService;
 import com.util.MessageErrorWrapper;
 import com.util.SessionUtil;
-
+@Controller
 public class ActorDetailController {
 	
 
@@ -43,6 +44,7 @@ public class ActorDetailController {
 		ArrayList <String> actors = new ArrayList <String>();
 		actors.add(act);
 		search.setActors(actors);
+		search.setSearchActor(true);
 		List <MovieDTO> movieList = searchMovieService.getListaFilm(search);
 		model.addAttribute("listMovies",movieList);
 
@@ -55,6 +57,7 @@ public class ActorDetailController {
 		int numPages=search.getCountResult()/recordPerPage+1;
 		
 //		generateHiddenForm(search,request);
+		request.setAttribute("actor", actor);
 		request.setAttribute("numPages", numPages);	
 		return "detailActor.page";
 	}

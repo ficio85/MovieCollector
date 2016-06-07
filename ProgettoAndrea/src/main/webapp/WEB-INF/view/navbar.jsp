@@ -29,7 +29,7 @@
 					href="<%=request.getContextPath()%>/goHome">Home</a></li>
 				<li><a href="<%=request.getContextPath()%>/searchMovie">Search
 						Movie</a></li>
-				<li><a>Guida tv</a></li>
+				<li><a href="<%=request.getContextPath()%>/guidaTV">Guida tv</a></li>
 				<li><a>My filmoteque</a></li>
 				<li><a>Amici</a></li>
 				<li><a>Affini</a></li>

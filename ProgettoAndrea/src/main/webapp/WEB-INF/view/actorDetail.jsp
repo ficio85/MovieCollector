@@ -1,3 +1,4 @@
+<%@page import="com.dto.ActorDTO"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page import="com.dto.MovieDTO"%>
@@ -10,13 +11,14 @@
 	<div class="row p-b-md">
 		<div class="col-md-8 movieTitle p-t-md">${actor.name}</div>
 		<%
-				float rate  = ((MovieDTO) request.getAttribute("actor")).getRate();
-			%>
+			float rate = ((ActorDTO) request.getAttribute("actor")).getRate();
+		
+		%>
 
 		<div class="col-md-4 p-r-lg text-center">
 
 			<span class="fa-stack fa-3x" id="starContainer"> <i
-				class="fa fa-star fa-stack-2x <%= MovieGeneratorUtil.getStarClass(rate) %>"></i>
+				class="fa fa-star fa-stack-2x <%=MovieGeneratorUtil.getStarClass(rate)%>"></i>
 				<i class="fa fa-stack-1x star-text-render">${actor.rate}</i>
 			</span>
 		</div>
@@ -89,7 +91,8 @@
 				</div>
 			</div>
 			<%
-				List<LabelDTO> labels = ((MovieDTO) request.getAttribute("movie")).getLabels();
+				List<LabelDTO> labels = ((ActorDTO) request.getAttribute("actor")).getLabels();
+				if (labels != null) {
 			%>
 			<div class="row">
 				<div id="labelSpace">
@@ -99,7 +102,7 @@
 					<div class="col-md-2 p-t-md classToCancel">
 
 						<div
-							class="label <%=MovieGeneratorUtil.getLabelRandomClass() %> lb-sm"><%= label.getName()%></div>
+							class="label <%=MovieGeneratorUtil.getLabelRandomClass()%> lb-sm"><%=label.getName()%></div>
 						<i class="icon icon-circle-with-cross removeLabel"></i>
 					</div>
 					<%
@@ -107,8 +110,14 @@
 					%>
 				</div>
 			</div>
+			<%
+				}
+			%>
 		</div>
 
 	</div>
 
+</div>
+
+<div class="row media list-group-item" id="actorPage">
 </div>

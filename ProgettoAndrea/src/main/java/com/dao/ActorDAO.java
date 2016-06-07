@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dto.ActorDTO;
 import com.mapper.ActorMapper;
+import com.mapper.ActorMapperComplete;
 
 @Repository("actorDAO")
 public class ActorDAO {
@@ -34,7 +35,7 @@ public class ActorDAO {
 		ActorDTO result;
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("name", name);
-		result=jdbcTemplate.queryForObject(" SELECT * FROM actor where name = :name ", parameters, new ActorMapper());			
+		result=jdbcTemplate.queryForObject(" SELECT * FROM actor where name = :name ", parameters, new ActorMapperComplete());			
 		return result;
 	}
 	

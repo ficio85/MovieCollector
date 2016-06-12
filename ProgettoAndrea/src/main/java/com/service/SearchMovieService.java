@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
 
+import com.controller.ProgramTvMovieDTO;
 import com.dao.ActorDAO;
 import com.dao.GenereDAO;
 import com.dao.LabelDAO;
@@ -173,7 +174,17 @@ public class SearchMovieService {
 		}
 	}
 
+	private void completeMovie(MovieDTO movieDTO) {
 
+
+			
+			movieDTO.setTitoloItaliano(searchMovieDAO.getMovieInternationalization(movieDTO.getMovieKey()));
+			movieDTO.setActors(searchMovieDAO.getMovieActors(movieDTO.getMovieKey()));
+			movieDTO.setGenre(searchMovieDAO.getMovieGenre(movieDTO.getMovieKey()));
+			movieDTO.setDirectors(searchMovieDAO.getMovieDirector(movieDTO.getMovieKey()));
+			movieDTO.setLabels(labelDAO.getListaLabelbyMovie(movieDTO.getMovieKey()));
+		
+	}
 
 	public List<GenereDTO> getListaGeneri() {
 		// TODO Auto-generated method stub
@@ -200,6 +211,28 @@ public class SearchMovieService {
 	public ActorDTO getAllActorDetail(String name) {
 		// TODO Auto-generated method stub
 		return actorDAO.getActorsDetail(name);
+	}
+
+
+	public List<MovieDTO> getMovieByDirectorYear(MovieDTO movie) {
+		// TODO Auto-generated method stub
+		return searchMovieDAO.getMovieByDirectorYear(movie.getYear(), movie.getDirectors());
+	}
+
+
+	
+
+
+	public List<ProgramTvMovieDTO> getProgrammiTv(String user) {
+		// TODO Auto-generated method stub
+		
+		List<ProgramTvMovieDTO> programmiTv = searchMovieDAO.getMovieTvList();
+		
+		for(ProgramTvMovieDTO programma : programmiTv)
+		{
+			programma.setMovie(getAllMovieDetail(programma.getMovie().getMovieKey(), user));
+		}
+		return programmiTv;
 	}
 	
 	

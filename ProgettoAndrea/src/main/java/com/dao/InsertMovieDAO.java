@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.controller.ProgramTvMovieDTO;
 import com.dto.ActorDTO;
 import com.dto.GenereDTO;
 import com.dto.LabelDTO;
@@ -236,6 +237,29 @@ public class InsertMovieDAO {
 		parameters.addValue("role", actor.getRole());
 		try {
 			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`movieactor`(`movie`,`actor`,`indexList`,`role`) VALUES(:moviekey,:actor,:index,:role)", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+		
+
+	
+	}
+
+	public int insertProgrammaTv(ProgramTvMovieDTO program) {
+
+		// TODO Auto-generated method stub
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("movieKey", program.getMovie().getMovieKey());
+		parameters.addValue("time", program.getOraInizio());
+		parameters.addValue("channel", program.getPlatform());
+		try {
+			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`movietv`(`movie`,`time`,`channel`) VALUES(:movieKey,:time,:channel)", parameters);
 		} 
 		catch(Exception e){
 			e.printStackTrace();

@@ -7,6 +7,12 @@ public class DirectorDTO {
 	int indexList;
 	
 	
+	public DirectorDTO(String ownText) {
+		this.name= ownText;
+}
+	public DirectorDTO() {
+		// TODO Auto-generated constructor stub
+	}
 	public int getIndexList() {
 		return indexList;
 	}

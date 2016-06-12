@@ -4,9 +4,13 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,6 +24,7 @@ import org.jsoup.select.Elements;
 
 import com.dto.ActorDTO;
 import com.dto.DirectorDTO;
+import com.dto.ImageDTO;
 import com.dto.MovieDTO;
 
 public class JsoupUtil {
@@ -32,22 +37,7 @@ public class JsoupUtil {
 		// TODO Auto-generated method stub
 		String actorToQuery = parseActor(actor);
 		URL url = new URL("https://it.wikipedia.org/wiki/"+actorToQuery);
-		HttpURLConnection uc = ProxyUtil.connect(url);
-		String line = null;
-		StringBuffer tmp = new StringBuffer();
-		BufferedReader in;
-		try{
-			in = new BufferedReader(new InputStreamReader(uc.getInputStream(),"UTF-8"));
-
-		}
-		catch(FileNotFoundException ex)
-		{
-			throw ex;
-		}
-		while ((line = in.readLine()) != null) {
-			tmp.append(line);
-		}
-		Document doc = Jsoup.parse(String.valueOf(tmp));
+		Document doc = extractDocumentFromUrl(url);
 		List<Node> childNodes;
 		try {
 			childNodes = extractChildNodes(doc,type);
@@ -112,6 +102,27 @@ public class JsoupUtil {
 
 
 
+	}
+
+	private static Document extractDocumentFromUrl(URL url)
+			throws IOException, UnsupportedEncodingException, FileNotFoundException {
+		HttpURLConnection uc = ProxyUtil.connect(url);
+		String line = null;
+		StringBuffer tmp = new StringBuffer();
+		BufferedReader in;
+		try{
+			in = new BufferedReader(new InputStreamReader(uc.getInputStream(),"UTF-8"));
+
+		}
+		catch(FileNotFoundException ex)
+		{
+			throw ex;
+		}
+		while ((line = in.readLine()) != null) {
+			tmp.append(line);
+		}
+		Document doc = Jsoup.parse(String.valueOf(tmp));
+		return doc;
 	}
 
 	private static void setMovieDirector(Node node, MovieDTO movie) {
@@ -249,22 +260,7 @@ public class JsoupUtil {
 		// TODO Auto-generated method stub
 		List <ActorDTO> actorList = new ArrayList <ActorDTO>();
 		URL url = new URL("http://www.imdb.com/title/"+imdbIndex+"/fullcredits?ref_=tt_ql_1");
-		HttpURLConnection uc = ProxyUtil.connect(url);
-		String line = null;
-		StringBuffer tmp = new StringBuffer();
-		BufferedReader in;
-		try{
-			in = new BufferedReader(new InputStreamReader(uc.getInputStream(),"UTF-8"));
-
-		}
-		catch(FileNotFoundException ex)
-		{
-			throw ex;
-		}
-		while ((line = in.readLine()) != null) {
-			tmp.append(line);
-		}
-		Document doc = Jsoup.parse(String.valueOf(tmp));
+		Document doc = extractDocumentFromUrl(url);
 		Element table = doc.select("table.cast_list").get(0); //select the first table.
 		Elements rows = table.select("tr");
 
@@ -280,12 +276,8 @@ public class JsoupUtil {
 			{
 				String link =node.attr("href");
 
-				System.out.println(link);
 				String prova3 = link.split("/")[1];
-				System.out.println(prova3);
 				 prova3 = link.split("/")[2];
-					System.out.println("Second try"+prova3);
-
 				//prendo il nome dell'attore
 				Node nodeActor=((Element)node).children().get(0);
 				actor.setName(((Element)nodeActor).ownText());
@@ -301,15 +293,59 @@ public class JsoupUtil {
 			Node nodeCharacter = colNameCharacter.childNodes().get(1);
 			actor.setRole(((Element)nodeCharacter).ownText());
 			actor.setImdbIndex(imdbIndex);
-			System.out.println(((Element)nodeCharacter).ownText());
-
+			actorList.add(actor);
 
 		}
-		return null;
+		return actorList;
 
 
 
 
+	}
+	
+	public static void generateImdbActorInfo(ActorDTO actor) throws UnsupportedEncodingException, FileNotFoundException, IOException
+	{
+		URL url = new URL("http://www.imdb.com/name/"+actor.getImdbIndex()+"/");
+		Document doc = extractDocumentFromUrl(url);
+		Element element = doc.select("#name-born-info").get(0);
+		String date = element.select("time[datetime]").get(0).attr("datetime");
+		Elements hrefs = element.select("a");
+		String fullname = hrefs.get(0).ownText();
+		String birthplace = hrefs.get(hrefs.size()-1).ownText();
+		
+		actor.setBirthDate(parseDate(date));
+		actor.setBithplace(birthplace);
+		actor.setFullname(fullname);
+		
+		
+	}
+
+	private static Date parseDate(String date) {
+		// TODO Auto-generated method stub
+		Calendar calendar = Calendar.getInstance();
+		 String [] dateparts = date.split("-");
+		 calendar.set(Calendar.YEAR, Integer.parseInt(dateparts[0]));
+		 calendar.set(Calendar.MONTH, Integer.parseInt(dateparts[1]));
+		 calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateparts[2]));
+		  return new Date(calendar.getTime().getTime());
+	}
+
+	public static void generateWikiActorInfo(ActorDTO actor) throws UnsupportedEncodingException, FileNotFoundException, IOException {
+		URL url = new URL("https://it.wikipedia.org/wiki/"+actor.getName());
+		Document doc = extractDocumentFromUrl(url);
+		Elements imagesLink = doc.select("img");
+		List <ImageDTO> images = new ArrayList <ImageDTO>();
+		for(int i = 0; i< imagesLink.size();i++)
+		{
+			ImageDTO image = new ImageDTO();
+			Element img = imagesLink.get(i);
+			image.setSrc(img.attr("src"));
+			image.setHeight(img.attr("height"));
+			image.setWidth(img.attr("width"));
+			images.add(image);
+		}
+		actor.setImages(images);
+		
 	}
 
 }

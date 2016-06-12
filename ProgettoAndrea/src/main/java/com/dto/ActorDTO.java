@@ -1,37 +1,72 @@
 package com.dto;
 
+import java.sql.Date;
 import java.util.List;
 
 public class ActorDTO {
 
 	String name;
 	String surname;
+	String fullname;
+	String bithplace;
 	String role;
-	String image;
+	List <ImageDTO> images;
 	int age;
 	int indexList;
 	String imdbIndex;
 	float rate;
 	List <LabelDTO> labels;
+	Date birthDate; 
 	
 	
 	
-	
-	
-	
-	
-	/**
-	 * @return the image
-	 */
-	public String getImage() {
-		return image;
+	public String getFullname() {
+		return fullname;
 	}
-	/**
-	 * @param image the image to set
-	 */
-	public void setImage(String image) {
-		this.image = image;
+
+
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
 	}
+
+
+
+	public String getBithplace() {
+		return bithplace;
+	}
+
+
+
+	public void setBithplace(String bithplace) {
+		this.bithplace = bithplace;
+	}
+
+
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+
+
+	public ActorDTO() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+	public ActorDTO(String ownText) {
+this.name = ownText;
+}
+
+
 	/**
 	 * @return the rate
 	 */
@@ -93,5 +128,18 @@ public class ActorDTO {
 	public void setLabels(List<LabelDTO> labels) {
 		this.labels = labels;
 	}
+
+
+
+	public List<ImageDTO> getImages() {
+		return images;
+	}
+
+
+
+	public void setImages(List<ImageDTO> images) {
+		this.images = images;
+	}
+	
 	
 }

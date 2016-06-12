@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.controller.ProgramTvMovieDTO;
 import com.dao.ActorDAO;
 import com.dao.InsertMovieDAO;
 import com.dao.LabelDAO;
@@ -104,6 +105,11 @@ public class InsertMovieService {
 
 	}
 
+		public void insertInternationalization(MovieDTO movie)
+		{
+			insertMovieDAO.updateInternationlization(movie);
+		}
+		
 	private List<Integer> getMovieYears(int year) {
 		// TODO Auto-generated method stub
 		List <Integer> years= new ArrayList <Integer>();
@@ -236,13 +242,22 @@ public class InsertMovieService {
 	
 	
 	@Async
-	public Future<Boolean> inspectImdb(String indexMovie) throws Exception{
+	public Future<Boolean> inspectImdbForActor(String indexMovie,ActorDTO actor) throws Exception{
 		System.out.println("Inizio thread");
 		List<MovieDTO> movies;
 		List <ActorDTO> actors = JsoupUtil.imdbInspect(indexMovie);
+		ActorDTO actorToConsider = null;
+		for(ActorDTO actorMovie: actors)
+		{ 
+			if (actorMovie.getName().equals(actor.getName()))
+			{
+				actorToConsider = actorMovie ;
+				break;
+			}
+		}
+		actor.setImdbIndex(actorToConsider.getImdbIndex());
 		System.out.println("I'm done!");
 		return new AsyncResult<Boolean>(true);
-
 
 	}
 
@@ -254,6 +269,17 @@ public class InsertMovieService {
 			insertMovieDAO.insertMovieActorsRel( actor, movieKey);
 			//actorDAO.updateActor(actor);
 
+		}
+	}
+
+	public void insertProgrammiTv(List<ProgramTvMovieDTO> programmi) {
+		// TODO Auto-generated method stub
+		for(ProgramTvMovieDTO program : programmi)
+		{
+			if(program.getMovie().getMovieKey()!=null)
+			{
+				insertMovieDAO.insertProgrammaTv(program);
+			}
 		}
 	}
 

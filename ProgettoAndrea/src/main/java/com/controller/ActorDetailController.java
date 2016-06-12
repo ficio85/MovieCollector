@@ -17,6 +17,7 @@ import com.dto.MovieDTO;
 import com.dto.SearchDTO;
 import com.service.InsertMovieService;
 import com.service.SearchMovieService;
+import com.util.ActorGeneratorUtil;
 import com.util.MessageErrorWrapper;
 import com.util.SessionUtil;
 @Controller
@@ -53,9 +54,10 @@ public class ActorDetailController {
 			MessageErrorWrapper.saveMessage(model, "Non sono stati trovati risultati","Ripetere la ricerca");
 			return "errors.page";
 		}
-		
+		ActorDTO actorToComplete = new ActorDTO(act);
+		insertMovieService.inspectImdbForActor(movieList.get(0).getImdbKey(), actorToComplete);
+		ActorGeneratorUtil.getCompleteInfoActor(actorToComplete);
 		int numPages=search.getCountResult()/recordPerPage+1;
-		
 //		generateHiddenForm(search,request);
 		request.setAttribute("actor", actor);
 		request.setAttribute("numPages", numPages);	

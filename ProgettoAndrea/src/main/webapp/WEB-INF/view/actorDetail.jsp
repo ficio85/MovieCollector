@@ -41,15 +41,15 @@
 			<div class="row p-t-md">
 				<label for="input-2" class="control-label ">Nome Completo</label>
 			</div>
-			<div class="row">Andrea Ficius Ficeti</div>
+			<div class="row">${actor.fullname}</div>
 			<div class="row p-t-md">
 				<label for="input-2" class="control-label ">Data Nascita</label>
 			</div>
-			<div class="row">25/03/1985</div>
+			<div class="row">${actor.birthDate}</div>
 			<div class="row p-t-md">
 				<label for="input-2" class="control-label ">Luogo di Nascita</label>
 			</div>
-			<div class="row">Ascoli Piceno</div>
+			<div class="row">${actor.birthplace}</div>
 			<div class="row">
 				<label for="input-2" class="control-label">Rate Completo</label>
 			</div>

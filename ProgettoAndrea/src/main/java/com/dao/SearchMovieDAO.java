@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.controller.ProgramTvMovieDTO;
 import com.dto.ActorDTO;
 import com.dto.CountryDTO;
 import com.dto.DirectorDTO;
@@ -30,6 +31,7 @@ import com.mapper.LabelMapper;
 import com.mapper.LanguageMapper;
 import com.mapper.MovieMapper;
 import com.mapper.MovieMapperComplete;
+import com.mapper.ProgramTvMapper;
 import com.mapper.WriterMapper;
 
 @Repository("searchMovieDAO")
@@ -622,7 +624,29 @@ public class SearchMovieDAO {
 
 	}
 
+	public List<MovieDTO> getMovieByDirectorYear(int year, List<DirectorDTO> directors) {
+		// TODO Auto-generated method stub
+		String nameDirector =directors.get(0).getName();
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("director", nameDirector);
+		parameters.addValue("year", year);
 
+		List<MovieDTO> result;
+		try {
+			result=jdbcTemplate.query(" SELECT * FROM moviedirector dir,movie mov where dir.movie = mov.idmovie"
+					+ " and director = :director and year=:year ",parameters, new MovieMapper());
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
+
+
+	}
 
 
 
@@ -781,7 +805,18 @@ public class SearchMovieDAO {
 
 	}
 
+	public List<ProgramTvMovieDTO> getMovieTvList() {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
 
+
+		String sql="";
+
+		sql +="SELECT `movie`,`channel`,`time` from movietv order by time asc ";
+
+		return jdbcTemplate.query(sql,parameters,new ProgramTvMapper());
+
+
+	}
 
 
 

@@ -29,6 +29,9 @@
 		<put-attribute name="body" value="/WEB-INF/view/actorDetailLayout.jsp" />
 </definition>
 
+<definition name="guidaTv.page" extends="main.page">
+		<put-attribute name="body" value="/WEB-INF/view/searchMovie/resultMovieTv.jsp" />
+</definition>
 
 </tiles-definitions>
  

@@ -20,19 +20,18 @@
 
 		</div>
 		<%
-				float rate  = ((MovieDTO) request.getAttribute("movie")).getRate();
-			%>
+			float rate = ((MovieDTO) request.getAttribute("movie")).getRate();
+		%>
 
 		<div class="col-md-4 p-r-lg text-center">
 
-			<span class="fa-stack fa-3x" id="starContainer"> 
-				<i class="fa fa-star fa-stack-2x <%= MovieGeneratorUtil.getStarClass(rate) %>"></i>
+			<span class="fa-stack fa-3x" id="starContainer"> <i
+				class="fa fa-star fa-stack-2x <%=MovieGeneratorUtil.getStarClass(rate)%>"></i>
 				<i class="fa fa-stack-1x star-text-render">${movie.rate}</i>
 			</span>
 		</div>
 	</div>
-	<div class="row">
-	</div>
+	<div class="row"></div>
 	<div class="row">
 		<div class="col-md-5 p-l-md text-center">
 			<div class="row">
@@ -104,7 +103,7 @@
 					<div class="col-md-2 p-t-md classToCancel">
 
 						<div
-							class="label <%=MovieGeneratorUtil.getLabelRandomClass() %> lb-sm"><%= label.getName()%></div>
+							class="label <%=MovieGeneratorUtil.getLabelRandomClass()%> lb-sm"><%=label.getName()%></div>
 						<i class="icon icon-circle-with-cross removeLabel"></i>
 					</div>
 					<%
@@ -117,9 +116,18 @@
 	</div>
 	<div class="row p-t-md"></div>
 	<div class="row p-l-md">
+		<strong>Regista:</strong>
+		<c:forEach var="regista" items="${movie.directors}">
+			<a class="directorList"
+				href="${context}/detailDirector?director=${regista.name}">${regista.name}</a>
+		</c:forEach>
+
+	</div>
+	<div class="row p-l-md">
 		<strong>Attori:</strong>
 		<c:forEach var="attore" items="${movie.actors}">
-			<a class="actorList" href="${context}/detailActor?actor=${attore.name}">${attore.name}</a>
+			<a class="actorList"
+				href="${context}/detailActor?actor=${attore.name}">${attore.name}</a>
 		</c:forEach>
 
 	</div>

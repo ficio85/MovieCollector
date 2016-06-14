@@ -28,7 +28,7 @@
 		<div class="col-md-5 p-l-md text-center">
 			<div class="row">
 				<img class="img-responsive img-thumbnail"
-					style="width: 240px; height: 300px;" src="${actor.image}">
+					style="width: 240px; height: 300px;" src="${actor.images[0].src}">
 			</div>
 			<div class="row">
 				<div class="label label-success lb-md">Cool</div>

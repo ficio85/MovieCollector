@@ -5,6 +5,7 @@ public class DirectorDTO {
 	String name;
 	String surname;
 	int indexList;
+	String imdbIndex;
 	
 	
 	public DirectorDTO(String ownText) {
@@ -31,6 +32,19 @@ public class DirectorDTO {
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
-
+	/**
+	 * @return the imdbIndex
+	 */
+	public String getImdbIndex() {
+		return imdbIndex;
+	}
+	/**
+	 * @param imdbIndex the imdbIndex to set
+	 */
+	public void setImdbIndex(String imdbIndex) {
+		this.imdbIndex = imdbIndex;
+	}
+	
+	
 
 }

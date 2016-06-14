@@ -37,7 +37,7 @@ public class AutoCompleteServlet  {
     	   
               List<String> listaRegisti = directorService.getDirectorsList(stringDirectorSearch); 
 
-              String [] arrayDirectors= new String[listaRegisti.size()];;
+              String [] arrayDirectors= new String[listaRegisti.size()];
               if(listaRegisti!=null && listaRegisti.size()!=0)
               {
                  

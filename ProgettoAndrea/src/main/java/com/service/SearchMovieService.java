@@ -18,6 +18,7 @@ import com.dao.MovieRankDAO;
 //import com.dao.GenereDAO;
 import com.dao.SearchMovieDAO;
 import com.dto.ActorDTO;
+import com.dto.DirectorDTO;
 import com.dto.GenereDTO;
 import com.dto.LabelDTO;
 import com.dto.MovieDTO;
@@ -175,8 +176,6 @@ public class SearchMovieService {
 	}
 
 	private void completeMovie(MovieDTO movieDTO) {
-
-
 			
 			movieDTO.setTitoloItaliano(searchMovieDAO.getMovieInternationalization(movieDTO.getMovieKey()));
 			movieDTO.setActors(searchMovieDAO.getMovieActors(movieDTO.getMovieKey()));
@@ -213,6 +212,10 @@ public class SearchMovieService {
 		return actorDAO.getActorsDetail(name);
 	}
 
+	public DirectorDTO getAllDirectorDetail(String director) {
+		// TODO Auto-generated method stub
+		return directorDAO.getDirectorDetail(director);
+	}
 
 	public List<MovieDTO> getMovieByDirectorYear(MovieDTO movie) {
 		// TODO Auto-generated method stub
@@ -234,6 +237,9 @@ public class SearchMovieService {
 		}
 		return programmiTv;
 	}
+
+
+	
 	
 	
 //	public List<GenereDTO> getListaLabelbySearch(String name) {

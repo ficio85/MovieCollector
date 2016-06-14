@@ -10,6 +10,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.object.MappingSqlQueryWithParameters;
 import org.springframework.stereotype.Repository;
 
+import com.dto.DirectorDTO;
+import com.mapper.DirectorMapperComplete;
+
 @Repository("directorDAO")
 public class DirectorDAO {
 
@@ -23,6 +26,16 @@ public class DirectorDAO {
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("name", search+"%");
 		result=jdbcTemplate.queryForList(" SELECT name FROM director where name like :name ", parameters, String.class);			
+		return result;
+	}
+	
+	
+	public DirectorDTO getDirectorDetail(String search) 
+	{
+		DirectorDTO result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("name", search+"%");
+		result=jdbcTemplate.query(" SELECT name FROM director where name = :name ", parameters, new DirectorMapperComplete());			
 		return result;
 	}
 }

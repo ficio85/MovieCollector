@@ -8,7 +8,7 @@ public class ActorDTO {
 	String name;
 	String surname;
 	String fullname;
-	String bithplace;
+	String birthplace;
 	String role;
 	List <ImageDTO> images;
 	int age;
@@ -32,14 +32,24 @@ public class ActorDTO {
 
 
 
-	public String getBithplace() {
-		return bithplace;
+	
+
+
+
+	/**
+	 * @return the birthplace
+	 */
+	public String getBirthplace() {
+		return birthplace;
 	}
 
 
 
-	public void setBithplace(String bithplace) {
-		this.bithplace = bithplace;
+	/**
+	 * @param birthplace the birthplace to set
+	 */
+	public void setBirthplace(String birthplace) {
+		this.birthplace = birthplace;
 	}
 
 

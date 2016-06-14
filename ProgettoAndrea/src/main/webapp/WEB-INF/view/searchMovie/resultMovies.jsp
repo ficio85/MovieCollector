@@ -124,8 +124,20 @@
 						</div>
 						<div class="col-md-5">
 							<c:url value="/detailMovie" var="actionUrl" />
-
-							<div class="row">Rate social</div>
+							
+							<div class="row">
+								LABEL:
+							</div>
+							<div class="row">
+								Labels di prova
+							</div>
+							<div class="row">
+								PLOT:
+							</div>
+							<div class="row">
+								Plot di prova
+							</div>
+<%-- 							<div class="row">Rate social</div>
 							<div class="row">
 
 								<button type="button" data-index="${loop.index}" data-social
@@ -149,9 +161,7 @@
 									<span class="icon icon-heart"></span>
 								</button>
 
-
-
-							</div>
+							</div> --%>
 
 							<div class="row">
 								<label for="input-2" class="control-label">Rate Completo</label>

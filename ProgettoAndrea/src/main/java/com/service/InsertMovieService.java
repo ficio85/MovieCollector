@@ -241,7 +241,6 @@ public class InsertMovieService {
 
 	
 	
-	@Async
 	public Future<Boolean> inspectImdbForActor(String indexMovie,ActorDTO actor) throws Exception{
 		System.out.println("Inizio thread");
 		List<MovieDTO> movies;
@@ -261,6 +260,26 @@ public class InsertMovieService {
 
 	}
 
+	public Future<Boolean> inspectImdbForDirector(String indexMovie,DirectorDTO director) throws Exception{
+		System.out.println("Inizio thread");
+		List<MovieDTO> movies;
+		List <DirectorDTO> directors = JsoupUtil.imdbInspect(indexMovie);
+		DirectorDTO directorToConsider = null;
+		for(DirectorDTO directorMovie: directors)
+		{ 
+			if (directorMovie.getName().equals(director.getName()))
+			{
+				directorToConsider = directorMovie ;
+				break;
+			}
+		}
+		director.setImdbIndex(directorToConsider.getImdbIndex());
+		System.out.println("I'm done!");
+		return new AsyncResult<Boolean>(true);
+
+	}
+	
+	
 	public void completeActors(List<ActorDTO> actors, String movieKey) {
 		// TODO Auto-generated method stub
 		for(ActorDTO actor:actors)

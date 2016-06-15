@@ -15,8 +15,6 @@ import com.mapper.DirectorMapperComplete;
 
 @Repository("directorDAO")
 public class DirectorDAO {
-
-
 	@Autowired
 	@Qualifier("jdbcTemplate")
 	NamedParameterJdbcTemplate jdbcTemplate;	
@@ -34,8 +32,8 @@ public class DirectorDAO {
 	{
 		DirectorDTO result;
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("name", search+"%");
-		result=jdbcTemplate.query(" SELECT name FROM director where name = :name ", parameters, new DirectorMapperComplete());			
+		parameters.addValue("name", search);
+		result= jdbcTemplate.queryForObject(" SELECT name FROM director where name = :name ", parameters, new DirectorMapperComplete());			
 		return result;
 	}
 }

@@ -59,7 +59,7 @@ public class InsertMovieController {
 		String rateInt=request.getParameter("rateInt");
 		String rateDec= request.getParameter("rateDec");
 		
-		ArrayList <String> indexes = new ArrayList(Arrays.asList(movie));
+		ArrayList <String> indexes = new ArrayList<>(Arrays.asList(movie));
 		float rate = Float.parseFloat(rateInt+"."+rateDec);
 		RateResponse response = new RateResponse();
 

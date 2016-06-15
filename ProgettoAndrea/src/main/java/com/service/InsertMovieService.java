@@ -39,11 +39,11 @@ public class InsertMovieService {
 	@Autowired
 	@Qualifier("searchMovieDAO")
 	SearchMovieDAO searchMovieDAO;
-	
+
 	@Autowired
 	@Qualifier("rateDAO")
 	MovieRankDAO rateDAO;
-	
+
 	@Autowired
 	@Qualifier("labelDAO")
 	LabelDAO labelDAO;
@@ -51,7 +51,7 @@ public class InsertMovieService {
 	@Autowired
 	@Qualifier("actorDAO")
 	ActorDAO actorDAO;
-	
+
 	@Async
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
 	public void updateMoviesByActor(List <MovieDTO> movies, String actor){
@@ -105,11 +105,11 @@ public class InsertMovieService {
 
 	}
 
-		public void insertInternationalization(MovieDTO movie)
-		{
-			insertMovieDAO.updateInternationlization(movie);
-		}
-		
+	public void insertInternationalization(MovieDTO movie)
+	{
+		insertMovieDAO.updateInternationlization(movie);
+	}
+
 	private List<Integer> getMovieYears(int year) {
 		// TODO Auto-generated method stub
 		List <Integer> years= new ArrayList <Integer>();
@@ -163,7 +163,7 @@ public class InsertMovieService {
 			labelDAO.insertUserLaber(codPers,movie, label);
 		}
 		updateLabelTable(movie,labels);
-		
+
 	}
 
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
@@ -184,7 +184,7 @@ public class InsertMovieService {
 		rateResponse.setNewRateString(mediaRate);
 		rateResponse.setOldRate(rateOld);
 		return rateResponse;
-		
+
 	}
 
 	@Async
@@ -215,9 +215,9 @@ public class InsertMovieService {
 	public Future<Boolean> updateLabelTable( String movie,List <LabelDTO> labels) throws Exception{
 		System.out.println("Inizio thread");
 		List<LabelDTO> oldLabels = labelDAO.getListaUserLabelbyMovie(movie);
-		
+
 		boolean isSame=true;
-		
+
 		for(int j=0;j<oldLabels.size();j++)
 		{
 			if(!oldLabels.get(j).equals(labels.get(j)))
@@ -239,8 +239,8 @@ public class InsertMovieService {
 		return new AsyncResult<Boolean>(true);
 	}
 
-	
-	
+
+
 	public Future<Boolean> inspectImdbForActor(String indexMovie,ActorDTO actor) throws Exception{
 		System.out.println("Inizio thread");
 		List<MovieDTO> movies;
@@ -262,24 +262,14 @@ public class InsertMovieService {
 
 	public Future<Boolean> inspectImdbForDirector(String indexMovie,DirectorDTO director) throws Exception{
 		System.out.println("Inizio thread");
-		List<MovieDTO> movies;
-		List <DirectorDTO> directors = JsoupUtil.imdbInspect(indexMovie);
-		DirectorDTO directorToConsider = null;
-		for(DirectorDTO directorMovie: directors)
-		{ 
-			if (directorMovie.getName().equals(director.getName()))
-			{
-				directorToConsider = directorMovie ;
-				break;
-			}
-		}
-		director.setImdbIndex(directorToConsider.getImdbIndex());
+		DirectorDTO directorInspected = JsoupUtil.imdbInspectDirector(indexMovie);
+		director.setImdbIndex(directorInspected.getImdbIndex());
 		System.out.println("I'm done!");
 		return new AsyncResult<Boolean>(true);
 
 	}
-	
-	
+
+
 	public void completeActors(List<ActorDTO> actors, String movieKey) {
 		// TODO Auto-generated method stub
 		for(ActorDTO actor:actors)
@@ -302,16 +292,16 @@ public class InsertMovieService {
 		}
 	}
 
-	
 
-//	public void deleteUserLabel(String codPers, String movie, ArrayList<LabelDTO> labels) {
-//		// TODO Auto-generated method stub
-//		for(LabelDTO label:labels)
-//		{
-//			insertMovieDAO.deleteUserLaber(codPers,movie, label);
-//
-//		}	
-//	}
+
+	//	public void deleteUserLabel(String codPers, String movie, ArrayList<LabelDTO> labels) {
+	//		// TODO Auto-generated method stub
+	//		for(LabelDTO label:labels)
+	//		{
+	//			insertMovieDAO.deleteUserLaber(codPers,movie, label);
+	//
+	//		}	
+	//	}
 
 
 }

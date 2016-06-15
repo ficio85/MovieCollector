@@ -19,10 +19,11 @@ import com.dto.SearchDTO;
 import com.service.InsertMovieService;
 import com.service.SearchMovieService;
 import com.util.ActorGeneratorUtil;
+import com.util.DirectorGeneratorUtil;
 import com.util.MessageErrorWrapper;
 import com.util.SessionUtil;
 @Controller
-public class ActorDetailController {
+public class DirectorDetailController {
 	
 
 
@@ -42,19 +43,12 @@ public class ActorDetailController {
 		String director= (String) request.getParameter("director").trim();
 		DirectorDTO directorDto= searchMovieService.getAllDirectorDetail(director);
 		SearchDTO search = new SearchDTO();
-		search.isSearchActor();
 		ArrayList <String> directors = new ArrayList <String>();
 		directors.add(director);
 		search.setDirectors(directors);
 		search.setSearchDirector(true);
 		List <MovieDTO> movieList = searchMovieService.getListaFilm(search);
 		model.addAttribute("listMovies",movieList);
-
-		if(movieList == null || movieList.isEmpty())
-		{
-			MessageErrorWrapper.saveMessage(model, "Non sono stati trovati risultati","Ripetere la ricerca");
-			return "errors.page";
-		}
 		DirectorDTO directorToComplete = new DirectorDTO(director);
 		insertMovieService.inspectImdbForDirector(movieList.get(0).getImdbKey(), directorToComplete);
 		DirectorGeneratorUtil.getCompleteInfoDirector(directorToComplete);
@@ -62,7 +56,7 @@ public class ActorDetailController {
 //		generateHiddenForm(search,request);
 		request.setAttribute("director", directorToComplete);
 		request.setAttribute("numPages", numPages);	
-		return "detailActor.page";
+		return "detailDirector.page";
 	}
 	
 	

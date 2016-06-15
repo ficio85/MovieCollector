@@ -35,7 +35,7 @@ public class MovieDetailController {
 	
 	@RequestMapping(value = "/detailMovie", method = { RequestMethod.GET, RequestMethod.POST })
 	public String ricercaFilmRisultati ( HttpServletRequest request,Model model) throws Exception {
-		String movieKey= (String) request.getParameter("movieKey").trim();
+		String movieKey= request.getParameter("movieKey").trim();
 		MovieDTO movie= searchMovieService.getAllMovieDetail(movieKey,SessionUtil.getCodPers(request));
 	//	List <ActorDTO> actors =insertMovieService.inspectImdb(movie.getImdbKey());
 		//insertMovieService.completeActors(actors);

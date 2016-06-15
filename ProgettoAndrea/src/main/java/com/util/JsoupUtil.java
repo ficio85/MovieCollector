@@ -47,7 +47,7 @@ public class JsoupUtil {
 			throw e;
 		}
 
-		ArrayList<MovieDTO> moviesActor = new ArrayList();
+		ArrayList<MovieDTO> moviesActor = new ArrayList<>();
 		for(Node node:childNodes)
 		{
 			Pattern pattern = Pattern.compile("^d{4}$");
@@ -309,6 +309,26 @@ public class JsoupUtil {
 
 	}
 
+	
+	public static DirectorDTO imdbInspectDirector(String imdbIndex) throws Exception {
+		// TODO Auto-generated method stub
+		DirectorDTO director = new DirectorDTO();
+		URL url = new URL("http://www.imdb.com/title/"+imdbIndex+"");
+		Document doc = extractDocumentFromUrl(url);
+		
+		Element spanClass = doc.select(".itemprop").get(0);
+
+		Element span = doc.select("itemprop[director]").get(0); //select the first table.
+		
+		String hrefValue = span.select("a").get(0).attr("href");
+		String  imdbIndexRegista= hrefValue.split("/")[2].split("?")[0];
+		director.setImdbIndex(imdbIndexRegista);
+		
+		return director;
+
+	}
+	
+	
 	public static void generateImdbActorInfo(ActorDTO actor) throws UnsupportedEncodingException, FileNotFoundException, IOException
 	{
 		URL url = new URL("http://www.imdb.com/name/"+actor.getImdbIndex()+"/");
@@ -334,11 +354,11 @@ public class JsoupUtil {
 		String fullname = hrefs.get(0).ownText();
 		String birthplace = hrefs.get(hrefs.size()-1).ownText();
 
-		actor.setBirthDate(parseDate(date));
-		actor.setBirthplace(birthplace);
-		actor.setFullname(actor.getName());
+		director.setBirthDate(parseDate(date));
+		director.setBirthplace(birthplace);
+		director.setFullname(director.getName());
 	}
-	
+	 
 	
 	
 	private static Date parseDate(String date) {
@@ -371,14 +391,11 @@ public class JsoupUtil {
 
 	}
 
-	public static void generateImdbDirectorInfo(DirectorDTO director) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public static void generateWikiDirectorInfo(DirectorDTO director) {
 		// TODO Auto-generated method stub
 		
 	}
+
+	
 
 }

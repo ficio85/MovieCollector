@@ -1,11 +1,17 @@
 package com.dto;
 
+import java.sql.Date;
+
 public class DirectorDTO {
 
 	String name;
 	String surname;
 	int indexList;
 	String imdbIndex;
+	String birthplace;
+	Date birthDate;
+	String fullname;
+	
 	
 	
 	public DirectorDTO(String ownText) {
@@ -43,6 +49,42 @@ public class DirectorDTO {
 	 */
 	public void setImdbIndex(String imdbIndex) {
 		this.imdbIndex = imdbIndex;
+	}
+	/**
+	 * @return the birthplace
+	 */
+	public String getBirthplace() {
+		return birthplace;
+	}
+	/**
+	 * @param birthplace the birthplace to set
+	 */
+	public void setBirthplace(String birthplace) {
+		this.birthplace = birthplace;
+	}
+	/**
+	 * @return the birthDate
+	 */
+	public Date getBirthDate() {
+		return birthDate;
+	}
+	/**
+	 * @param birthDate the birthDate to set
+	 */
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+	/**
+	 * @return the fullname
+	 */
+	public String getFullname() {
+		return fullname;
+	}
+	/**
+	 * @param fullname the fullname to set
+	 */
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
 	}
 	
 	

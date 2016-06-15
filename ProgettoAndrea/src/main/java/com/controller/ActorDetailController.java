@@ -38,7 +38,7 @@ public class ActorDetailController {
 	public String dettaglioAttore ( HttpServletRequest request,Model model) throws Exception {
 		int recordPerPage=15;
 
-		String act= (String) request.getParameter("actor").trim();
+		String act=  request.getParameter("actor").trim();
 		ActorDTO actor= searchMovieService.getAllActorDetail(act);
 		SearchDTO search = new SearchDTO();
 		search.isSearchActor();

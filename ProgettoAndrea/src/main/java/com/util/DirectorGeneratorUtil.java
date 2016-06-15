@@ -11,7 +11,7 @@ public class DirectorGeneratorUtil {
 
 	
 	
-	public static void getCompleteInfoActor(DirectorDTO director) throws UnsupportedEncodingException, FileNotFoundException, IOException
+	public static void getCompleteInfoDirector(DirectorDTO director) throws UnsupportedEncodingException, FileNotFoundException, IOException
 	{
 		JsoupUtil.generateImdbDirectorInfo(director);
 		JsoupUtil.generateWikiDirectorInfo(director);

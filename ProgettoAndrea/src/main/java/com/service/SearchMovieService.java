@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.controller.ProgramTvMovieDTO;
 import com.dao.ActorDAO;
+import com.dao.DirectorDAO;
 import com.dao.GenereDAO;
 import com.dao.LabelDAO;
 import com.dao.MovieRankDAO;
@@ -50,6 +51,10 @@ public class SearchMovieService {
 	@Autowired
 	@Qualifier("actorDAO")
 	ActorDAO actorDAO;
+	
+	@Autowired
+	@Qualifier("directorDAO")
+	DirectorDAO directorDAO;
 	
 	public List <MovieDTO> getListaFilm(SearchDTO search){
 
@@ -144,7 +149,7 @@ public class SearchMovieService {
 
 	public MovieDTO getAllMovieDetail(String index, String user){
 
-		ArrayList <String> indexes= new ArrayList(Arrays.asList(index));
+		ArrayList <String> indexes= new ArrayList<>(Arrays.asList(index));
 		MovieDTO movieDto = searchMovieDAO.getMoviesByIndex(indexes, 0, 0,true).get(0);
 		movieDto.setTitoloItaliano(searchMovieDAO.getMovieInternationalization(movieDto.getMovieKey()));
 		movieDto.setActors(searchMovieDAO.getMovieActors(movieDto.getMovieKey()));

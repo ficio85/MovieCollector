@@ -56,7 +56,14 @@ public class ActorDetailController {
 		}
 		ActorDTO actorToComplete = new ActorDTO(act);
 		insertMovieService.inspectImdbForActor(movieList.get(0).getImdbKey(), actorToComplete);
+		try{
 		ActorGeneratorUtil.getCompleteInfoActor(actorToComplete);
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+			System.out.println("Informazioni sull'attore non reperibili");
+		}
 		int numPages=search.getCountResult()/recordPerPage+1;
 //		generateHiddenForm(search,request);
 		request.setAttribute("actor", actorToComplete);

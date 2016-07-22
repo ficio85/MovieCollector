@@ -43,6 +43,24 @@ public class MovieRankDAO {
 	}
 
 
+	public float getUserActorRank (String codPers, String actor)
+	{
+
+		float result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", codPers);
+		parameters.addValue("actor", actor);
+		try {
+			result=jdbcTemplate.queryForObject(" SELECT  rate FROM useractorrate where actor = :actor and user=:user ",parameters, Float.class);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;		
+	}
+
 
 	public int insertUserRate (String codPers,String movie, float rate)
 	{
@@ -69,6 +87,32 @@ public class MovieRankDAO {
 
 	}
 
+	public int insertActorRate (String codPers,String actor, float rate)
+	{
+
+		// TODO Auto-generated method stub
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", codPers);
+		parameters.addValue("actor", actor);
+		parameters.addValue("rate", rate);
+
+
+		try {
+			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`useractorrate`(`user`,`actor`,`rate`)"
+					+ " VALUES (:user,:actor,:rate) ", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+
+	}
+	
+	
 	public int deleteUserRate(String codPers, String movie) {
 
 		// TODO Auto-generated method stub

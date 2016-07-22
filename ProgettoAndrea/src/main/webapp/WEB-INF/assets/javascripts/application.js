@@ -338,7 +338,7 @@ $(function(){
 		var labelArray=[];
 		var indexMovie=$("#key").data("id");
 
-		var link=$('#contextPath').val()+"/insertRateActor";
+		var link=$('#contextPath').val()+"/insertActorRate";
 		$.ajax({
 			url: link,
 			type:"POST",

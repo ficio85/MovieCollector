@@ -187,6 +187,29 @@ public class InsertMovieService {
 
 	}
 
+	public RateResponse insertUserActorRate(String codPers, String actor, float rate, float rateOld) {
+		RateResponse rateResponse = new RateResponse();
+		rateDAO.deleteUserRate(codPers,actor);
+		rateDAO.insertUserRate(codPers, actor, rate);
+		float sommaRate= rateDAO.getSumUserRate(movie);
+		int countRate = rateDAO.getCountUserRate(movie);
+
+		float mediaRate= sommaRate/countRate;
+		if(mediaRate!= rateOld)
+		{
+			rateResponse.setRateChanged(true);
+			rateDAO.updateMovieRank(movie, mediaRate);
+		}
+		rateResponse.setNewRate(mediaRate);
+		rateResponse.setNewRateString(mediaRate);
+		rateResponse.setOldRate(rateOld);
+		return rateResponse;
+
+	}
+	
+	
+	
+	
 	@Async
 	public Future<Boolean> insertTranslation(List <String> values,String type) throws Exception{
 		System.out.println("Inizio thread");

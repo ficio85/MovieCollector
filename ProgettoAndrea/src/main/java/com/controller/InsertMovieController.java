@@ -71,5 +71,40 @@ public class InsertMovieController {
 	}
 
 
+	@RequestMapping(value = "/insertActorRate", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public RateResponse inserisciRateAttori( HttpServletRequest request,@ModelAttribute("searchMovieForm") SearchMovieForm searchMovie,Model model) throws Exception {
+		//		String prova = request.getParameter("labels");
+		String movie= request.getParameter("indexMovie");
+		String rateInt=request.getParameter("rateInt");
+		String rateDec= request.getParameter("rateDec");	
+		ArrayList <String> indexes = new ArrayList<>(Arrays.asList(movie));
+		float rate = Float.parseFloat(rateInt+"."+rateDec);
+		RateResponse response = new RateResponse();
+
+		response =insertMovieService.insertUserActorRate(SessionUtil.getCodPers(request),movie,rate,searchMovieService.getMovieRate(indexes));
+		
+		return response;
+//		moviedto.setMovieKey(movie);
+//		return moviedto;
+	}
+	
+	@RequestMapping(value = "/insertDirectorRate", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public RateResponse inserisciRateRegisti( HttpServletRequest request,@ModelAttribute("searchMovieForm") SearchMovieForm searchMovie,Model model) throws Exception {
+		//		String prova = request.getParameter("labels");
+		String movie= request.getParameter("indexMovie");
+		String rateInt=request.getParameter("rateInt");
+		String rateDec= request.getParameter("rateDec");	
+		ArrayList <String> indexes = new ArrayList<>(Arrays.asList(movie));
+		float rate = Float.parseFloat(rateInt+"."+rateDec);
+		RateResponse response = new RateResponse();
+
+		response =insertMovieService.insertUserActorRate(SessionUtil.getCodPers(request),movie,rate,searchMovieService.getMovieRate(indexes));
+		
+		return response;
+//		moviedto.setMovieKey(movie);
+//		return moviedto;
+	}
 
 }

@@ -68,7 +68,7 @@
 						class="form-control col-sm-3" type="text" value="">
 				</div>
 				<div class="col-md-8 text-left">
-					<button type="submit" id="submitRate" name="action" value="search"
+					<button type="submit" id="submitRateDirector" name="action" value="search"
 						class="btn btn-default btn-sm btn-info">Submit Rate</button>
 				</div>
 			</div>
@@ -118,6 +118,6 @@
 	</div>
 
 </div>
-
+<div id="key" data-id="${director.name}"></div>
 <div class="row media list-group-item" id="actorPage">
 </div>

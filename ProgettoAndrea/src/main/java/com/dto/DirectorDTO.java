@@ -1,6 +1,7 @@
 package com.dto;
 
 import java.sql.Date;
+import java.util.List;
 
 public class DirectorDTO {
 
@@ -11,9 +12,41 @@ public class DirectorDTO {
 	String birthplace;
 	Date birthDate;
 	String fullname;
+	float rate;	
+	List <LabelDTO> labels;
+	List <ImageDTO> images;
 	
 	
 	
+
+
+	
+	
+
+	/**
+	 * @return the images
+	 */
+	public List<ImageDTO> getImages() {
+		return images;
+	}
+	/**
+	 * @param images the images to set
+	 */
+	public void setImages(List<ImageDTO> images) {
+		this.images = images;
+	}
+	/**
+	 * @return the labels
+	 */
+	public List<LabelDTO> getLabels() {
+		return labels;
+	}
+	/**
+	 * @param labels the labels to set
+	 */
+	public void setLabels(List<LabelDTO> labels) {
+		this.labels = labels;
+	}
 	public DirectorDTO(String ownText) {
 		this.name= ownText;
 }
@@ -87,6 +120,17 @@ public class DirectorDTO {
 		this.fullname = fullname;
 	}
 	
-	
+	/**
+	 * @return the rate
+	 */
+	public float getRate() {
+		return rate;
+	}
+	/**
+	 * @param rate the rate to set
+	 */
+	public void setRate(float rate) {
+		this.rate = rate;
+	}
 
 }

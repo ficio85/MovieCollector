@@ -331,6 +331,69 @@ $(function(){
 	});
 
 
+	$("#submitRateActor").click(function(event){
+		event.preventDefault();
+		var rateInt = $("#rateInt").val();
+		var rateDec=$("#rateDec").val();
+		var labelArray=[];
+		var indexMovie=$("#key").data("id");
+
+		var link=$('#contextPath').val()+"/insertRateActor";
+		$.ajax({
+			url: link,
+			type:"POST",
+			dataType:'json',
+			data: {rateInt:rateInt,rateDec:rateDec,indexMovie:indexMovie},
+			success: function( response ) {
+				if(response.rateChanged===true)
+				{
+					$("#starContainer").html(
+							"<i class=\"fa fa-star fa-stack-2x "+getStarClass(response.newRate)+"\"></i>"+
+							"<i class=\"fa fa-stack-1x star-text-render\">"+response.newRateString+"</i>	"
+					);
+				}
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) { 
+				alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+			} 
+		});
+
+	});
+
+	$("#submitRateDirector").click(function(event){
+		event.preventDefault();
+		var rateInt = $("#rateInt").val();
+		var rateDec=$("#rateDec").val();
+		var labelArray=[];
+		var indexDirector=$("#key").data("id");
+
+		var link=$('#contextPath').val()+"/insertRateDirector";
+		$.ajax({
+			url: link,
+			type:"POST",
+			dataType:'json',
+			data: {rateInt:rateInt,rateDec:rateDec,indexDirector:indexDirector},
+			success: function( response ) {
+				if(response.rateChanged===true)
+				{
+					$("#starContainer").html(
+							"<i class=\"fa fa-star fa-stack-2x "+getStarClass(response.newRate)+"\"></i>"+
+							"<i class=\"fa fa-stack-1x star-text-render\">"+response.newRateString+"</i>	"
+					);
+				}
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) { 
+				alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+			} 
+		});
+
+	});
+	
+	
+	
+	
+	
+	
 	$("#labelSpace").on("click",".removeLabel",function(){
 
 		$(this).parent(".classToCancel").remove();

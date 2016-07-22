@@ -292,6 +292,11 @@ public class InsertMovieService {
 		}
 	}
 
+	public RateResponse insertUserActorRate(String codPers, String movie, float rate, float movieRate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 	//	public void deleteUserLabel(String codPers, String movie, ArrayList<LabelDTO> labels) {

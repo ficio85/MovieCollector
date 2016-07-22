@@ -318,10 +318,10 @@ public class JsoupUtil {
 		
 		Element spanClass = doc.select(".itemprop").get(0);
 
-		Element span = doc.select("itemprop[director]").get(0); //select the first table.
+		Element span = doc.select("span[itemprop=director]").get(0); //select the first table.
 		
 		String hrefValue = span.select("a").get(0).attr("href");
-		String  imdbIndexRegista= hrefValue.split("/")[2].split("?")[0];
+		String  imdbIndexRegista= hrefValue.split("/")[2].split("\\?")[0];
 		director.setImdbIndex(imdbIndexRegista);
 		
 		return director;
@@ -391,9 +391,24 @@ public class JsoupUtil {
 
 	}
 
-	public static void generateWikiDirectorInfo(DirectorDTO director) {
-		// TODO Auto-generated method stub
-		
+	public static void generateWikiDirectorInfo(DirectorDTO director) throws UnsupportedEncodingException, FileNotFoundException, IOException {
+
+		String directorToQuery = parseActor(director.getName());
+		URL url = new URL("https://it.wikipedia.org/wiki/"+directorToQuery);
+		Document doc = extractDocumentFromUrl(url);
+		Elements imagesLink = doc.select("img");
+		List <ImageDTO> images = new ArrayList <ImageDTO>();
+		for(int i = 0; i< imagesLink.size();i++)
+		{
+			ImageDTO image = new ImageDTO();
+			Element img = imagesLink.get(i);
+			image.setSrc(img.attr("src"));
+			image.setHeight(img.attr("height"));
+			image.setWidth(img.attr("width"));
+			images.add(image);
+		}
+		director.setImages(images);
+
 	}
 
 	

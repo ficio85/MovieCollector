@@ -19,6 +19,7 @@ import com.service.InsertMovieService;
 import com.service.SearchMovieService;
 import com.util.ActorGeneratorUtil;
 import com.util.MessageErrorWrapper;
+import com.util.PropertiesHandler;
 import com.util.SessionUtil;
 @Controller
 public class ActorDetailController {
@@ -55,15 +56,19 @@ public class ActorDetailController {
 			return "errors.page";
 		}
 		ActorDTO actorToComplete = new ActorDTO(act);
-		insertMovieService.inspectImdbForActor(movieList.get(0).getImdbKey(), actorToComplete);
-		try{
-		ActorGeneratorUtil.getCompleteInfoActor(actorToComplete);
-		}
-		catch(Exception ex)
+		if(PropertiesHandler.retrieveInternetInfo())
 		{
-			ex.printStackTrace();
-			System.out.println("Informazioni sull'attore non reperibili");
+			insertMovieService.inspectImdbForActor(movieList.get(0).getImdbKey(), actorToComplete);
+			try{
+			ActorGeneratorUtil.getCompleteInfoActor(actorToComplete);
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				System.out.println("Informazioni sull'attore non reperibili");
+			}
 		}
+		
 		int numPages=search.getCountResult()/recordPerPage+1;
 //		generateHiddenForm(search,request);
 		request.setAttribute("actor", actorToComplete);

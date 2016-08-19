@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dto.UserDTO;
+import com.util.PropertiesHandler;
 @Controller
 public class LoginController {
 	@Autowired
@@ -30,6 +31,7 @@ public class LoginController {
 		{
 			userDto.setCodPers("ANDREAFICETIPROVA");
 		}
+	System.out.println(PropertiesHandler.retrieveInternetInfo());
 //		model.addAttribute("user",dto);
 		request.getSession().setAttribute("userSession", userDto);
 //		System.out.println(dto.getUser() + " "+ dto.getPassword());

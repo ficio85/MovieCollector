@@ -87,7 +87,7 @@ public class MovieRankDAO {
 
 	}
 
-	public int insertActorRate (String codPers,String actor, float rate)
+	public int insertUserActorRate (String codPers,String actor, float rate)
 	{
 
 		// TODO Auto-generated method stub
@@ -135,6 +135,30 @@ public class MovieRankDAO {
 
 
 
+	}
+	
+	public int deleteUserActorRate(String codPers, String actor) {
+
+		// TODO Auto-generated method stub
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", codPers);
+		parameters.addValue("actor", actor);
+
+
+		try {
+			result=jdbcTemplate.update(" delete from useractorrate where user=:user and actor=:actor  ", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+
+
+
 	}	
 
 
@@ -155,6 +179,25 @@ public class MovieRankDAO {
 		}
 		return  result;		
 	}
+	
+	public float updateActorRank(String actor, float rank)
+	{
+
+		float result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("rate", rank);
+		parameters.addValue("actor", actor);
+		try {
+			result=jdbcTemplate.update(" UPDATE actor set rate=:rate where name=:actor ",parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;		
+	}
+
 
 
 
@@ -173,6 +216,22 @@ public class MovieRankDAO {
 		}
 		return  result;		
 	}
+	
+	public float getSumUserActorRate(String actor) {
+
+		float result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("movie", actor);
+		try {
+			result=jdbcTemplate.queryForObject(" SELECT SUM(rate) from useractorrate where actor=:actor ",parameters,Float.class);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;		
+	}
 
 
 
@@ -183,6 +242,24 @@ public class MovieRankDAO {
 		parameters.addValue("movie", movie);
 		try {
 			result=jdbcTemplate.queryForInt(" SELECT COUNT(rate) from usermovierate where movie=:movie ", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;		
+
+	}
+	
+
+	public int getCountUserActorRate(String actor) {
+		// TODO Auto-generated method stub
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("actor", actor);
+		try {
+			result=jdbcTemplate.queryForInt(" SELECT COUNT(rate) from useractorrate where actor=:actor ", parameters);
 		} 
 		catch(Exception e){
 			e.printStackTrace();

@@ -75,14 +75,14 @@ public class InsertMovieController {
 	@ResponseBody
 	public RateResponse inserisciRateAttori( HttpServletRequest request,@ModelAttribute("searchMovieForm") SearchMovieForm searchMovie,Model model) throws Exception {
 		//		String prova = request.getParameter("labels");
-		String movie= request.getParameter("indexMovie");
+		String actor= request.getParameter("actor");
 		String rateInt=request.getParameter("rateInt");
 		String rateDec= request.getParameter("rateDec");	
-		ArrayList <String> indexes = new ArrayList<>(Arrays.asList(movie));
 		float rate = Float.parseFloat(rateInt+"."+rateDec);
+		
 		RateResponse response = new RateResponse();
 
-		response =insertMovieService.insertUserActorRate(SessionUtil.getCodPers(request),movie,rate,searchMovieService.getMovieRate(indexes));
+		response =insertMovieService.insertUserActorRate(SessionUtil.getCodPers(request),actor,rate);
 		
 		return response;
 //		moviedto.setMovieKey(movie);
@@ -100,7 +100,7 @@ public class InsertMovieController {
 		float rate = Float.parseFloat(rateInt+"."+rateDec);
 		RateResponse response = new RateResponse();
 
-		response =insertMovieService.insertUserActorRate(SessionUtil.getCodPers(request),movie,rate,searchMovieService.getMovieRate(indexes));
+		response =insertMovieService.insertUserActorRate(SessionUtil.getCodPers(request),movie,rate);
 		
 		return response;
 //		moviedto.setMovieKey(movie);

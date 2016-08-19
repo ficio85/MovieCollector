@@ -336,14 +336,14 @@ $(function(){
 		var rateInt = $("#rateInt").val();
 		var rateDec=$("#rateDec").val();
 		var labelArray=[];
-		var indexMovie=$("#key").data("id");
+		var actor=$("#key").data("id");
 
 		var link=$('#contextPath').val()+"/insertActorRate";
 		$.ajax({
 			url: link,
 			type:"POST",
 			dataType:'json',
-			data: {rateInt:rateInt,rateDec:rateDec,indexMovie:indexMovie},
+			data: {rateInt:rateInt,rateDec:rateDec,actor:actor},
 			success: function( response ) {
 				if(response.rateChanged===true)
 				{

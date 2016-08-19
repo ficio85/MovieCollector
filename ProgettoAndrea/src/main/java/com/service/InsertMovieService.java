@@ -187,18 +187,18 @@ public class InsertMovieService {
 
 	}
 
-	public RateResponse insertUserActorRate(String codPers, String actor, float rate, float rateOld) {
-		RateResponse rateResponse = new RateResponse();
-		rateDAO.deleteUserRate(codPers,actor);
-		rateDAO.insertUserRate(codPers, actor, rate);
-		float sommaRate= rateDAO.getSumUserRate(movie);
-		int countRate = rateDAO.getCountUserRate(movie);
-
+	public RateResponse insertUserActorRate(String codPers, String actor, float rate) {
+		RateResponse rateResponse = new RateResponse();		
+		rateDAO.deleteUserActorRate(codPers,actor);
+		rateDAO.insertUserActorRate(codPers, actor, rate);
+		float rateOld=actorDAO.getActorsDetail(actor).getRate();
+		float sommaRate= rateDAO.getSumUserActorRate(actor);
+		int countRate = rateDAO.getCountUserActorRate(actor);
 		float mediaRate= sommaRate/countRate;
 		if(mediaRate!= rateOld)
 		{
 			rateResponse.setRateChanged(true);
-			rateDAO.updateMovieRank(movie, mediaRate);
+			rateDAO.updateActorRank(actor, mediaRate);
 		}
 		rateResponse.setNewRate(mediaRate);
 		rateResponse.setNewRateString(mediaRate);
@@ -315,11 +315,7 @@ public class InsertMovieService {
 		}
 	}
 
-	public RateResponse insertUserActorRate(String codPers, String movie, float rate, float movieRate) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 
 
 	//	public void deleteUserLabel(String codPers, String movie, ArrayList<LabelDTO> labels) {

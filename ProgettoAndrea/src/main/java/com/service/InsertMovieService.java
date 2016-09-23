@@ -1,6 +1,7 @@
 package com.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -15,14 +16,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.controller.ProgramTvMovieDTO;
 import com.dao.ActorDAO;
+import com.dao.DirectorDAO;
 import com.dao.InsertMovieDAO;
 import com.dao.LabelDAO;
 import com.dao.MovieRankDAO;
 import com.dao.SearchMovieDAO;
 import com.dto.ActorDTO;
 import com.dto.DirectorDTO;
+import com.dto.GenereDTO;
 import com.dto.LabelDTO;
 import com.dto.MovieDTO;
+import com.dto.UserMovieRateDTO;
+import com.dto.WriterDTO;
 import com.eccezione.WarningException;
 import com.jsonResponse.RateResponse;
 import com.util.JsoupUtil;
@@ -51,6 +56,10 @@ public class InsertMovieService {
 	@Autowired
 	@Qualifier("actorDAO")
 	ActorDAO actorDAO;
+	
+	@Autowired
+	@Qualifier("directorDAO")
+	DirectorDAO directorDAO;
 
 	@Async
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
@@ -171,6 +180,18 @@ public class InsertMovieService {
 		RateResponse rateResponse = new RateResponse();
 		rateDAO.deleteUserRate(codPers,movie);
 		rateDAO.insertUserRate(codPers, movie, rate);
+		//inizio calcolo dei vari parametri del film per aggiornare il gusto dell'utente
+		
+		
+		//calcolo del genere
+			
+		ArrayList <String> indexes = new ArrayList <String>();
+		indexes.add(movie);
+		List<MovieDTO> movieComplete = searchMovieDAO.getMoviesByIndex(indexes, 0, 0, true);
+		//calcolo del genere
+		
+		//insertUserGenreRate(movie,rate);
+		
 		float sommaRate= rateDAO.getSumUserRate(movie);
 		int countRate = rateDAO.getCountUserRate(movie);
 
@@ -186,6 +207,96 @@ public class InsertMovieService {
 		return rateResponse;
 
 	}
+	
+	public void updateUserRate(String codPers) {
+		// TODO Auto-generated method stub
+		//selezione di tutti i film votati
+		List<UserMovieRateDTO> userMovieList = rateDAO.getUserMovieRate(codPers);
+		//aggiornamento dei generi
+		HashMap <String,Float> generiMap;
+		HashMap <String,Integer> countGeneriMap;
+
+		HashMap <String, Integer> countActorsMap = new HashMap <String, Integer>();
+		HashMap <String, Float> actorsMap=new HashMap <String, Float>();
+
+		HashMap <String, Integer> countDirectorsMap=new HashMap <String, Integer>();
+		HashMap <String, Float> directorsMap=new HashMap <String, Float>();
+		
+		HashMap <String, Integer> countWritersMap=new HashMap <String, Integer>();
+		HashMap <String, Float> writersMap=new HashMap <String, Float>();
+		for(UserMovieRateDTO movieRate:userMovieList)
+		{
+					
+			String indexMovie=movieRate.getMovie();
+			float rate = movieRate.getRate();
+			List <ActorDTO> actors =searchMovieDAO.getMovieActors(indexMovie);
+			List <WriterDTO> writers= searchMovieDAO.getMovieWriter(indexMovie);
+			List <GenereDTO> genres= searchMovieDAO.getMovieGenre(indexMovie);
+			
+			for(ActorDTO actor:actors)
+			{
+				String actorName = actor.getName();
+				int count=0;
+				 count = countActorsMap.get(actorName);
+				countActorsMap.put(actorName, ++count);
+				if(actorsMap.get(actorName)!=null)
+				{
+					float averageRate=(actorsMap.get(actorName)+rate)/countActorsMap.get(actorName);
+					actorsMap.put(actorName, averageRate);
+				}
+				else
+				{
+					actorsMap.put(actorName, rate);
+				}
+				
+			}
+			for(WriterDTO writer:writers)
+			{
+				String writerName = writer.getName();
+				int count=0;
+				 count = countWritersMap.get(writerName);
+				countWritersMap.put(writerName, ++count);
+				if(actorsMap.get(writerName)!=null)
+				{
+					float averageRate=(actorsMap.get(writerName)+rate)/countActorsMap.get(writerName);
+					actorsMap.put(writerName, averageRate);
+				}
+				else
+				{
+					actorsMap.put(writerName, rate);
+				}
+				
+			}
+			
+			for(WriterDTO writer:writers)
+			{
+				String writerName = writer.getName();
+				int count=0;
+				 count = countWritersMap.get(writerName);
+				countActorsMap.put(writerName, ++count);
+			}
+			searchMovieDAO.getMovieWriter(indexMovie);
+			
+			
+		}
+		
+	}
+
+	private List<GenereDTO> getListaGeneri() {
+		// TODO Auto-generated method stub
+		
+		
+		return null;
+	}
+
+	private void insertUserGenreRate(MovieDTO movie, float rate, String codPers) {
+		// TODO Auto-generated method stub
+		List<GenereDTO> genres = movie.getGenre();
+		for(GenereDTO genre : genres)
+		{
+			
+		}
+	}
 
 	public RateResponse insertUserActorRate(String codPers, String actor, float rate) {
 		RateResponse rateResponse = new RateResponse();		
@@ -199,6 +310,26 @@ public class InsertMovieService {
 		{
 			rateResponse.setRateChanged(true);
 			rateDAO.updateActorRank(actor, mediaRate);
+		}
+		rateResponse.setNewRate(mediaRate);
+		rateResponse.setNewRateString(mediaRate);
+		rateResponse.setOldRate(rateOld);
+		return rateResponse;
+
+	}
+	
+	public RateResponse insertUserDirectorRate(String codPers, String director, float rate) {
+		RateResponse rateResponse = new RateResponse();		
+		rateDAO.deleteUserDirectorRate(codPers,director);
+		rateDAO.insertUserDirectorRate(codPers, director, rate);
+		float rateOld=directorDAO.getDirectorDetail(director).getRate();
+		float sommaRate= rateDAO.getSumUserDirectorRate(director);
+		int countRate = rateDAO.getCountUserDirectorRate(director);
+		float mediaRate= sommaRate/countRate;
+		if(mediaRate!= rateOld)
+		{
+			rateResponse.setRateChanged(true);
+			rateDAO.updateDirectorRank(director, mediaRate);
 		}
 		rateResponse.setNewRate(mediaRate);
 		rateResponse.setNewRateString(mediaRate);
@@ -314,6 +445,8 @@ public class InsertMovieService {
 			}
 		}
 	}
+
+	
 
 	
 

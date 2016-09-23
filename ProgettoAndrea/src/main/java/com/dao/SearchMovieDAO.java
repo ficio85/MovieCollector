@@ -22,6 +22,7 @@ import com.dto.GenereDTO;
 import com.dto.LabelDTO;
 import com.dto.LanguageDTO;
 import com.dto.MovieDTO;
+import com.dto.UserMovieRateDTO;
 import com.dto.WriterDTO;
 import com.mapper.ActorMapper;
 import com.mapper.CountryMapper;
@@ -32,6 +33,7 @@ import com.mapper.LanguageMapper;
 import com.mapper.MovieMapper;
 import com.mapper.MovieMapperComplete;
 import com.mapper.ProgramTvMapper;
+import com.mapper.UserMovieRateMapper;
 import com.mapper.WriterMapper;
 
 @Repository("searchMovieDAO")
@@ -804,6 +806,8 @@ public class SearchMovieDAO {
 
 
 	}
+	
+	
 
 	public List<ProgramTvMovieDTO> getMovieTvList() {
 		MapSqlParameterSource parameters = new MapSqlParameterSource();

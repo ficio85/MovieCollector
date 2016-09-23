@@ -16,7 +16,9 @@ import org.springframework.stereotype.Repository;
 import com.dto.GenereDTO;
 import com.dto.LabelDTO;
 import com.dto.MovieDTO;
+import com.dto.UserMovieRateDTO;
 import com.mapper.LabelMapper;
+import com.mapper.UserMovieRateMapper;
 
 @Repository("rateDAO")
 public class MovieRankDAO {
@@ -112,6 +114,32 @@ public class MovieRankDAO {
 
 	}
 	
+	public int insertUserDirectorRate (String codPers,String director, float rate)
+	{
+
+		// TODO Auto-generated method stub
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", codPers);
+		parameters.addValue("director", director);
+		parameters.addValue("rate", rate);
+
+
+		try {
+			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`userdirectorrate`(`user`,`director`,`rate`)"
+					+ " VALUES (:user,:director,:rate) ", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+
+	}
+	
+	
 	
 	public int deleteUserRate(String codPers, String movie) {
 
@@ -149,6 +177,30 @@ public class MovieRankDAO {
 
 		try {
 			result=jdbcTemplate.update(" delete from useractorrate where user=:user and actor=:actor  ", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+
+
+
+	}
+	
+	public int deleteUserDirectorRate(String codPers, String director) {
+
+		// TODO Auto-generated method stub
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", codPers);
+		parameters.addValue("director", director);
+
+
+		try {
+			result=jdbcTemplate.update(" delete from userdirectorrate where user=:user and director=:director  ", parameters);
 		} 
 		catch(Exception e){
 			e.printStackTrace();
@@ -197,6 +249,24 @@ public class MovieRankDAO {
 		}
 		return  result;		
 	}
+	
+	public float updateDirectorRank(String director, float rank)
+	{
+
+		float result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("rate", rank);
+		parameters.addValue("director", director);
+		try {
+			result=jdbcTemplate.update(" UPDATE director set rate=:rate where name=:director ",parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;		
+	}
 
 
 
@@ -221,9 +291,25 @@ public class MovieRankDAO {
 
 		float result;
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("movie", actor);
+		parameters.addValue("actor", actor);
 		try {
 			result=jdbcTemplate.queryForObject(" SELECT SUM(rate) from useractorrate where actor=:actor ",parameters,Float.class);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;		
+	}
+	
+	public float getSumUserDirectorRate(String director) {
+
+		float result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("director", director);
+		try {
+			result=jdbcTemplate.queryForObject(" SELECT SUM(rate) from userdirectorrate where director=:director ",parameters,Float.class);
 		} 
 		catch(Exception e){
 			e.printStackTrace();
@@ -269,5 +355,31 @@ public class MovieRankDAO {
 		return  result;		
 
 	}
+	
+	public int getCountUserDirectorRate(String director) {
+		// TODO Auto-generated method stub
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("director", director);
+		try {
+			result=jdbcTemplate.queryForInt(" SELECT COUNT(rate) from userdirectorrate where director=:director ", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
 
+		}
+		return  result;		
+
+	}
+
+	public List<UserMovieRateDTO> getUserMovieRate(String user) {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", user);
+		String sql ="SELECT `user`,`movie`,`rate` from usermovierate where user=:user ";
+
+		return jdbcTemplate.query(sql,parameters,new UserMovieRateMapper());
+	}
+	
+	
 }

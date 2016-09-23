@@ -65,6 +65,9 @@ public class InsertMovieController {
 
 		response =insertMovieService.insertUserRate(SessionUtil.getCodPers(request),movie,rate,searchMovieService.getMovieRate(indexes));
 		
+		//avvia il thread di aggiornamento dei gusti dell'utente
+		insertMovieService.updateUserRate(SessionUtil.getCodPers(request));
+		
 		return response;
 //		moviedto.setMovieKey(movie);
 //		return moviedto;
@@ -89,19 +92,16 @@ public class InsertMovieController {
 //		return moviedto;
 	}
 	
-	@RequestMapping(value = "/insertDirectorRate", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/insertRateDirector", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
 	public RateResponse inserisciRateRegisti( HttpServletRequest request,@ModelAttribute("searchMovieForm") SearchMovieForm searchMovie,Model model) throws Exception {
 		//		String prova = request.getParameter("labels");
-		String movie= request.getParameter("indexMovie");
+		String movie= request.getParameter("indexDirector");
 		String rateInt=request.getParameter("rateInt");
 		String rateDec= request.getParameter("rateDec");	
-		ArrayList <String> indexes = new ArrayList<>(Arrays.asList(movie));
 		float rate = Float.parseFloat(rateInt+"."+rateDec);
 		RateResponse response = new RateResponse();
-
-		response =insertMovieService.insertUserActorRate(SessionUtil.getCodPers(request),movie,rate);
-		
+		response =insertMovieService.insertUserDirectorRate(SessionUtil.getCodPers(request),movie,rate);
 		return response;
 //		moviedto.setMovieKey(movie);
 //		return moviedto;

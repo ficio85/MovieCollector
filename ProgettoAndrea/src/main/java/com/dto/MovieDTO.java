@@ -30,7 +30,7 @@ public class MovieDTO {
 	List <LabelDTO> labels;
 	List <LabelDTO> userLabels;
 	float rate;
-	float userRate;
+    UserMovieRateDTO userMovieRate;
 	
 	
 	//valori da inserire in caso di serie tv
@@ -254,17 +254,6 @@ public class MovieDTO {
 		this.rate = rate;
 	}
 	/**
-	 * @return the userRate
-	 */
-	public float getUserRate() {
-		return userRate;
-	}
-	/**
-	 * @param userRate the userRate to set
-	 */
-	public void setUserRate(float userRate) {
-		this.userRate = userRate;
-	}
 	
 	/**
 	 * @return the rank

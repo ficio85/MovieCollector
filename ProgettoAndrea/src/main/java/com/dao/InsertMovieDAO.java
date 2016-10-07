@@ -249,28 +249,7 @@ public class InsertMovieDAO {
 	
 	}
 
-	public int insertProgrammaTv(ProgramTvMovieDTO program) {
-
-		// TODO Auto-generated method stub
-
-		int result;
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("movieKey", program.getMovie().getMovieKey());
-		parameters.addValue("time", program.getOraInizio());
-		parameters.addValue("channel", program.getPlatform());
-		try {
-			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`movietv`(`movie`,`time`,`channel`) VALUES(:movieKey,:time,:channel)", parameters);
-		} 
-		catch(Exception e){
-			e.printStackTrace();
-			throw e;
-
-		}
-		return  result;
-		
-
 	
-	}
 	
 	
 	

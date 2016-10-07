@@ -3,7 +3,9 @@ package com.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,51 +38,103 @@ public class XmltvParserUtil {
 		// TODO Auto-generated method stub
 		List <ProgramTvMovieDTO> programmi = new ArrayList <ProgramTvMovieDTO>();
 		try {
-			String link="http://www.mymovies.it/v9/tv/ajax/programmatv.asp"
-					+ "?var_tipoprogramma=%20((FILM.ID_TIPO_FILM)=%22FILM%22)%20OR%20"
-					+ "((FILM.ID_TIPO_FILM)=%22FLTV%22)%20%20&fascia=((PROGRAMMAZIONE_TV.ORA_FILM)%3E=2)"
-					+ "%20AND%20((PROGRAMMAZIONE_TV.ORA_FILM)%3C24)%20OR%20((PROGRAMMAZIONE_TV.ORA_FILM)%3E=24)"
-					+ "%20&var_id_canale=&var_tipo_canale=s&variabile3=&div=idprogramma";
+			String varTipoProgramma="";
+			String fascia="";
+			
+			String linkSky="http://www.mymovies.it/v9/tv/ajax/programmatv.asp"
+					+ "?var_tipoprogramma="+varTipoProgramma
+					+ "&fascia="+fascia
+					+ "&var_id_canale=&var_tipo_canale=s&variabile3=&div=idprogramma";
+			String linkDigitale="http://www.mymovies.it/v9/tv/ajax/programmatv.asp"
+					+ "?var_tipoprogramma="+varTipoProgramma
+					+ "&fascia="+fascia
+					+ "&var_id_canale=&var_tipo_canale=d&variabile3=&div=idprogramma";
+			
+			
+			System.out.println(linkSky);
+			URL urlSky = new URL(linkSky);
+			URL urlDigitale = new URL(linkDigitale);
 
-			URL url = new URL(link);
-			HttpURLConnection uc = ProxyUtil.connect(url);
-			String line = null;
-			StringBuffer tmp = new StringBuffer();
-			BufferedReader in;
-			try{
-				in = new BufferedReader(new InputStreamReader(uc.getInputStream(),"UTF-8"));
+			extractProgrammi(programmi, urlSky);
+			extractProgrammi(programmi, urlDigitale);
 
-			}
-			catch(FileNotFoundException ex)
-			{
-				throw ex;
-			}
-			while ((line = in.readLine()) != null) {
-				tmp.append(line);
-			}
-			org.jsoup.nodes.Document doc = Jsoup.parse(String.valueOf(tmp));
-			Elements elements = doc.select("div[style*=background-color: #e6eaf5;]");
-			Iterator<Element> it = elements.iterator();
-			while(it.hasNext())
-			{
-				ProgramTvMovieDTO program = new ProgramTvMovieDTO();
-				Element movieTab = it.next();
-				extractTime(program, movieTab);
-				Elements movieTabChildren=movieTab.children();
-				extractFirstChildren(movieTabChildren.get(0),program);
-				extractSecondChildren(movieTabChildren.get(2),program.getMovie());
-				programmi.add(program);
-
-			}
 			//optional, but recommended
 			//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
 		}
 		catch(Exception ex)
 		{
 			ex.printStackTrace();
-			System.out.println("prova");
 		}
 		return programmi;
+	}
+
+	private static void extractProgrammi(List<ProgramTvMovieDTO> programmi, URL url)
+			throws IOException, UnsupportedEncodingException, FileNotFoundException {
+		HttpURLConnection uc = ProxyUtil.connect(url);
+		String line = null;
+		StringBuffer tmp = new StringBuffer();
+		BufferedReader in;
+		try{
+			in = new BufferedReader(new InputStreamReader(uc.getInputStream(),"UTF-8"));
+
+		}
+		catch(FileNotFoundException ex)
+		{
+			throw ex;
+		}
+		while ((line = in.readLine()) != null) {
+			tmp.append(line);
+		}
+		org.jsoup.nodes.Document doc = Jsoup.parse(String.valueOf(tmp));
+		Elements elements = doc.select("div[style*=background-color: #e6eaf5;]");
+		Iterator<Element> it = elements.iterator();
+		while(it.hasNext())
+		{
+			ProgramTvMovieDTO program = new ProgramTvMovieDTO();
+			Element movieTab = it.next();
+			extractTime(program, movieTab);
+			Elements movieTabChildren=movieTab.children();
+			extractPlatform(movieTabChildren.get(0),program);
+			
+			try{
+				extractMovieInfo(movieTabChildren.get(2),program.getMovie());
+				program.setTitolo(program.getMovie().getTitoloItaliano());
+			}
+			catch(Exception ex)
+			{
+				extractOtherInfo(movieTabChildren.get(2),program);
+			}
+			//printProgram(program);
+			programmi.add(program);
+
+		}
+	}
+
+	private static void printProgram(ProgramTvMovieDTO program) {
+		// TODO Auto-generated method stub
+		
+		MovieDTO movie =program.getMovie();
+		System.out.println("");
+		if(movie.getTitoloItaliano()!=null)
+		{
+			System.out.println(movie.getTitoloItaliano());
+			if(movie.getDirectors()!= null && movie.getDirectors().size()!=0)
+			{
+				System.out.println(movie.getDirectors().get(0).getName());
+				System.out.println(movie.getYear());
+			}
+
+		}
+		System.out.println("");
+	}
+
+	private static void extractOtherInfo(Element element, ProgramTvMovieDTO program) {
+		// TODO Auto-generated method stub
+		//program.setTitolo(element.select("h2 style='color:#191919'").get(0).ownText());
+		//program.setTipo(element.select("h3 style='color:#444444'").get(0).ownText());
+		
+		program.setTitolo(element.select("h2").get(0).ownText());
+		program.setTipo(element.select("h3").get(0).ownText());
 	}
 
 	private static void extractTime(ProgramTvMovieDTO program, Element movieTab) {
@@ -90,12 +144,13 @@ public class XmltvParserUtil {
 		program.setOraInizio(DateUtil.setDateToday(Integer.parseInt(hoursMinutes.split(",")[0]),Integer.parseInt(hoursMinutes.split(",")[1])));
 	}
 
-	private static void extractFirstChildren(Element element, ProgramMovieDTO program) {
+	private static void extractPlatform(Element element, ProgramMovieDTO program) {
 		program.setPlatform(element.getElementsByTag("a").get(0).ownText());
 
 	}
 
-	private static void extractSecondChildren(Element element, MovieDTO movie) {
+	private static void extractMovieInfo(Element element, MovieDTO movie) {
+		
 		System.out.println(element.select("table").get(0).select("tr").get(0).select("td").get(0).select("a").get(0).ownText());
 		movie.setTitoloItaliano(element.select("table").get(0).select("tr").get(0).select("td").get(0).select("a").get(0).ownText());
 		movie.setYear(Integer.parseInt(element.select("h3").get(0).ownText().split("\\(")[1].split("\\)")[0]));
@@ -121,7 +176,7 @@ public class XmltvParserUtil {
 		}
 		movie.setDirectors(directors);
 		movie.setActors(actors);
-
+		
 
 	}
 

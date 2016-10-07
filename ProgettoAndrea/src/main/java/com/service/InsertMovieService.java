@@ -258,12 +258,12 @@ public class InsertMovieService {
 				countWritersMap.put(writerName, ++count);
 				if(actorsMap.get(writerName)!=null)
 				{
-					float averageRate=(actorsMap.get(writerName)+rate)/countActorsMap.get(writerName);
-					actorsMap.put(writerName, averageRate);
+					float averageRate=(countWritersMap.get(writerName)+rate)/countWritersMap.get(writerName);
+					writersMap.put(writerName, averageRate);
 				}
 				else
 				{
-					actorsMap.put(writerName, rate);
+					//countWritersMap.put(writerName, rate);
 				}
 				
 			}
@@ -435,16 +435,7 @@ public class InsertMovieService {
 		}
 	}
 
-	public void insertProgrammiTv(List<ProgramTvMovieDTO> programmi) {
-		// TODO Auto-generated method stub
-		for(ProgramTvMovieDTO program : programmi)
-		{
-			if(program.getMovie().getMovieKey()!=null)
-			{
-				insertMovieDAO.insertProgrammaTv(program);
-			}
-		}
-	}
+	
 
 	
 

@@ -19,6 +19,8 @@ public class ProgramTvMapper implements RowMapper<ProgramTvMovieDTO> {
 		program.getMovie().setMovieKey(rset.getString("movie"));
 		program.setOraInizio(rset.getTimestamp("time"));
 		program.setPlatform(rset.getString("channel"));
+		program.setTitolo(rset.getString("title"));
+		program.setTipo(rset.getString("type"));
 
 
 		return program;

@@ -35,6 +35,7 @@ import com.mapper.MovieMapperComplete;
 import com.mapper.ProgramTvMapper;
 import com.mapper.UserMovieRateMapper;
 import com.mapper.WriterMapper;
+import com.util.ActorGeneratorUtil;
 
 @Repository("searchMovieDAO")
 public class SearchMovieDAO {
@@ -459,8 +460,6 @@ public class SearchMovieDAO {
 		}
 
 		return  result;
-
-
 	}
 
 
@@ -651,7 +650,28 @@ public class SearchMovieDAO {
 	}
 
 
+	public List<MovieDTO> getMovieByDirectorAndYears(List <Integer> years, String nameDirector) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("director", nameDirector);
+		parameters.addValue("years", years);
 
+		List<MovieDTO> result;
+		try {
+			result=jdbcTemplate.query(" SELECT * FROM moviedirector dir,movie mov where dir.movie = mov.idmovie"
+					+ " and director = :director and year in (:years) ",parameters, new MovieMapper());
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+
+		return  result;
+
+
+	}
 
 
 
@@ -683,6 +703,9 @@ public class SearchMovieDAO {
 
 
 	}
+	
+
+	
 
 
 
@@ -815,7 +838,7 @@ public class SearchMovieDAO {
 
 		String sql="";
 
-		sql +="SELECT `movie`,`channel`,`time` from movietv order by time asc ";
+		sql +="SELECT * from movietv order by time asc ";
 
 		return jdbcTemplate.query(sql,parameters,new ProgramTvMapper());
 

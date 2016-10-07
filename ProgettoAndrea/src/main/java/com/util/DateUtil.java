@@ -10,7 +10,7 @@ public class DateUtil {
 	{
 		java.util.Date date = new Date();
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.HOUR, hours);
+		calendar.set(Calendar.HOUR_OF_DAY, hours);
 		calendar.set(Calendar.MINUTE, minutes);
 		return new Timestamp(calendar.getTimeInMillis());
 	}

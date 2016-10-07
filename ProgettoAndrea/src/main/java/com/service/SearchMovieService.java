@@ -222,10 +222,7 @@ public class SearchMovieService {
 		return directorDAO.getDirectorDetail(director);
 	}
 
-	public List<MovieDTO> getMovieByDirectorYear(MovieDTO movie) {
-		// TODO Auto-generated method stub
-		return searchMovieDAO.getMovieByDirectorYear(movie.getYear(), movie.getDirectors());
-	}
+	
 
 
 	
@@ -238,9 +235,46 @@ public class SearchMovieService {
 		
 		for(ProgramTvMovieDTO programma : programmiTv)
 		{
+			if(!programma.getMovie().getMovieKey().equals("NONPRESENTE"))
 			programma.setMovie(getAllMovieDetail(programma.getMovie().getMovieKey(), user));
 		}
 		return programmiTv;
+	}
+
+
+	public List<MovieDTO> extractMovieForTvGuide(MovieDTO movie) {
+		// TODO Auto-generated method stub
+		List <MovieDTO> listMovie= null;
+		List <Integer> years= new ArrayList <Integer>();
+		int year = movie.getYear();
+		int yearPrec= -1;
+		int yearSuc = year+1;
+		years.add(yearPrec);
+		years.add(yearSuc);
+		years.add(year);
+		//TODO
+		//questo è da rifare completamente, si baserà sul processo di traduzione sostanzialmente,
+		//in pratica vedo se c'è il titolo sulla tabella di traduzione (ricerca titolo e anno - ricerca titolo e regista-- ricerca titolo e anno rilassato--
+		// se non c'è avvio il processo di traduzione! che ho già fatto per la ricerca/inserimento in pratica.
+	
+		if(movie.getDirectors()!=null && !movie.getDirectors().isEmpty())
+		{
+			 listMovie = searchMovieDAO.getMovieByDirectorYear(movie.getYear(), movie.getDirectors());
+
+		}
+		 if((listMovie==null || listMovie.size()==0) && (movie.getDirectors()!=null && !movie.getDirectors().isEmpty()))
+		 {
+			 listMovie= searchMovieDAO.getMovieByDirectorTitle(movie.getTitle(), movie.getDirectors());
+		 }
+		 
+		 //ultima prova rilasso il vincolo sull'anno
+		 if((listMovie ==null || listMovie.size()==0) && (movie.getDirectors()!=null && !movie.getDirectors().isEmpty()))
+		 {
+			 listMovie=searchMovieDAO.getMovieByDirectorAndYears(years, movie.getDirectors().get(0).getName());
+		 }
+		 return listMovie;
+
+		
 	}
 
 

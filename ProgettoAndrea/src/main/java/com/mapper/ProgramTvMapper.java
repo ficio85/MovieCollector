@@ -5,8 +5,8 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.controller.ProgramTvMovieDTO;
 import com.dto.MovieDTO;
+import com.dto.ProgramTvMovieDTO;
 
 public class ProgramTvMapper implements RowMapper<ProgramTvMovieDTO> {
 

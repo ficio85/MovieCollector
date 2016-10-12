@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.controller.ProgramTvMovieDTO;
 import com.dao.ActorDAO;
 import com.dao.DirectorDAO;
 import com.dao.InsertMovieDAO;
@@ -26,6 +25,7 @@ import com.dto.DirectorDTO;
 import com.dto.GenereDTO;
 import com.dto.LabelDTO;
 import com.dto.MovieDTO;
+import com.dto.ProgramTvMovieDTO;
 import com.dto.UserMovieRateDTO;
 import com.dto.WriterDTO;
 import com.eccezione.WarningException;

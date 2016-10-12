@@ -1,5 +1,6 @@
 package com.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
 
-import com.controller.ProgramTvMovieDTO;
 import com.dao.ActorDAO;
 import com.dao.DirectorDAO;
 import com.dao.GenereDAO;
@@ -23,6 +23,7 @@ import com.dto.DirectorDTO;
 import com.dto.GenereDTO;
 import com.dto.LabelDTO;
 import com.dto.MovieDTO;
+import com.dto.ProgramTvMovieDTO;
 import com.dto.SearchDTO;
 
 @Service("searchMovieService")
@@ -228,10 +229,10 @@ public class SearchMovieService {
 	
 
 
-	public List<ProgramTvMovieDTO> getProgrammiTv(String user) {
+	public List<ProgramTvMovieDTO> getProgrammiTv(String user, Timestamp dateBegin, Timestamp dateEnd) {
 		// TODO Auto-generated method stub
 		
-		List<ProgramTvMovieDTO> programmiTv = searchMovieDAO.getMovieTvList();
+		List<ProgramTvMovieDTO> programmiTv = searchMovieDAO.getMovieTvList(dateBegin,dateEnd);
 		
 		for(ProgramTvMovieDTO programma : programmiTv)
 		{
@@ -276,6 +277,9 @@ public class SearchMovieService {
 
 		
 	}
+
+
+	
 
 
 	

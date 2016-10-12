@@ -2,6 +2,7 @@ package com.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.controller.ProgramTvMovieDTO;
 import com.dto.ActorDTO;
 import com.dto.CountryDTO;
 import com.dto.DirectorDTO;
@@ -22,6 +22,7 @@ import com.dto.GenereDTO;
 import com.dto.LabelDTO;
 import com.dto.LanguageDTO;
 import com.dto.MovieDTO;
+import com.dto.ProgramTvMovieDTO;
 import com.dto.UserMovieRateDTO;
 import com.dto.WriterDTO;
 import com.mapper.ActorMapper;
@@ -832,13 +833,16 @@ public class SearchMovieDAO {
 	
 	
 
-	public List<ProgramTvMovieDTO> getMovieTvList() {
+	public List<ProgramTvMovieDTO> getMovieTvList(Timestamp dateBegin, Timestamp dateEnd) {
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
-
+		parameters.addValue("timeBegin", dateBegin);
+		parameters.addValue("timeEnd", dateEnd);
 
 		String sql="";
 
-		sql +="SELECT * from movietv order by time asc ";
+		sql +="SELECT * from movietv where time >= :timeBegin and time <= :timeEnd order by time asc  ";
+		
+		
 
 		return jdbcTemplate.query(sql,parameters,new ProgramTvMapper());
 

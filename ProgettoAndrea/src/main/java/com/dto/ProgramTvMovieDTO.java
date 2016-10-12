@@ -1,10 +1,8 @@
-package com.controller;
+package com.dto;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
-
-import com.dto.ProgramMovieDTO;
 
 public class ProgramTvMovieDTO extends ProgramMovieDTO {
 	

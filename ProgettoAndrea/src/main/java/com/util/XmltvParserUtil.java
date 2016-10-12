@@ -20,11 +20,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.controller.ProgramTvMovieDTO;
 import com.dto.ActorDTO;
 import com.dto.DirectorDTO;
 import com.dto.MovieDTO;
 import com.dto.ProgramMovieDTO;
+import com.dto.ProgramTvMovieDTO;
 
 public class XmltvParserUtil {
 
@@ -51,7 +51,6 @@ public class XmltvParserUtil {
 					+ "&var_id_canale=&var_tipo_canale=d&variabile3=&div=idprogramma";
 			
 			
-			System.out.println(linkSky);
 			URL urlSky = new URL(linkSky);
 			URL urlDigitale = new URL(linkDigitale);
 

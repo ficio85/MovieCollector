@@ -467,5 +467,28 @@ $(function(){
 			}
 
 	);
+	
+	$('.guidaTvForm').change(
+			function(event){
+				var piattaforma=$("#selectPiattaforma").val();
+				var fascia=$("#selectFascia").val();
+				var programma=$("#selectProgramma").val();
+				var link=$('#contextPath').val()+"/loadGuidaTV";
+				$.ajax({
+					url: link,
+					type:"POST",
+					dataType:'json',
+					data: {piattaforma:piattaforma,fascia:fascia,programma:programma},
+					success: function( response ) {
+						alert("Tutto ok");
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) { 
+						alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+					} 
+				});
+				alert('Ciaooooo');
+			}
+
+	);
 
 });

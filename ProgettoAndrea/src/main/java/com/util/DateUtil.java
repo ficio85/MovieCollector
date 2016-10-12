@@ -14,5 +14,15 @@ public class DateUtil {
 		calendar.set(Calendar.MINUTE, minutes);
 		return new Timestamp(calendar.getTimeInMillis());
 	}
+	
+	public static Timestamp addMinutes(Timestamp time, int minutes)
+	{
+		return new Timestamp(time.getTime()+1000*60*minutes);
+	}
+	
+	public static Timestamp subMinutes(Timestamp time, int minutes)
+	{
+		return new Timestamp(time.getTime()-1000*60*minutes);
+	}
 
 }

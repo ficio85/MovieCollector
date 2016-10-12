@@ -34,7 +34,7 @@
 </definition>
 
 <definition name="guidaTv.page" extends="main.page">
-		<put-attribute name="body" value="/WEB-INF/view/searchMovie/resultMovieTv.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/searchMovie/guidaTvLayout.jsp" />
 </definition>
 
 </tiles-definitions>

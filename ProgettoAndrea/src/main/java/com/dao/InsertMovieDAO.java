@@ -14,11 +14,11 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.controller.ProgramTvMovieDTO;
 import com.dto.ActorDTO;
 import com.dto.GenereDTO;
 import com.dto.LabelDTO;
 import com.dto.MovieDTO;
+import com.dto.ProgramTvMovieDTO;
 import com.eccezione.WarningException;
 import com.mapper.MovieMapper;
 

@@ -229,18 +229,7 @@ public class SearchMovieService {
 	
 
 
-	public List<ProgramTvMovieDTO> getProgrammiTv(String user, Timestamp dateBegin, Timestamp dateEnd) {
-		// TODO Auto-generated method stub
-		
-		List<ProgramTvMovieDTO> programmiTv = searchMovieDAO.getMovieTvList(dateBegin,dateEnd);
-		
-		for(ProgramTvMovieDTO programma : programmiTv)
-		{
-			if(!programma.getMovie().getMovieKey().equals("NONPRESENTE"))
-			programma.setMovie(getAllMovieDetail(programma.getMovie().getMovieKey(), user));
-		}
-		return programmiTv;
-	}
+	
 
 
 	public List<MovieDTO> extractMovieForTvGuide(MovieDTO movie) {

@@ -3,6 +3,7 @@ package com.dto;
 public class ProgramMovieDTO {
 	
 	String platform;
+	String channel;
 	MovieDTO movie;
 	String tipo;
 	String titolo;
@@ -11,12 +12,49 @@ public class ProgramMovieDTO {
 		movie = new MovieDTO();
 	}
 	
+
+	
+	
+	/**
+	 * @return the platform
+	 */
 	public String getPlatform() {
 		return platform;
 	}
+
+
+
+
+	/**
+	 * @param platform the platform to set
+	 */
 	public void setPlatform(String platform) {
 		this.platform = platform;
 	}
+
+
+
+
+	/**
+	 * @return the channel
+	 */
+	public String getChannel() {
+		return channel;
+	}
+
+
+
+
+	/**
+	 * @param channel the channel to set
+	 */
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
+
+
+
+
 	public MovieDTO getMovie() {
 		return movie;
 	}

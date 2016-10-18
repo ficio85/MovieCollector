@@ -5,7 +5,7 @@
 		<c:import url="searchMovie/searchGuidaTv.jsp" />
 	</div>
 
-	<div  id="movieResult">
+	<div  id="guidaTvResult">
 		<c:import url="searchMovie/resultMovieTv.jsp" />
 
 	</div>

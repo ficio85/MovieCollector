@@ -46,6 +46,11 @@ public class InsertMovieService {
 	SearchMovieDAO searchMovieDAO;
 
 	@Autowired
+	@Qualifier("searchMovieService")
+	SearchMovieService searchMovieService;
+	
+	
+	@Autowired
 	@Qualifier("rateDAO")
 	MovieRankDAO rateDAO;
 
@@ -60,6 +65,8 @@ public class InsertMovieService {
 	@Autowired
 	@Qualifier("directorDAO")
 	DirectorDAO directorDAO;
+	
+	
 
 	@Async
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
@@ -208,78 +215,135 @@ public class InsertMovieService {
 
 	}
 	
-	public void updateUserRate(String codPers) {
+	public void updateUserRate(String codPers, String movie) {
 		// TODO Auto-generated method stub
 		//selezione di tutti i film votati
-		List<UserMovieRateDTO> userMovieList = rateDAO.getUserMovieRate(codPers);
-		//aggiornamento dei generi
-		HashMap <String,Float> generiMap;
-		HashMap <String,Integer> countGeneriMap;
-
-		HashMap <String, Integer> countActorsMap = new HashMap <String, Integer>();
-		HashMap <String, Float> actorsMap=new HashMap <String, Float>();
-
-		HashMap <String, Integer> countDirectorsMap=new HashMap <String, Integer>();
-		HashMap <String, Float> directorsMap=new HashMap <String, Float>();
+		MovieDTO movieToRefer =( searchMovieService).getAllMovieDetail(movie, codPers);
 		
-		HashMap <String, Integer> countWritersMap=new HashMap <String, Integer>();
-		HashMap <String, Float> writersMap=new HashMap <String, Float>();
-		for(UserMovieRateDTO movieRate:userMovieList)
+		
+		//TODO sarebbe da rifare devo riprende tutti i film che hanno almeno uno scrittore del film votato, almeno un regista, almeno un attore ecc...
+		List<DirectorDTO> directors= movieToRefer.getDirectors();
+		List<ActorDTO> actors= movieToRefer.getActors();
+		List <GenereDTO> genres= movieToRefer.getGenre();
+		List <WriterDTO> writers=movieToRefer.getWriters();
+		updateDirectors(codPers, directors);
+		updateActors(codPers, actors);
+		updateWriters(codPers, writers);
+		updateGenres(codPers, genres);
+			 		 	
+		
+	}
+
+	private void updateDirectors(String codPers, List<DirectorDTO> directors) {
+		for(DirectorDTO director:directors)
 		{
-					
-			String indexMovie=movieRate.getMovie();
-			float rate = movieRate.getRate();
-			List <ActorDTO> actors =searchMovieDAO.getMovieActors(indexMovie);
-			List <WriterDTO> writers= searchMovieDAO.getMovieWriter(indexMovie);
-			List <GenereDTO> genres= searchMovieDAO.getMovieGenre(indexMovie);
-			
-			for(ActorDTO actor:actors)
+			List<UserMovieRateDTO> userMovieList = rateDAO.getUserMovieRateByDirector(codPers,director.getName());
+			if(userMovieList !=null)
 			{
-				String actorName = actor.getName();
-				int count=0;
-				 count = countActorsMap.get(actorName);
-				countActorsMap.put(actorName, ++count);
-				if(actorsMap.get(actorName)!=null)
+				float rate=0;
+				if(userMovieList.size()>=2)
 				{
-					float averageRate=(actorsMap.get(actorName)+rate)/countActorsMap.get(actorName);
-					actorsMap.put(actorName, averageRate);
+					for(int i=0; i<userMovieList.size();i++)
+					{
+						rate+=userMovieList.get(i).getRate();
+					}
+					rate = rate/userMovieList.size();
 				}
-				else
+				if(userMovieList.size()==2)
 				{
-					actorsMap.put(actorName, rate);
+					rateDAO.insertUserDirectorRate2(codPers,director.getName(),rate);
+				}
+				else if (userMovieList.size()>2)
+				{
+					rateDAO.updateUserDirectorRate2(codPers,director.getName(),rate);
 				}
 				
 			}
-			for(WriterDTO writer:writers)
-			{
-				String writerName = writer.getName();
-				int count=0;
-				 count = countWritersMap.get(writerName);
-				countWritersMap.put(writerName, ++count);
-				if(actorsMap.get(writerName)!=null)
-				{
-					float averageRate=(countWritersMap.get(writerName)+rate)/countWritersMap.get(writerName);
-					writersMap.put(writerName, averageRate);
-				}
-				else
-				{
-					//countWritersMap.put(writerName, rate);
-				}
-				
-			}
-			
-			for(WriterDTO writer:writers)
-			{
-				String writerName = writer.getName();
-				int count=0;
-				 count = countWritersMap.get(writerName);
-				countActorsMap.put(writerName, ++count);
-			}
-			searchMovieDAO.getMovieWriter(indexMovie);
-			
-			
 		}
-		
+	}
+
+	private void updateActors(String codPers, List<ActorDTO> actors) {
+		for(ActorDTO actor:actors)
+		{
+			List<UserMovieRateDTO> userMovieList = rateDAO.getUserMovieRateByActor(codPers,actor.getName());
+			if(userMovieList !=null)
+			{
+				float rate=0;
+				if(userMovieList.size()>=2)
+				{
+					for(int i=0; i<userMovieList.size();i++)
+					{
+						rate+=userMovieList.get(i).getRate();
+					}
+					rate = rate/userMovieList.size();
+				}
+				if(userMovieList.size()==2)
+				{
+					rateDAO.insertUserActorRate2(codPers,actor.getName(),rate);
+				}
+				else if (userMovieList.size()>2)
+				{
+					rateDAO.updateUserActorRate2(codPers,actor.getName(),rate);
+				}
+				
+			}
+		}
+	}
+
+	private void updateWriters(String codPers, List<WriterDTO> writers) {
+		for(WriterDTO writer:writers)
+		{
+			List<UserMovieRateDTO> userMovieList = rateDAO.getUserMovieRateByWriter(codPers,writer.getName());
+			if(userMovieList !=null)
+			{
+				float rate=0;
+				if(userMovieList.size()>=2)
+				{
+					for(int i=0; i<userMovieList.size();i++)
+					{
+						rate+=userMovieList.get(i).getRate();
+					}
+					rate = rate/userMovieList.size();
+				}
+				if(userMovieList.size()==2)
+				{
+					rateDAO.insertUserWriteRate(codPers,writer.getName(),rate);
+				}
+				else if (userMovieList.size()>2)
+				{
+					rateDAO.updateUserWriterRate(codPers,writer.getName(),rate);
+				}
+				
+			}
+		}
+	}
+
+	private void updateGenres(String codPers, List<GenereDTO> genres) {
+		for(GenereDTO genre:genres)
+		{
+			List<UserMovieRateDTO> userMovieList = rateDAO.getUserMovieRateByGenre(codPers, genre.getCodGenre());
+			if(userMovieList !=null)
+			{
+				float rate=0;
+				if(userMovieList.size()>=2)
+				{
+					for(int i=0; i<userMovieList.size();i++)
+					{
+						rate+=userMovieList.get(i).getRate();
+					}
+					rate = rate/userMovieList.size();
+				}
+				if(userMovieList==null || userMovieList.size()==0)
+				{
+					rateDAO.insertUserGenreRate(codPers,genre.getCodGenre(),rate,userMovieList.size());
+				}
+				else
+				{
+					rateDAO.updateUserGenreRate(codPers,genre.getCodGenre(),rate,userMovieList.size());
+				}
+				
+			}
+		}
 	}
 
 	private List<GenereDTO> getListaGeneri() {

@@ -66,7 +66,7 @@ public class InsertMovieController {
 		response =insertMovieService.insertUserRate(SessionUtil.getCodPers(request),movie,rate,searchMovieService.getMovieRate(indexes));
 		
 		//avvia il thread di aggiornamento dei gusti dell'utente
-		insertMovieService.updateUserRate(SessionUtil.getCodPers(request));
+		insertMovieService.updateUserRate(SessionUtil.getCodPers(request),movie);
 		
 		return response;
 //		moviedto.setMovieKey(movie);

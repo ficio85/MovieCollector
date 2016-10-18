@@ -22,6 +22,9 @@
 <definition name="searchMovieResult.page" template="/WEB-INF/view/searchMovie/resultMovies.jsp" >
 </definition>
 
+<definition name="searchTVResult.page" template="/WEB-INF/view/searchMovie/resultMovieTv.jsp" >
+</definition>
+
 <definition name="errors.page" template="/WEB-INF/view/errors.jsp" >
 </definition>
 

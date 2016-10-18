@@ -23,7 +23,7 @@
 
 
 							</div>
-							<div class="col-md-3 text-right">${tvProgram.platform}
+							<div class="col-md-3 text-right">${tvProgram.channel}
 								${tvProgram.displayHour }</div>
 							<div class="col-md-2 text-right p-r-md">
 								<form action="${actionUrl}">
@@ -152,7 +152,7 @@
 								<div class="col-md-7 movieTitle">
 									${tvProgram.titolo}
 								</div>
-								<div class="col-md-3 text-right">${tvProgram.platform}
+								<div class="col-md-3 text-right">${tvProgram.channel}
 									${tvProgram.displayHour }</div>
 							
 								<div class="col-md-4 text-right"></div>

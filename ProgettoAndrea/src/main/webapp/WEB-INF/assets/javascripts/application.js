@@ -476,10 +476,10 @@ $(function(){
 				var link=$('#contextPath').val()+"/loadGuidaTV";
 				$.ajax({
 					url: link,
-					type:"POST",
-					dataType:'json',
 					data: {piattaforma:piattaforma,fascia:fascia,programma:programma},
-					success: function( response ) {
+					success: function( data ) {
+						
+						$("#guidaTvResult").html(data);
 						alert("Tutto ok");
 					},
 					error: function(XMLHttpRequest, textStatus, errorThrown) { 

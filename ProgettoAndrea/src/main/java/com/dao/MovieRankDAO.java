@@ -13,12 +13,14 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.dto.DirectorDTO;
 import com.dto.GenereDTO;
 import com.dto.LabelDTO;
 import com.dto.MovieDTO;
 import com.dto.UserMovieRateDTO;
 import com.mapper.LabelMapper;
 import com.mapper.UserMovieRateMapper;
+import com.util.DirectorGeneratorUtil;
 
 @Repository("rateDAO")
 public class MovieRankDAO {
@@ -381,5 +383,240 @@ public class MovieRankDAO {
 		return jdbcTemplate.query(sql,parameters,new UserMovieRateMapper());
 	}
 	
+	public List<UserMovieRateDTO> getUserMovieRateByDirector(String user,String director) {
+		
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", user);
+		parameters.addValue("director", director);
+		String sql ="SELECT `user`,`movie`,`rate` from usermovierate a,moviedirector b "
+				+ "and where a.movie=b.movie and user=:user and director =:director ";
+
+		return jdbcTemplate.query(sql,parameters,new UserMovieRateMapper());
+	}
 	
+public List<UserMovieRateDTO> getUserMovieRateByActor(String user,String actor) {
+		
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", user);
+		parameters.addValue("actor", actor);
+		String sql ="SELECT `user`,`movie`,`rate` from usermovierate a,movieactor b "
+				+ "and where a.movie=b.movie and user=:user and actor =:actor ";
+
+		return jdbcTemplate.query(sql,parameters,new UserMovieRateMapper());
+	}
+
+public List<UserMovieRateDTO> getUserMovieRateByGenre(String user,String genre) {
+	
+	MapSqlParameterSource parameters = new MapSqlParameterSource();
+	parameters.addValue("user", user);
+	parameters.addValue("genere", genre);
+	String sql ="SELECT `user`,`movie`,`rate` from usermovierate a,moviegenre b "
+			+ "and where a.movie=b.movie and user=:user and genre =:genere ";
+
+	return jdbcTemplate.query(sql,parameters,new UserMovieRateMapper());
+}
+
+public List<UserMovieRateDTO> getUserMovieRateByWriter(String user, String writer) {
+	
+	MapSqlParameterSource parameters = new MapSqlParameterSource();
+	parameters.addValue("user", user);
+	parameters.addValue("writer", writer);
+	String sql ="SELECT `user`,`movie`,`rate` from usermovierate a,moviewriter b "
+			+ "and where a.movie=b.movie and user=:user and writer =:writer ";
+
+	return jdbcTemplate.query(sql,parameters,new UserMovieRateMapper());
+}
+
+
+public int insertUserDirectorRate2(String codPers,String director, float autorate ) {
+
+	// TODO Auto-generated method stub
+
+	int result;
+	MapSqlParameterSource parameters = new MapSqlParameterSource();
+	parameters.addValue("user", codPers);
+	parameters.addValue("director", director);
+	parameters.addValue("autorate", autorate);
+
+
+	try {
+		result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`userdirectorrate`(`user`,`director`,`autorate`)"
+				+ " VALUES (:user,:director,:autorate) ", parameters);
+	} 
+	catch(Exception e){
+		e.printStackTrace();
+		throw e;
+
+	}
+	return  result;
+
+}
+
+public int updateUserDirectorRate2(String codPers,String director, float autorate ) {
+
+	// TODO Auto-generated method stub
+
+	int result;
+	MapSqlParameterSource parameters = new MapSqlParameterSource();
+	parameters.addValue("user", codPers);
+	parameters.addValue("director", director);
+	parameters.addValue("autorate", autorate);
+
+
+	try {
+		result=jdbcTemplate.update("UPDATE userdirectorrate set autorate=:autorate where user=:user and director=:director ", parameters);
+	} 
+	catch(Exception e){
+		e.printStackTrace();
+		throw e;
+
+	}
+	return  result;
+
+}
+	
+public int insertUserActorRate2(String codPers,String actor, float autorate ) {
+
+	// TODO Auto-generated method stub
+
+	int result;
+	MapSqlParameterSource parameters = new MapSqlParameterSource();
+	parameters.addValue("user", codPers);
+	parameters.addValue("actor", actor);
+	parameters.addValue("autorate", autorate);
+
+
+	try {
+		result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`useractorrate`(`user`,`actor`,`autorate`)"
+				+ " VALUES (:user,:actor,:autorate) ", parameters);
+	} 
+	catch(Exception e){
+		e.printStackTrace();
+		throw e;
+
+	}
+	return  result;
+
+}
+
+public int updateUserActorRate2(String codPers,String actor, float autorate ) {
+
+	// TODO Auto-generated method stub
+
+	int result;
+	MapSqlParameterSource parameters = new MapSqlParameterSource();
+	parameters.addValue("user", codPers);
+	parameters.addValue("actor", actor);
+	parameters.addValue("autorate", autorate);
+
+
+	try {
+		result=jdbcTemplate.update("UPDATE useractorrate set autorate=:autorate where user=:user and actor=:actor ", parameters);
+	} 
+	catch(Exception e){
+		e.printStackTrace();
+		throw e;
+
+	}
+	return  result;
+
+}
+	
+public int insertUserWriteRate(String codPers,String writer, float rate ) {
+
+	// TODO Auto-generated method stub
+
+	int result;
+	MapSqlParameterSource parameters = new MapSqlParameterSource();
+	parameters.addValue("user", codPers);
+	parameters.addValue("writer", writer);
+	parameters.addValue("rate", rate);
+
+
+	try {
+		result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`userwriterrate`(`user`,`writer`,`rate`)"
+				+ " VALUES (:user,:writer,:rate) ", parameters);
+	} 
+	catch(Exception e){
+		e.printStackTrace();
+		throw e;
+
+	}
+	return  result;
+
+}
+
+public int updateUserWriterRate(String codPers,String writer, float rate ) {
+
+	// TODO Auto-generated method stub
+
+	int result;
+	MapSqlParameterSource parameters = new MapSqlParameterSource();
+	parameters.addValue("user", codPers);
+	parameters.addValue("writer", writer);
+	parameters.addValue("rate", rate);
+
+
+	try {
+		result=jdbcTemplate.update("UPDATE userwriterrate set rate=:rate where user=:user and writer=:writer", parameters);
+	} 
+	catch(Exception e){
+		e.printStackTrace();
+		throw e;
+
+	}
+	return  result;
+
+}
+
+public int insertUserGenreRate(String codPers,String genre, float rate, int sum ) {
+
+	// TODO Auto-generated method stub
+
+	int result;
+	MapSqlParameterSource parameters = new MapSqlParameterSource();
+	parameters.addValue("user", codPers);
+	parameters.addValue("genre", genre);
+	parameters.addValue("rate", rate);
+	parameters.addValue("count", sum);
+
+
+	try {
+		result=jdbcTemplate.update("INSERT INTO usergenrerate ('user','genre','rate','count') VALUES (:user,:genre,:rate,:count)", parameters);
+	} 
+	catch(Exception e){
+		e.printStackTrace();
+		throw e;
+
+	}
+	return  result;
+
+}
+
+public int updateUserGenreRate(String codPers,String genre, float rate, int sum ) {
+
+	// TODO Auto-generated method stub
+
+	int result;
+	MapSqlParameterSource parameters = new MapSqlParameterSource();
+	parameters.addValue("user", codPers);
+	parameters.addValue("genre", genre);
+	parameters.addValue("rate", rate);
+	parameters.addValue("count", sum);
+
+
+	try {
+		result=jdbcTemplate.update("UPDATE usergenrerate ('user','genre','rate','count') VALUES (:user,:genre,:rate,:count)", parameters);
+	} 
+	catch(Exception e){
+		e.printStackTrace();
+		throw e;
+
+	}
+	return  result;
+
+}
+
+
+
 }

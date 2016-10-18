@@ -1,6 +1,8 @@
 package com.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Future;
@@ -42,6 +44,10 @@ public class GuidaTvService {
 	@Qualifier("guidaTvDAO")
 	GuidaTvDAO guidaTvDAO;
 	
+	@Autowired
+	@Qualifier("searchMovieService")
+	private SearchMovieService searchMovieService;
+
 	
 	public void insertProgrammiTv(List<ProgramTvMovieDTO> programmi) {
 		// TODO Auto-generated method stub
@@ -54,7 +60,25 @@ public class GuidaTvService {
 		}
 	}
 	
-	public ProgramTvMovieDTO getFirstProgrammaTv() {
+	public List<ProgramTvMovieDTO> getProgrammiTv(String user, Timestamp dateBegin, Timestamp dateEnd, String channel, String platform, String type) {
+		// TODO Auto-generated method stub
+		
+		List<ProgramTvMovieDTO> programmiTv = guidaTvDAO.getMovieTvList(dateBegin,dateEnd,channel,platform,type);
+		
+		for(ProgramTvMovieDTO programma : programmiTv)
+		{
+			if(!programma.getMovie().getMovieKey().equals("NONPRESENTE"))
+			programma.setMovie(searchMovieService.getAllMovieDetail(programma.getMovie().getMovieKey(), user));
+		}
+		return programmiTv;
+	}
+	
+	
+	
+	
+	
+	
+	public List<ProgramTvMovieDTO> getFirstProgrammaTv() {
 		
 		return guidaTvDAO.getFirstProgrammaTv();
 	}

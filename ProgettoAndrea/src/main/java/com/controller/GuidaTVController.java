@@ -27,6 +27,7 @@ import com.service.GuidaTvService;
 import com.service.InsertMovieService;
 import com.service.SearchMovieService;
 import com.util.DateUtil;
+import com.util.GuidaTvUtil;
 import com.util.MessageErrorWrapper;
 import com.util.MovieCompareUtil;
 import com.util.SearchUtil;
@@ -51,26 +52,40 @@ public class GuidaTVController {
 	@RequestMapping(value = "/guidaTV", method = { RequestMethod.GET, RequestMethod.POST })
 	public String displayGuidaTV ( HttpServletRequest request,@ModelAttribute("searchMovie") SearchMovieForm searchTv,Model model) throws Exception {
 		//0ttieni la data odierna
-	ProgramTvMovieDTO firstProgramma =guidaTvService.getFirstProgrammaTv();
-		Timestamp oraInizio =firstProgramma.getOraInizio();
-	Calendar calendar = Calendar.getInstance();
-		int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-		calendar.setTimeInMillis(oraInizio.getTime());		
-		int dayOfMonthDB=calendar.get(Calendar.DAY_OF_MONTH);
-		if(dayOfMonth!= dayOfMonthDB)
+		List <ProgramTvMovieDTO> firstProgrammi= guidaTvService.getFirstProgrammaTv();
+		if(firstProgrammi!=null && firstProgrammi.size()!=0)
 		{
-			guidaTvService.deleteGuidaTv();
+			ProgramTvMovieDTO firstProgramma =firstProgrammi.get(0);
+			
+			Timestamp oraInizio =firstProgramma.getOraInizio();
+		Calendar calendar = Calendar.getInstance();
+			int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+			calendar.setTimeInMillis(oraInizio.getTime());		
+			int dayOfMonthDB=calendar.get(Calendar.DAY_OF_MONTH);
+			if(dayOfMonth!= dayOfMonthDB)
+			{
+				guidaTvService.deleteGuidaTv();
+				List <ProgramTvMovieDTO> programmi = XmltvParserUtil.getProgrammiTV();
+				extractMoviekey(programmi);
+				extractTypeProgrammi(programmi);
+				guidaTvService.insertProgrammiTv(programmi);
+			}
+		}
+		else
+		{
 			List <ProgramTvMovieDTO> programmi = XmltvParserUtil.getProgrammiTV();
 			extractMoviekey(programmi);
+			extractTypeProgrammi(programmi);
 			guidaTvService.insertProgrammiTv(programmi);
 		}
+	
 
 		Timestamp timeToday= new Timestamp(new Date().getTime());
 		Timestamp timeBegin = DateUtil.subMinutes(timeToday, 30);
 		Timestamp timeEnd = DateUtil.addMinutes(timeToday, 120);
 
 
-		List <ProgramTvMovieDTO> programmiTv =searchMovieService.getProgrammiTv(SessionUtil.getCodPers(request),timeBegin, timeEnd);
+		List <ProgramTvMovieDTO> programmiTv =guidaTvService.getProgrammiTv(SessionUtil.getCodPers(request),timeBegin, timeEnd,"","","");
 
 		request.setAttribute("listPiattaforme", PiattaFormaDTO.getValues());
 		request.setAttribute("listFasce", FasciaOrariaDTO.getValues());
@@ -78,6 +93,19 @@ public class GuidaTVController {
 		request.setAttribute("listMovies", programmiTv);
 		return "guidaTv.page";
 
+	}
+
+	private void extractTypeProgrammi(List<ProgramTvMovieDTO> programmi) {
+		// TODO Auto-generated method stub
+		for(ProgramTvMovieDTO program : programmi)
+		{
+			if(program.getMovie()!=null && program.getMovie().getMovieKey()!=null)
+			{
+				program.setTipo(program.getMovie().getType());
+			}
+			
+		}
+		
 	}
 
 	private void extractMoviekey(List<ProgramTvMovieDTO> programmi) {
@@ -126,8 +154,17 @@ public class GuidaTVController {
 
 
 	@RequestMapping(value = "/loadGuidaTV", method = { RequestMethod.GET, RequestMethod.POST })
-	public String ricercaFilmRisultati ( HttpServletRequest request,Model model) throws Exception {
-		return null;
+	public String displayGuidaTvFiltrato ( HttpServletRequest request,Model model) throws Exception {
+		System.out.println("hello");
+		
+		String piattaforma =request.getParameter("piattaforma");
+		String fascia =request.getParameter("fascia");
+		String programma = request.getParameter("programma");
+		Timestamp[] fasce = GuidaTvUtil.fromFasciaToTimeStamp(fascia);
+		List<ProgramTvMovieDTO> programmiTv = guidaTvService.getProgrammiTv(SessionUtil.getCodPers(request),  fasce[0],  fasce[1], "", piattaforma, "");
+		request.setAttribute("listMovies", programmiTv);
+		return "searchTVResult.page";
+		
 		
 	}
 

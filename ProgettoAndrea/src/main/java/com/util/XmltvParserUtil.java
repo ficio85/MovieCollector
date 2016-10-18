@@ -23,6 +23,7 @@ import org.jsoup.select.Elements;
 import com.dto.ActorDTO;
 import com.dto.DirectorDTO;
 import com.dto.MovieDTO;
+import com.dto.PiattaFormaDTO;
 import com.dto.ProgramMovieDTO;
 import com.dto.ProgramTvMovieDTO;
 
@@ -54,9 +55,8 @@ public class XmltvParserUtil {
 			URL urlSky = new URL(linkSky);
 			URL urlDigitale = new URL(linkDigitale);
 
-			extractProgrammi(programmi, urlSky);
-			extractProgrammi(programmi, urlDigitale);
-
+			extractProgrammi(programmi, urlSky, PiattaFormaDTO.SKY.codPiattaforma);
+			extractProgrammi(programmi, urlDigitale, PiattaFormaDTO.DIGITTERR.codPiattaforma);
 			//optional, but recommended
 			//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
 		}
@@ -67,7 +67,15 @@ public class XmltvParserUtil {
 		return programmi;
 	}
 
-	private static void extractProgrammi(List<ProgramTvMovieDTO> programmi, URL url)
+	private static void setPlatform(List<ProgramTvMovieDTO> programmi, String codPiattaforma) {
+		// TODO Auto-generated method stub
+		for(ProgramTvMovieDTO program: programmi)
+		{
+			program.setPlatform(codPiattaforma);
+		}
+	}
+
+	private static void extractProgrammi(List<ProgramTvMovieDTO> programmi, URL url, String platform)
 			throws IOException, UnsupportedEncodingException, FileNotFoundException {
 		HttpURLConnection uc = ProxyUtil.connect(url);
 		String line = null;
@@ -104,8 +112,9 @@ public class XmltvParserUtil {
 				extractOtherInfo(movieTabChildren.get(2),program);
 			}
 			//printProgram(program);
+			program.setPlatform(platform);
 			programmi.add(program);
-
+			
 		}
 	}
 
@@ -144,7 +153,7 @@ public class XmltvParserUtil {
 	}
 
 	private static void extractPlatform(Element element, ProgramMovieDTO program) {
-		program.setPlatform(element.getElementsByTag("a").get(0).ownText());
+		program.setChannel(element.getElementsByTag("a").get(0).ownText());
 
 	}
 

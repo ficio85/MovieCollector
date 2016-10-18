@@ -833,22 +833,7 @@ public class SearchMovieDAO {
 	
 	
 
-	public List<ProgramTvMovieDTO> getMovieTvList(Timestamp dateBegin, Timestamp dateEnd) {
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("timeBegin", dateBegin);
-		parameters.addValue("timeEnd", dateEnd);
-
-		String sql="";
-
-		sql +="SELECT * from movietv where time >= :timeBegin and time <= :timeEnd order by time asc  ";
-		
-		
-
-		return jdbcTemplate.query(sql,parameters,new ProgramTvMapper());
-
-
-	}
-
+	
 
 
 

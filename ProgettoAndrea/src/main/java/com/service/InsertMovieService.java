@@ -325,15 +325,14 @@ public class InsertMovieService {
 			if(userMovieList !=null)
 			{
 				float rate=0;
-				if(userMovieList.size()>=2)
-				{
+
 					for(int i=0; i<userMovieList.size();i++)
 					{
 						rate+=userMovieList.get(i).getRate();
 					}
 					rate = rate/userMovieList.size();
-				}
-				if(userMovieList==null || userMovieList.size()==0)
+				
+				if(userMovieList!=null && userMovieList.size()==1)
 				{
 					rateDAO.insertUserGenreRate(codPers,genre.getCodGenre(),rate,userMovieList.size());
 				}

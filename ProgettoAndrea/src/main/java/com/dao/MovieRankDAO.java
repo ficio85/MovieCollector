@@ -47,7 +47,7 @@ public class MovieRankDAO {
 	}
 
 
-	public float getUserActorRank (String codPers, String actor)
+	public float getUserActorRate (String codPers, String actor)
 	{
 
 		float result;
@@ -55,7 +55,7 @@ public class MovieRankDAO {
 		parameters.addValue("user", codPers);
 		parameters.addValue("actor", actor);
 		try {
-			result=jdbcTemplate.queryForObject(" SELECT  rate FROM useractorrate where actor = :actor and user=:user ",parameters, Float.class);
+			result=jdbcTemplate.queryForObject("select user,actor,timestamp,rate,autorate from useractorrate  where actor = :actor and user=:user ",parameters, Float.class);
 		} 
 		catch(Exception e){
 			e.printStackTrace();
@@ -388,8 +388,8 @@ public class MovieRankDAO {
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("user", user);
 		parameters.addValue("director", director);
-		String sql ="SELECT `user`,`movie`,`rate` from usermovierate a,moviedirector b "
-				+ "and where a.movie=b.movie and user=:user and director =:director ";
+		String sql ="SELECT user,a.movie,rate from usermovierate a,moviedirector b "
+				+ " where a.movie=b.movie and user=:user and director =:director ";
 
 		return jdbcTemplate.query(sql,parameters,new UserMovieRateMapper());
 	}
@@ -399,8 +399,8 @@ public List<UserMovieRateDTO> getUserMovieRateByActor(String user,String actor) 
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("user", user);
 		parameters.addValue("actor", actor);
-		String sql ="SELECT `user`,`movie`,`rate` from usermovierate a,movieactor b "
-				+ "and where a.movie=b.movie and user=:user and actor =:actor ";
+		String sql ="SELECT user,a.movie,rate from usermovierate a,movieactor b "
+				+ " where a.movie=b.movie and user=:user and actor =:actor ";
 
 		return jdbcTemplate.query(sql,parameters,new UserMovieRateMapper());
 	}
@@ -410,8 +410,8 @@ public List<UserMovieRateDTO> getUserMovieRateByGenre(String user,String genre) 
 	MapSqlParameterSource parameters = new MapSqlParameterSource();
 	parameters.addValue("user", user);
 	parameters.addValue("genere", genre);
-	String sql ="SELECT `user`,`movie`,`rate` from usermovierate a,moviegenre b "
-			+ "and where a.movie=b.movie and user=:user and genre =:genere ";
+	String sql ="SELECT user,a.movie,rate from usermovierate a,moviegenre b "
+			+ " where a.movie=b.movie and user=:user and genre =:genere ";
 
 	return jdbcTemplate.query(sql,parameters,new UserMovieRateMapper());
 }
@@ -421,8 +421,8 @@ public List<UserMovieRateDTO> getUserMovieRateByWriter(String user, String write
 	MapSqlParameterSource parameters = new MapSqlParameterSource();
 	parameters.addValue("user", user);
 	parameters.addValue("writer", writer);
-	String sql ="SELECT `user`,`movie`,`rate` from usermovierate a,moviewriter b "
-			+ "and where a.movie=b.movie and user=:user and writer =:writer ";
+	String sql ="SELECT user,a.movie,rate from usermovierate a,moviewriter b "
+			+ " where a.movie=b.movie and user=:user and writer =:writer ";
 
 	return jdbcTemplate.query(sql,parameters,new UserMovieRateMapper());
 }
@@ -582,7 +582,7 @@ public int insertUserGenreRate(String codPers,String genre, float rate, int sum 
 
 
 	try {
-		result=jdbcTemplate.update("INSERT INTO usergenrerate ('user','genre','rate','count') VALUES (:user,:genre,:rate,:count)", parameters);
+		result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`usergenrerate`(`user`,`genre`,`rate`,`count`) VALUES (:user,:genre,:rate,:count)", parameters);
 	} 
 	catch(Exception e){
 		e.printStackTrace();
@@ -606,7 +606,7 @@ public int updateUserGenreRate(String codPers,String genre, float rate, int sum 
 
 
 	try {
-		result=jdbcTemplate.update("UPDATE usergenrerate ('user','genre','rate','count') VALUES (:user,:genre,:rate,:count)", parameters);
+		result=jdbcTemplate.update("UPDATE usergenrerate SET rate=:rate, count=:count where user=:user and genre=:genre", parameters);
 	} 
 	catch(Exception e){
 		e.printStackTrace();

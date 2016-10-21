@@ -5,7 +5,7 @@
 <%@ page import="java.util.List"%>
 <%@ page import="com.util.MovieGeneratorUtil"%>
 
-<c:url value="/detailMovie" var="movieDetail" />
+<c:url value="/detailMovie" var="actionUrl" />
 
 <form class="hiddenFormSearch" id="hiddenFormSearch">
 	<c:forEach var="genre" items="${genereList}" varStatus="loop">
@@ -123,7 +123,6 @@
 
 						</div>
 						<div class="col-md-5">
-							<c:url value="/detailMovie" var="actionUrl" />
 							
 							<div class="row">
 								LABEL:

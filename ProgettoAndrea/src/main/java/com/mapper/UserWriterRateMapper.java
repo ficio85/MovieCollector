@@ -18,7 +18,7 @@ public class UserWriterRateMapper implements RowMapper<UserWriterRateDTO>{
 		UserWriterRateDTO rate = new UserWriterRateDTO();
 		rate.setUser(rset.getString("user"));
 		rate.setRate(rset.getFloat("rate"));
-		rate.setWriter(rset.getString("director"));	
+		rate.setWriter(rset.getString("writer"));	
 		return rate;
 	}
 

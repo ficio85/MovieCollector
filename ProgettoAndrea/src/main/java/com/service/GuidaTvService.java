@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.algorithm.MovieLikeAlgorithm;
 import com.dao.ActorDAO;
 import com.dao.DirectorDAO;
 import com.dao.GuidaTvDAO;
@@ -47,6 +48,10 @@ public class GuidaTvService {
 	@Autowired
 	@Qualifier("searchMovieService")
 	private SearchMovieService searchMovieService;
+	
+	@Autowired
+	@Qualifier("movieLikeAlgorithm")
+	private MovieLikeAlgorithm movieLikeAlgorithm;
 
 	
 	public void insertProgrammiTv(List<ProgramTvMovieDTO> programmi) {
@@ -68,7 +73,16 @@ public class GuidaTvService {
 		for(ProgramTvMovieDTO programma : programmiTv)
 		{
 			if(!programma.getMovie().getMovieKey().equals("NONPRESENTE"))
-			programma.setMovie(searchMovieService.getAllMovieDetail(programma.getMovie().getMovieKey(), user));
+			{
+				programma.setMovie(searchMovieService.getAllMovieDetail(programma.getMovie().getMovieKey(), user));
+				float rateMovie = movieLikeAlgorithm.getMovieLikeRate(programma.getMovie(), user);
+				UserMovieRateDTO userRateDTO = new UserMovieRateDTO();
+				userRateDTO.setMovie(programma.getMovie().getMovieKey());
+				userRateDTO.setRate(rateMovie);
+				userRateDTO.setUser(user);
+				guidaTvDAO.insertUserGuidaTv(userRateDTO);
+
+			}
 		}
 		return programmiTv;
 	}

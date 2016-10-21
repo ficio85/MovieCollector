@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -17,9 +18,17 @@ import com.dto.DirectorDTO;
 import com.dto.GenereDTO;
 import com.dto.LabelDTO;
 import com.dto.MovieDTO;
+import com.dto.UserActorRateDTO;
+import com.dto.UserDirectorRateDTO;
+import com.dto.UserGenreRateDTO;
 import com.dto.UserMovieRateDTO;
+import com.dto.UserWriterRateDTO;
 import com.mapper.LabelMapper;
+import com.mapper.UserActorRateMapper;
+import com.mapper.UserDirectorRateMapper;
+import com.mapper.UserGenreRateMapper;
 import com.mapper.UserMovieRateMapper;
+import com.mapper.UserWriterRateMapper;
 import com.util.DirectorGeneratorUtil;
 
 @Repository("rateDAO")
@@ -47,16 +56,42 @@ public class MovieRankDAO {
 	}
 
 
-	public float getUserActorRate (String codPers, String actor)
+	public UserActorRateDTO getUserActorRate (String codPers, String actor)
 	{
 
-		float result;
+		UserActorRateDTO result;
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("user", codPers);
 		parameters.addValue("actor", actor);
 		try {
-			result=jdbcTemplate.queryForObject("select user,actor,timestamp,rate,autorate from useractorrate  where actor = :actor and user=:user ",parameters, Float.class);
+			result=jdbcTemplate.queryForObject("select user,actor,timestamp,rate,autorate from useractorrate  where actor = :actor and user=:user ",parameters, new UserActorRateMapper());
+		}
+		catch(EmptyResultDataAccessException e)
+		{
+			return null;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;		
+	}
+	
+	public UserDirectorRateDTO getUserDirectorRate (String codPers, String director)
+	{
+
+		UserDirectorRateDTO result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", codPers);
+		parameters.addValue("director", director);
+		try {
+			result=jdbcTemplate.queryForObject("select user,director,timestamp,rate,autorate from userdirectorrate  where director = :director and user=:user ",parameters, new UserDirectorRateMapper());
 		} 
+		catch(EmptyResultDataAccessException e)
+		{
+			return null;
+		}
 		catch(Exception e){
 			e.printStackTrace();
 			throw e;
@@ -65,6 +100,49 @@ public class MovieRankDAO {
 		return  result;		
 	}
 
+	public UserWriterRateDTO getUserWriterRate (String codPers, String writer)
+	{
+
+		UserWriterRateDTO result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", codPers);
+		parameters.addValue("writer", writer);
+		try {
+			result=jdbcTemplate.queryForObject("select user,writer,timestamp,rate from userwriterrate  where writer = :writer and user=:user ",parameters, new UserWriterRateMapper());
+		}
+		catch(EmptyResultDataAccessException e)
+		{
+			return null;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;		
+	}
+	
+	public UserGenreRateDTO getUserGenreRate (String codPers, String genre)
+	{
+
+		UserGenreRateDTO result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", codPers);
+		parameters.addValue("genre", genre);
+		try {
+			result=jdbcTemplate.queryForObject("select user,genre,rate,count from usergenrerate  where genre = :genre and user=:user ",parameters, new UserGenreRateMapper());
+		}
+		catch(EmptyResultDataAccessException e)
+		{
+			return null;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;		
+	}
 
 	public int insertUserRate (String codPers,String movie, float rate)
 	{
@@ -81,6 +159,54 @@ public class MovieRankDAO {
 		try {
 			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`usermovierate`(`user`,`movie`,`rate`)"
 					+ " VALUES (:user,:movie,:rate) ", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+
+	}
+	
+	public int insertUserGuidaTv (String codPers,String movie, int count)
+	{
+
+		// TODO Auto-generated method stub
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", codPers);
+		parameters.addValue("movie", movie);
+		parameters.addValue("like", count);
+
+
+		try {
+			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`usermovietv`(`user`,`movie`,`like`)"
+					+ " VALUES (:user,:movie,:like) ", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+
+	}
+	
+	public int getUserGuidaTv (String codPers,String movie)
+	{
+
+		// TODO Auto-generated method stub
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", codPers);
+		parameters.addValue("movie", movie);
+
+
+		try {
+			result=jdbcTemplate.queryForInt(" select like from usermovietv where user=:user and movie=:movie ", parameters);
 		} 
 		catch(Exception e){
 			e.printStackTrace();

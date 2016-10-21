@@ -21,6 +21,7 @@ import com.dto.LabelDTO;
 import com.dto.MovieDTO;
 import com.dto.ProgramMovieDTO;
 import com.dto.ProgramTvMovieDTO;
+import com.dto.UserMovieRateDTO;
 import com.mapper.LabelMapper;
 import com.mapper.ProgramTvMapper;
 
@@ -46,6 +47,36 @@ public class GuidaTvDAO {
 
 		try {
 			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`movietv`(`movie`,`time`,`channel`,`title`,`type`,`platform`) VALUES(:movieKey,:time,:channel,:title,:type,:platform)", parameters);
+		}
+		catch(DuplicateKeyException e)
+		{
+			e.printStackTrace();
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+
+
+
+}
+	
+	public int insertUserGuidaTv(UserMovieRateDTO movieRate) {
+
+		// TODO Auto-generated method stub
+
+		int result = 0;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("movie", movieRate.getMovie());
+		parameters.addValue("user", movieRate.getUser());
+		parameters.addValue("like", movieRate.getRate());
+	
+
+		try {
+			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`usermovietv`(`movie`,`user`,`like`) VALUES(:movie,:user,:like)", parameters);
 		}
 		catch(DuplicateKeyException e)
 		{

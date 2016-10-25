@@ -21,9 +21,11 @@ import com.dto.LabelDTO;
 import com.dto.MovieDTO;
 import com.dto.ProgramMovieDTO;
 import com.dto.ProgramTvMovieDTO;
+import com.dto.UserGuidaTvDTO;
 import com.dto.UserMovieRateDTO;
 import com.mapper.LabelMapper;
 import com.mapper.ProgramTvMapper;
+import com.mapper.UserGuidaTvMapper;
 
 @Repository("guidaTvDAO")
 public class GuidaTvDAO {
@@ -76,7 +78,7 @@ public class GuidaTvDAO {
 	
 
 		try {
-			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`usermovietv`(`movie`,`user`,`like`) VALUES(:movie,:user,:like)", parameters);
+			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`usermovietv`(`movie`,`user`,`rate`) VALUES(:movie,:user,:like)", parameters);
 		}
 		catch(DuplicateKeyException e)
 		{
@@ -105,6 +107,28 @@ public class GuidaTvDAO {
 		 List<ProgramTvMovieDTO> result;
 		try {
 			result=jdbcTemplate.query(" select * from movietv  limit 1 ", parameters, new ProgramTvMapper());
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+
+
+
+}
+	
+	public List<UserGuidaTvDTO> getPreferredUserGuidaTv(String user) {
+
+		// TODO Auto-generated method stub
+
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+
+
+		 List<UserGuidaTvDTO> result;
+		try {
+			result=jdbcTemplate.query(" select * from usermovietv where user=:user and rate= (select max(rate) from usermovie tv where user=:user)", parameters, new UserGuidaTvMapper());
 		} 
 		catch(Exception e){
 			e.printStackTrace();

@@ -31,8 +31,35 @@ public class MovieDTO {
 	List <LabelDTO> userLabels;
 	float rate;
     UserMovieRateDTO userMovieRate;
+    float rateSuggested;
+    
+    
 	
 	
+	/**
+	 * @return the userMovieRate
+	 */
+	public UserMovieRateDTO getUserMovieRate() {
+		return userMovieRate;
+	}
+	/**
+	 * @param userMovieRate the userMovieRate to set
+	 */
+	public void setUserMovieRate(UserMovieRateDTO userMovieRate) {
+		this.userMovieRate = userMovieRate;
+	}
+	/**
+	 * @return the rateSuggested
+	 */
+	public float getRateSuggested() {
+		return rateSuggested;
+	}
+	/**
+	 * @param rateSuggested the rateSuggested to set
+	 */
+	public void setRateSuggested(float rateSuggested) {
+		this.rateSuggested = rateSuggested;
+	}
 	//valori da inserire in caso di serie tv
 	int season;
 	int episode;

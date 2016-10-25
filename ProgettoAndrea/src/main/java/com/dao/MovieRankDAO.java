@@ -182,7 +182,7 @@ public class MovieRankDAO {
 
 
 		try {
-			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`usermovietv`(`user`,`movie`,`like`)"
+			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`usermovietv`(`user`,`movie`,`rate`)"
 					+ " VALUES (:user,:movie,:like) ", parameters);
 		} 
 		catch(Exception e){

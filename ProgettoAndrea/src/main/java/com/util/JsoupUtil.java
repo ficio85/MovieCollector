@@ -50,11 +50,9 @@ public class JsoupUtil {
 		ArrayList<MovieDTO> moviesActor = new ArrayList<>();
 		for(Node node:childNodes)
 		{
-			Pattern pattern = Pattern.compile("^d{4}$");
 			MovieDTO movie = new MovieDTO();
-			Elements element = ((Element)node).getElementsMatchingOwnText(pattern);
 			setMovieYear(node, movie);
-			setMovieDirector(node,movie);
+			//setMovieDirector(node,movie);
 			Elements elements = ((Element)node).getElementsByTag("i");
 			int i=0;
 			if(elements.size()==1)

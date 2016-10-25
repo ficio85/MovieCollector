@@ -55,30 +55,7 @@ public class InsertMovieDAO {
 	
 	}
 	
-	public int updateInternationlization (MovieDTO movie)
-	{
-
-		// TODO Auto-generated method stub
-
-		int result;
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("itTitle", movie.getTitoloItaliano());
-		parameters.addValue("id", movie.getMovieKey());
-
-
-		try {
-			result=jdbcTemplate.update("update internationalization set itTitle=:itTitle where idMovie=:id", parameters);
-		} 
-		catch(Exception e){
-			e.printStackTrace();
-			throw e;
-
-		}
-		return  result;
-		
-
 	
-	}
 	
 	
 	public boolean isMovieActorRel (MovieDTO movie,String actor)
@@ -172,34 +149,6 @@ public class InsertMovieDAO {
 	
 	}
 	
-	public int insertLogWarning (WarningException warn)
-	{
-
-		// TODO Auto-generated method stub
-
-		int result;
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("idmovie", warn.getMovieKey());
-		parameters.addValue("tipoEccezione", warn.getTipo());
-		parameters.addValue("messaggioEccezione", warn.getMessaggio());
-		parameters.addValue("title", warn.getMovieTitle());
-		parameters.addValue("stackTrace", warn.getStackTrace());
-
-
-		try {
-			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`logwarning`(`idmovie`,`tipoEccezione`,`messaggioEccezione`,`title`,`stacktrace`)"
-					+ "VALUES (:idmovie,:tipoEccezione,:messaggioEccezione,:title,:stackTrace)", parameters);
-		} 
-		catch(Exception e){
-			e.printStackTrace();
-			throw e;
-
-		}
-		return  result;
-		
-
-	
-	}
 
 	public int deleteMovieActorsRel( String movieKey) {
 

@@ -10,13 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.dao.InternationalizationDAO;
 import com.dto.ActorDTO;
 import com.dto.FasciaOrariaDTO;
+import com.dto.InternazionalizationDTO;
 import com.dto.MovieDTO;
 import com.dto.PiattaFormaDTO;
 import com.dto.ProgramTvMovieDTO;
@@ -26,7 +29,11 @@ import com.form.SearchMovieForm;
 import com.service.GuidaTvService;
 import com.service.InsertMovieService;
 import com.service.SearchMovieService;
+import com.service.TranslateServiceAsync;
+import com.service.TranslateServiceSync;
+import com.util.ActorGeneratorUtil;
 import com.util.DateUtil;
+import com.util.DirectorGeneratorUtil;
 import com.util.GuidaTvUtil;
 import com.util.MessageErrorWrapper;
 import com.util.MovieCompareUtil;
@@ -48,6 +55,15 @@ public class GuidaTVController {
 	@Autowired
 	@Qualifier("insertMovieService")
 	private InsertMovieService insertMovieService;
+	
+	@Autowired
+	@Qualifier("translateServiceSync")
+	private TranslateServiceSync translateService;
+	
+	
+	@Autowired
+	@Qualifier("internazionalizationDAO")
+	private InternationalizationDAO internazionalizationDAO;
 
 	@RequestMapping(value = "/guidaTV", method = { RequestMethod.GET, RequestMethod.POST })
 	public String displayGuidaTV ( HttpServletRequest request,@ModelAttribute("searchMovie") SearchMovieForm searchTv,Model model) throws Exception {
@@ -67,7 +83,8 @@ public class GuidaTVController {
 				guidaTvService.deleteGuidaTv();
 				List <ProgramTvMovieDTO> programmi = XmltvParserUtil.getProgrammiTV();
 				extractMoviekey(programmi);
-				extractTypeProgrammi(programmi);
+				//extractTypeProgrammi(programmi);
+				
 				guidaTvService.insertProgrammiTv(programmi);
 			}
 		}
@@ -75,7 +92,7 @@ public class GuidaTVController {
 		{
 			List <ProgramTvMovieDTO> programmi = XmltvParserUtil.getProgrammiTV();
 			extractMoviekey(programmi);
-			extractTypeProgrammi(programmi);
+			//extractTypeProgrammi(programmi);
 			guidaTvService.insertProgrammiTv(programmi);
 		}
 	
@@ -108,8 +125,13 @@ public class GuidaTVController {
 		
 	}
 
-	private void extractMoviekey(List<ProgramTvMovieDTO> programmi) {
+	private void extractMoviekey(List<ProgramTvMovieDTO> programmi) throws Exception {
 		// TODO Auto-generated method stub
+		
+		System.out.println("");
+		System.out.println("INIZIO TRADUZIONE");
+		System.out.println("");
+
 		for(int i =0; i<programmi.size();i++)
 		{
 			MovieDTO movie = programmi.get(i).getMovie();
@@ -119,30 +141,36 @@ public class GuidaTVController {
 
 			if(movie.getTitoloItaliano()!=null && !movie.getTitoloItaliano().trim().equals(""))
 			{				
-				List <MovieDTO> movieResult =null;
 			
-				movieResult=searchMovieService.extractMovieForTvGuide(movie);
 				
-				if(movieResult!= null &&  movieResult.size()==1 )
+				System.out.println("");
+				System.out.println(movie.getTitoloItaliano());
+				System.out.println("");
+
+				List <InternazionalizationDTO> international= internazionalizationDAO.getInternationalizationbyTitoloItaliano(movie.getTitoloItaliano());
+				
+				if(international==null || international.size()==0)
 				{
-					MovieDTO movieToTranslate=null;
-					if(movieResult.size()>1)
-					{
-						movieToTranslate = distinctMovie(movieResult,movie);
-					}
-					else
-					{
-						movieToTranslate=movieResult.get(0);
-					}
-					movie.setMovieKey(movieToTranslate.getMovieKey());
-					insertMovieService.insertInternationalization(movie);
+					translateService.insertTranslation(DirectorGeneratorUtil.getDirectorsString(movie.getDirectors(),movie.getDirectors().size()), "director");
+					 international= internazionalizationDAO.getInternationalizationbyTitoloItaliano(movie.getTitoloItaliano());
+					 if(international==null || international.size()==0)
+						{
+								translateService.insertTranslation(ActorGeneratorUtil.getActorsString(movie.getActors(),3), "actor");
+						}
+					 international= internazionalizationDAO.getInternationalizationbyTitoloItaliano(movie.getTitoloItaliano());
+
+				}
+				if(international!=null && international.size()!=0)
+				{
+					movie.setMovieKey(international.get(0).getMovie());
+					
 				}
 				else
 				{
 					movie.setMovieKey("NONPRESENTE");
-					//movie.setTitle(movie.getTitoloItaliano());
 				}
-				//se nn c' è gia internazionalizzazione
+				
+				
 			}
 			else
 			{

@@ -56,7 +56,7 @@ public class XmltvParserUtil {
 			URL urlDigitale = new URL(linkDigitale);
 
 			extractProgrammi(programmi, urlSky, PiattaFormaDTO.SKY.codPiattaforma);
-			extractProgrammi(programmi, urlDigitale, PiattaFormaDTO.DIGITTERR.codPiattaforma);
+			//extractProgrammi(programmi, urlDigitale, PiattaFormaDTO.DIGITTERR.codPiattaforma);
 			//optional, but recommended
 			//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
 		}
@@ -105,6 +105,7 @@ public class XmltvParserUtil {
 			
 			try{
 				extractMovieInfo(movieTabChildren.get(2),program.getMovie());
+				extractTipo(movieTabChildren.get(2),program);
 				program.setTitolo(program.getMovie().getTitoloItaliano());
 			}
 			catch(Exception ex)
@@ -116,6 +117,12 @@ public class XmltvParserUtil {
 			programmi.add(program);
 			
 		}
+	}
+
+	private static void extractTipo(Element element, ProgramTvMovieDTO program) {
+		// TODO Auto-generated method stub
+		program.setTipo(element.select("h3").get(0).ownText().split("\\(")[0].trim());
+
 	}
 
 	private static void printProgram(ProgramTvMovieDTO program) {
@@ -162,6 +169,7 @@ public class XmltvParserUtil {
 		System.out.println(element.select("table").get(0).select("tr").get(0).select("td").get(0).select("a").get(0).ownText());
 		movie.setTitoloItaliano(element.select("table").get(0).select("tr").get(0).select("td").get(0).select("a").get(0).ownText());
 		movie.setYear(Integer.parseInt(element.select("h3").get(0).ownText().split("\\(")[1].split("\\)")[0]));
+		
 		Elements elements = element.select("div.linkblu").get(0).select("a");
 
 		Iterator<Element> it = elements.iterator();

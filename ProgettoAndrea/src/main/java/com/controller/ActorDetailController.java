@@ -58,7 +58,7 @@ public class ActorDetailController {
 		ActorDTO actorToComplete = new ActorDTO(act);
 		if(PropertiesHandler.retrieveInternetInfo())
 		{
-			insertMovieService.inspectImdbForActor(movieList.get(0).getImdbKey(), actorToComplete);
+			//insertMovieService.inspectImdbForActor(movieList.get(0).getImdbKey(), actorToComplete);
 			try{
 			ActorGeneratorUtil.getCompleteInfoActor(actorToComplete);
 			}

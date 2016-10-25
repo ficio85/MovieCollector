@@ -164,8 +164,6 @@ public class SearchMovieService {
 		//		movieDto.setUserRanking(searchMovieDAO.getUserMovieRanking(movieDto.getMovieKey(),user));
 		return movieDto;
 
-
-
 	}
 
 	private void completeMovies(List<MovieDTO> movies) {

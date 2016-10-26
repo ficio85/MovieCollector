@@ -124,11 +124,11 @@ public class GuidaTvDAO {
 		// TODO Auto-generated method stub
 
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
-
+		parameters.addValue("user", user);
 
 		 List<UserGuidaTvDTO> result;
 		try {
-			result=jdbcTemplate.query(" select * from usermovietv where user=:user and rate= (select max(rate) from usermovie tv where user=:user)", parameters, new UserGuidaTvMapper());
+			result=jdbcTemplate.query(" select * from usermovietv where user=:user and rate= (select max(rate) from usermovietv where user=:user)", parameters, new UserGuidaTvMapper());
 		} 
 		catch(Exception e){
 			e.printStackTrace();

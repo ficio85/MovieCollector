@@ -80,12 +80,21 @@ public class TranslateServiceSync {
 				System.out.println("Dimensione "+values.size());
 				if(type.equals("actor"))
 				{
-					translateMoviesByActor(movies, value);	
+					if(checkTranslatedActor(value))
+					{
+						translateMoviesByActor(movies, value);	
+						updateTranslatedActor(value);
+					}
 
 				}
 				else if(type.equals("director"))
 				{
-					translateMoviesByDirector(movies, value);	
+					if(checkTranslatedDirector(value))
+					{
+						translateMoviesByDirector(movies, value);	
+						updateTranslatedDirector(value);
+
+					}
 				}
 			}
 			catch(Exception ex)
@@ -100,6 +109,36 @@ public class TranslateServiceSync {
 		System.out.println("I'm done!");
 	}
 	
+	
+
+	private void updateTranslatedDirector(String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	private boolean checkTranslatedDirector(String value) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	private void updateTranslatedActor(String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	private boolean checkTranslatedActor(String value) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
 	public void translateMoviesByDirector(List <MovieDTO> movies, String director){
 

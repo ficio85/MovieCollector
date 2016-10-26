@@ -1,6 +1,7 @@
 package com.dto;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class DirectorDTO {
@@ -15,6 +16,8 @@ public class DirectorDTO {
 	float rate;	
 	List <LabelDTO> labels;
 	List <ImageDTO> images;
+	private int wCompleto;
+	private Timestamp timewCompleto;
 	
 	
 	
@@ -23,6 +26,30 @@ public class DirectorDTO {
 	
 	
 
+	/**
+	 * @return the wCompleto
+	 */
+	public int getwCompleto() {
+		return wCompleto;
+	}
+	/**
+	 * @param wCompleto the wCompleto to set
+	 */
+	public void setwCompleto(int wCompleto) {
+		this.wCompleto = wCompleto;
+	}
+	/**
+	 * @return the timewCompleto
+	 */
+	public Timestamp getTimewCompleto() {
+		return timewCompleto;
+	}
+	/**
+	 * @param timewCompleto the timewCompleto to set
+	 */
+	public void setTimewCompleto(Timestamp timewCompleto) {
+		this.timewCompleto = timewCompleto;
+	}
 	/**
 	 * @return the images
 	 */

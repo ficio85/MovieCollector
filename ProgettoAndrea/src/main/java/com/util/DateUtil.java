@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.dto.TipoData;
+
 public class DateUtil {
 
 	public static Timestamp setDateToday(int hours, int minutes)
@@ -30,5 +32,21 @@ public class DateUtil {
 		return new Timestamp(time.getTime()-1000*60*minutes);
 	}
 	
+	public static Date getDateofYearsAgo(int year)
+	{
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.YEAR, -year);
+		Date date = calendar.getTime();	
+		return date;
+	}
+	
+
+	
+	public static java.sql.Date convertFromJavaToSqlDate(Date date)
+	{
+	    return new java.sql.Date(date.getTime());
+
+	}
+
 
 }

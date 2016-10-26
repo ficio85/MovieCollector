@@ -13,13 +13,18 @@
 						</div>
 					</div>
 				</li>
-				<li class="media list-group-item p-a">
-					<c:import url="home/detailSocialInteration.jsp" />
-					
-				</li>
+				
 				<li class="media list-group-item p-a">
 									<c:import url="home/detailMovieSuggested.jsp" />
 				
+				</li>
+					<li class="media list-group-item p-a">
+									<c:import url="home/detailMovieBirthday.jsp" />
+				
+				</li>
+				<li class="media list-group-item p-a">
+					<c:import url="home/detailSocialInteration.jsp" />
+					
 				</li>
 
 

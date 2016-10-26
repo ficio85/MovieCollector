@@ -1,6 +1,7 @@
 package com.dto;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class ActorDTO {
@@ -16,7 +17,9 @@ public class ActorDTO {
 	String imdbIndex;
 	float rate;
 	List <LabelDTO> labels;
-	Date birthDate; 
+	Date birthDate;
+	private int wCompleto;
+	private Timestamp timewCompleto;
 	
 	
 	

@@ -1,5 +1,6 @@
 package com.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,19 @@ public class ActorDAO {
 		result=jdbcTemplate.update(" UPDATE actor set imdbkey=:imdbkey where name = :name ", parameters);			
 		return result;
 			
-	}	
+	}
+	
+	public int updateActorbyWiki(int wiki, Timestamp timewiki, String actor) {
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		//per adesso solo la chiave imdb
+		parameters.addValue("imdbkey", actor.getImdbIndex());
+		parameters.addValue("name", actor.getName());
+		result=jdbcTemplate.update(" UPDATE actor set imdbkey=:imdbkey where name = :name ", parameters);			
+		return result;
+			
+	}
+	
+	
 }

@@ -1,5 +1,6 @@
 package com.dao;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -385,7 +386,7 @@ public class SearchMovieDAO {
 
 		String sql="";
 
-		sql +="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`release`,`rated`,`awards`,`poster`,`type`,`rate` ";
+		sql +="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`releaseDate`,`rated`,`awards`,`poster`,`type`,`rate` ";
 
 
 
@@ -424,9 +425,19 @@ public class SearchMovieDAO {
 	{
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("indexes", indexes);
-		String sql ="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`release`,`rated`,`awards`,`poster`,`type`"
+		String sql ="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`releaseDate`,`rated`,`awards`,`poster`,`type`"
 				+ " FROM movie where name in (:indexes)";
 		return jdbcTemplate.query(sql,parameters,new MovieMapper());
+
+	}
+	
+	public  List<MovieDTO> getMovieByReleases(List <Date> releases)
+	{
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("releases", releases);
+		String sql ="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`releaseDate`,`rated`,`awards`,`poster`,`type`,`rate`"
+				+ " FROM movie WHERE releaseDate in (:releases) order by numImdbRating desc, imdbRating desc ";
+		return jdbcTemplate.query(sql,parameters,new MovieMapperComplete());
 
 	}
 
@@ -436,7 +447,7 @@ public class SearchMovieDAO {
 		parameters.addValue("name", name);
 		parameters.addValue("year", year);
 
-		String sql ="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`release`,`rated`,`awards`,`poster`,`type`"
+		String sql ="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`releaseDate`,`rated`,`awards`,`poster`,`type`"
 				+ " FROM movie where year=:year and name =:name";
 		return jdbcTemplate.query(sql,parameters,new MovieMapper());
 
@@ -724,7 +735,7 @@ public class SearchMovieDAO {
 		parameters.addValue("name", title);
 		parameters.addValue("years", movieYears);
 
-		String sql ="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`release`,`rated`,`awards`,`poster`,`type`"
+		String sql ="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`releaseDate`,`rated`,`awards`,`poster`,`type`"
 				+ " FROM movie where year in (:years) and name =:name";
 		return jdbcTemplate.query(sql,parameters,new MovieMapper());
 
@@ -817,7 +828,7 @@ public class SearchMovieDAO {
 
 		String sql="";
 
-		sql +="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`release`,`rated`,`awards`,`poster`,`type`,`rate`";
+		sql +="SELECT `idmovie`,`name`,`length`,`imdbRating`,`year`,`plot`,`metacritic`,`numImdbRating`,`indexImdb`,`releaseDate`,`rated`,`awards`,`poster`,`type`,`rate`";
 
 
 

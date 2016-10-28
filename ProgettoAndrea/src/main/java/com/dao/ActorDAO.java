@@ -57,9 +57,10 @@ public class ActorDAO {
 		int result;
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		//per adesso solo la chiave imdb
-		parameters.addValue("imdbkey", actor.getImdbIndex());
-		parameters.addValue("name", actor.getName());
-		result=jdbcTemplate.update(" UPDATE actor set imdbkey=:imdbkey where name = :name ", parameters);			
+		parameters.addValue("wiki", wiki);
+		parameters.addValue("timewiki", timewiki);
+		parameters.addValue("actor", actor);
+		result=jdbcTemplate.update(" UPDATE actor set wCompleto=:wiki, timeWcompleto=:timewiki where name = :actor ", parameters);			
 		return result;
 			
 	}

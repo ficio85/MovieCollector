@@ -1,5 +1,6 @@
 package com.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,20 @@ public class DirectorDAO {
 		DirectorDTO result;
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("name", search);
-		result= jdbcTemplate.queryForObject(" SELECT name FROM director where name = :name ", parameters, new DirectorMapperComplete());			
+		result= jdbcTemplate.queryForObject(" SELECT * FROM director where name = :name ", parameters, new DirectorMapperComplete());			
 		return result;
+	}
+	
+	public int updateDirectorbyWiki(int wiki, Timestamp timewiki, String director) {
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		//per adesso solo la chiave imdb
+		parameters.addValue("wiki", wiki);
+		parameters.addValue("timewiki", timewiki);
+		parameters.addValue("director", director);
+		result=jdbcTemplate.update(" UPDATE director set wCompleto=:wiki, timewCompleto=:timewiki where name = :director ", parameters);			
+		return result;
+			
 	}
 }

@@ -1,6 +1,8 @@
 package com.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -24,6 +26,7 @@ import com.dao.SearchMovieDAO;
 import com.dto.ActorDTO;
 import com.dto.DirectorDTO;
 import com.dto.MovieDTO;
+import com.dto.TipoData;
 import com.eccezione.WarningException;
 import com.util.JsoupUtil;
 
@@ -80,7 +83,7 @@ public class TranslateServiceSync {
 				System.out.println("Dimensione "+values.size());
 				if(type.equals("actor"))
 				{
-					if(checkTranslatedActor(value))
+					if(!checkTranslatedActor(value))
 					{
 						translateMoviesByActor(movies, value);	
 						updateTranslatedActor(value);
@@ -89,7 +92,7 @@ public class TranslateServiceSync {
 				}
 				else if(type.equals("director"))
 				{
-					if(checkTranslatedDirector(value))
+					if(!checkTranslatedDirector(value))
 					{
 						translateMoviesByDirector(movies, value);	
 						updateTranslatedDirector(value);
@@ -103,6 +106,7 @@ public class TranslateServiceSync {
 				warn.setMessaggio(ex.getMessage());
 				warn.setMovieKey("NON PRESENTE");
 				warn.setTipo("inserimento"+value+type);
+				logDAO.insertLogWarning(warn);
 			}
 		}
 
@@ -114,30 +118,83 @@ public class TranslateServiceSync {
 	private void updateTranslatedDirector(String value) {
 		// TODO Auto-generated method stub
 		
+		Timestamp time= new Timestamp(new Date().getTime());
+		directorDAO.updateDirectorbyWiki(1, time, value);
+		
 	}
-
-
-
-	private boolean checkTranslatedDirector(String value) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-
+	
+	
 	private void updateTranslatedActor(String value) {
 		// TODO Auto-generated method stub
+		
+		Timestamp time= new Timestamp(new Date().getTime());
+		actorDAO.updateActorbyWiki(1, time, value);
 		
 	}
 
 
 
+	
+
+
+
+
 	private boolean checkTranslatedActor(String value) {
 		// TODO Auto-generated method stub
-		return false;
+		ActorDTO actor =actorDAO.getActorsDetail(value);
+		TipoData dataOggi = new TipoData(new Date());
+		TipoData dataUpdateWiki = null;
+		if(actor.getTimewCompleto()!=null)
+		 dataUpdateWiki = new TipoData(actor.getTimewCompleto());
+		if(actor.getwCompleto()!=1)
+		{
+			return false;
+		}
+		else
+		{
+			if(dataUpdateWiki!=null && (dataOggi.getMonth()-dataUpdateWiki.getMonth()>4))
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+			
+					
+			
 	}
 
 
+	private boolean checkTranslatedDirector(String director) {
+		// TODO Auto-generated method stub
+		DirectorDTO directorDTO =directorDAO.getDirectorDetail(director);
+		TipoData dataOggi = new TipoData(new Date());
+		TipoData dataUpdateWiki= null;
+		if(directorDTO.getTimewCompleto()!=null)
+		 dataUpdateWiki = new TipoData(directorDTO.getTimewCompleto());
+		if(directorDTO.getwCompleto()!=1)
+		{
+			return false;
+		}
+		else
+		{
+			if(dataUpdateWiki!=null && (dataOggi.getMonth()-dataUpdateWiki.getMonth()>4))
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+			
+					
+			
+	}
+	
+	
 
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
 	public void translateMoviesByDirector(List <MovieDTO> movies, String director){

@@ -17,7 +17,8 @@ public class ActorMapperComplete implements RowMapper<ActorDTO>{
 		ActorDTO actor = new ActorDTO();
 		actor.setName(rset.getString("name"));
 		actor.setRate(rset.getFloat("rate"));
-		
+		actor.setwCompleto(rset.getInt("wCompleto"));
+		actor.setTimewCompleto(rset.getTimestamp("timewCompleto"));
 //		actor.setIndexList(rset.getInt("indexList"));	
 		return actor;
 	}

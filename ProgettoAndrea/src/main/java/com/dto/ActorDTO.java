@@ -23,6 +23,42 @@ public class ActorDTO {
 	
 	
 	
+	/**
+	 * @return the wCompleto
+	 */
+	public int getwCompleto() {
+		return wCompleto;
+	}
+
+
+
+	/**
+	 * @param wCompleto the wCompleto to set
+	 */
+	public void setwCompleto(int wCompleto) {
+		this.wCompleto = wCompleto;
+	}
+
+
+
+	/**
+	 * @return the timewCompleto
+	 */
+	public Timestamp getTimewCompleto() {
+		return timewCompleto;
+	}
+
+
+
+	/**
+	 * @param timewCompleto the timewCompleto to set
+	 */
+	public void setTimewCompleto(Timestamp timewCompleto) {
+		this.timewCompleto = timewCompleto;
+	}
+
+
+
 	public String getFullname() {
 		return fullname;
 	}

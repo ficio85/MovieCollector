@@ -340,6 +340,54 @@ public class MovieRankDAO {
 
 
 	}	
+	
+	public int deleteUserWriterRate(String codPers, String writer) {
+
+		// TODO Auto-generated method stub
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", codPers);
+		parameters.addValue("writer", writer);
+
+
+		try {
+			result=jdbcTemplate.update(" delete from userwriterrate where user=:user and writer=:writer  ", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+
+
+
+	}	
+	
+	public int deleteUserGenreRate(String codPers, String genre) {
+
+		// TODO Auto-generated method stub
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", codPers);
+		parameters.addValue("genre", genre);
+
+
+		try {
+			result=jdbcTemplate.update(" delete from usergenrerate where user=:user and genre=:genre  ", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+
+
+
+	}	
 
 
 	public float updateMovieRank(String movie, float rank)

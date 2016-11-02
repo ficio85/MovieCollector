@@ -1,6 +1,7 @@
 package com.controller;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -141,38 +142,37 @@ public class GuidaTVController {
 
 			if(movie.getTitoloItaliano()!=null && !movie.getTitoloItaliano().trim().equals(""))
 			{				
-			
-				
+
+
 				System.out.println("");
 				System.out.println(movie.getTitoloItaliano());
 				System.out.println("");
+				List <InternazionalizationDTO> international=null;
+				if(movie.getDirectors()!=null && movie.getDirectors().size()!=0)
+				international= internazionalizationDAO.getInternationalizationbyTitoloItaliano(movie.getTitoloItaliano(),movie.getDirectors().get(0).getName());
 
-				List <InternazionalizationDTO> international= internazionalizationDAO.getInternationalizationbyTitoloItaliano(movie.getTitoloItaliano());
-				
 				if(international==null || international.size()==0)
 				{
-					translateService.insertTranslation(DirectorGeneratorUtil.getDirectorsString(movie.getDirectors(),movie.getDirectors().size()), "director");
-					 international= internazionalizationDAO.getInternationalizationbyTitoloItaliano(movie.getTitoloItaliano());
-					 if(international==null || international.size()==0)
-						{
-								translateService.insertTranslation(ActorGeneratorUtil.getActorsString(movie.getActors(),3), "actor");
-								 international= internazionalizationDAO.getInternationalizationbyTitoloItaliano(movie.getTitoloItaliano());
+					//international = translateFromWiki(movie);
+					if(international==null || international.size()==0)
+					{
+						//tentativi per trovare il film
+						international=extractEuristicMovie(movie);
+					}
 
-						}
-					
-					 if(international!=null && international.size()!=0)
-						{
-							movie.setMovieKey(international.get(0).getMovie());
-							
-						}
-						else
-						{
-							movie.setMovieKey("NONPRESENTE");
-						}
 				}
-				
-				
-				
+
+				if(international!=null && international.size()!=0)
+				{
+					movie.setMovieKey(international.get(0).getMovie());
+
+				}
+				else
+				{
+					movie.setMovieKey("NONPRESENTE");
+				}
+
+
 			}
 			else
 			{
@@ -182,6 +182,41 @@ public class GuidaTVController {
 		
 	}
 
+	private List<InternazionalizationDTO> translateFromWiki(MovieDTO movie) throws Exception {
+		List<InternazionalizationDTO> international;
+		translateService.insertTranslation(DirectorGeneratorUtil.getDirectorsString(movie.getDirectors(),movie.getDirectors().size()), "director");
+		 international= internazionalizationDAO.getInternationalizationbyTitoloItaliano(movie.getTitoloItaliano(),movie.getDirectors().get(0).getName());
+		 if(international==null || international.size()==0)
+			{
+					translateService.insertTranslation(ActorGeneratorUtil.getActorsString(movie.getActors(),3), "actor");
+					 international= internazionalizationDAO.getInternationalizationbyTitoloItaliano(movie.getTitoloItaliano(),movie.getDirectors().get(0).getName());
+
+			}
+		return international;
+	}
+
+
+	private List<InternazionalizationDTO> extractEuristicMovie(MovieDTO movie) {
+		// TODO Auto-generated method stub
+		
+		List<MovieDTO> movies = searchMovieService.extractMovieForTvGuide(movie);
+		if(movies!=null && movies.size()!=0)
+		{
+			MovieDTO film = movies.get(0);
+			
+			InternazionalizationDTO movieTranslated = new InternazionalizationDTO();
+			movieTranslated.setEngTitle(film.getTitle());
+			movieTranslated.setMovie(film.getMovieKey());
+			movieTranslated.setItTitle(movie.getTitoloItaliano());
+			ArrayList<InternazionalizationDTO> listTranslation = new ArrayList <InternazionalizationDTO>();
+			listTranslation.add(movieTranslated);
+			internazionalizationDAO.insertTempInternazionalization(movieTranslated);
+			return listTranslation;
+			
+		}
+		
+		return null;
+	}
 
 	@RequestMapping(value = "/loadGuidaTV", method = { RequestMethod.GET, RequestMethod.POST })
 	public String displayGuidaTvFiltrato ( HttpServletRequest request,Model model) throws Exception {

@@ -16,8 +16,10 @@ import com.dto.ActorDTO;
 import com.dto.DirectorDTO;
 import com.dto.MovieDTO;
 import com.dto.SearchDTO;
+import com.service.DirectorService;
 import com.service.InsertMovieService;
 import com.service.SearchMovieService;
+import com.service.TranslateServiceAsync;
 import com.util.ActorGeneratorUtil;
 import com.util.DirectorGeneratorUtil;
 import com.util.MessageErrorWrapper;
@@ -35,6 +37,15 @@ public class DirectorDetailController {
 	@Qualifier("insertMovieService")
 	private InsertMovieService insertMovieService;
 	
+
+	@Autowired
+	@Qualifier("directorService")
+	private DirectorService directorService;
+	
+	@Autowired
+	@Qualifier("translateServiceAsync")
+	private TranslateServiceAsync translateServiceAsync;
+	
 	
 	@RequestMapping(value = "/detailDirector", method = { RequestMethod.GET, RequestMethod.POST })
 	public String dettaglioRegista ( HttpServletRequest request,Model model) throws Exception {
@@ -50,8 +61,8 @@ public class DirectorDetailController {
 		List <MovieDTO> movieList = searchMovieService.getListaFilm(search);
 		model.addAttribute("listMovies",movieList);
 		DirectorDTO directorToComplete = new DirectorDTO(director);
-		//insertMovieService.inspectImdbForDirector(movieList.get(0).getImdbKey(), directorToComplete);
-		DirectorGeneratorUtil.getCompleteInfoDirector(directorToComplete);
+		translateServiceAsync.inspectImdbForDirector(movieList.get(0).getImdbKey(), directorToComplete);
+		directorService.getCompleteInfoDirector(directorToComplete);
 		int numPages=search.getCountResult()/recordPerPage+1;
 //		generateHiddenForm(search,request);
 		request.setAttribute("director", directorToComplete);

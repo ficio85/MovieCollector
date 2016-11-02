@@ -158,6 +158,7 @@ public class InsertMovieService {
 				}
 				if(userMovieList.size()==2)
 				{
+					rateDAO.deleteUserDirectorRate(codPers, director.getName());
 					rateDAO.insertUserDirectorRate2(codPers,director.getName(),rate);
 				}
 				else if (userMovieList.size()>2)
@@ -186,6 +187,7 @@ public class InsertMovieService {
 				}
 				if(userMovieList.size()==2)
 				{
+					rateDAO.deleteUserActorRate(codPers, actor.getName());
 					rateDAO.insertUserActorRate2(codPers,actor.getName(),rate);
 				}
 				else if (userMovieList.size()>2)
@@ -214,6 +216,7 @@ public class InsertMovieService {
 				}
 				if(userMovieList.size()==2)
 				{
+					rateDAO.deleteUserWriterRate(codPers, writer.getName());
 					rateDAO.insertUserWriteRate(codPers,writer.getName(),rate);
 				}
 				else if (userMovieList.size()>2)
@@ -241,6 +244,7 @@ public class InsertMovieService {
 				
 				if(userMovieList!=null && userMovieList.size()==1)
 				{
+					rateDAO.deleteUserGenreRate(codPers, genre.getCodGenre());
 					rateDAO.insertUserGenreRate(codPers,genre.getCodGenre(),rate,userMovieList.size());
 				}
 				else

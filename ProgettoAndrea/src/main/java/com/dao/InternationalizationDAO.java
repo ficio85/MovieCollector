@@ -43,9 +43,35 @@ public class InternationalizationDAO {
 	
 	}
 	
+	public int insertTempInternazionalization (InternazionalizationDTO translation)
+	{
+
+		// TODO Auto-generated method stub
+
+		int result = 0;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("itTitle", translation.getItTitle());
+		parameters.addValue("engTitle", translation.getEngTitle());
+		parameters.addValue("movie", translation.getMovie());
+
+
+		try {
+			result=jdbcTemplate.update("insert into internationalizationTemp (itTitle,engTitle,idMovie) values (:itTitle,:engTitle,:movie)", parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			//throw e;
+
+		}
+		return  result;
+		
+	
+	}
 	
 	
-	public List <InternazionalizationDTO> getInternationalizationbyTitoloItaliano (String titoloItaliano)
+	
+	
+	public List <InternazionalizationDTO> getInternationalizationbyTitoloItaliano (String titoloItaliano, String director)
 	{
 
 		// TODO Auto-generated method stub
@@ -53,11 +79,13 @@ public class InternationalizationDAO {
 		List<InternazionalizationDTO> result;
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("titoloItaliano", titoloItaliano);
+		parameters.addValue("director", director);
+
 	
 
 
 		try {
-			result=jdbcTemplate.query(" SELECT * FROM internationalization where itTitle=:titoloItaliano ",parameters, new InternationalizationMapper());
+			result=jdbcTemplate.query(" SELECT * FROM internationalization,moviedirector where  idMovie=movie and director =:director and itTitle=:titoloItaliano ",parameters, new InternationalizationMapper());
 		}
 		catch(EmptyResultDataAccessException ex)
 		{

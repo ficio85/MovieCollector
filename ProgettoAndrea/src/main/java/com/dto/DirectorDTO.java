@@ -18,6 +18,8 @@ public class DirectorDTO {
 	List <ImageDTO> images;
 	private int wCompleto;
 	private Timestamp timewCompleto;
+	private int iCompleto;
+	private Timestamp timeiCompleto;
 	
 	
 	
@@ -26,6 +28,30 @@ public class DirectorDTO {
 	
 	
 
+	/**
+	 * @return the iCompleto
+	 */
+	public int getiCompleto() {
+		return iCompleto;
+	}
+	/**
+	 * @param iCompleto the iCompleto to set
+	 */
+	public void setiCompleto(int iCompleto) {
+		this.iCompleto = iCompleto;
+	}
+	/**
+	 * @return the timeiCompleto
+	 */
+	public Timestamp getTimeiCompleto() {
+		return timeiCompleto;
+	}
+	/**
+	 * @param timeiCompleto the timeiCompleto to set
+	 */
+	public void setTimeiCompleto(Timestamp timeiCompleto) {
+		this.timeiCompleto = timeiCompleto;
+	}
 	/**
 	 * @return the wCompleto
 	 */

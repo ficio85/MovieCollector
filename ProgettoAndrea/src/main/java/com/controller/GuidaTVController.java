@@ -156,19 +156,21 @@ public class GuidaTVController {
 					 if(international==null || international.size()==0)
 						{
 								translateService.insertTranslation(ActorGeneratorUtil.getActorsString(movie.getActors(),3), "actor");
-						}
-					 international= internazionalizationDAO.getInternationalizationbyTitoloItaliano(movie.getTitoloItaliano());
+								 international= internazionalizationDAO.getInternationalizationbyTitoloItaliano(movie.getTitoloItaliano());
 
-				}
-				if(international!=null && international.size()!=0)
-				{
-					movie.setMovieKey(international.get(0).getMovie());
+						}
 					
+					 if(international!=null && international.size()!=0)
+						{
+							movie.setMovieKey(international.get(0).getMovie());
+							
+						}
+						else
+						{
+							movie.setMovieKey("NONPRESENTE");
+						}
 				}
-				else
-				{
-					movie.setMovieKey("NONPRESENTE");
-				}
+				
 				
 				
 			}

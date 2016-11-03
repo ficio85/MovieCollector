@@ -2,6 +2,26 @@
 
 $(function(){
 
+	$("#filmConsigliato").ready(function(){
+		
+		var isUserGuidaTv= $("#isUserGuidaTv").data("attr").val();
+		if(isUserGuidaTv===0)
+			{
+			var link=$('#contextPath').val()+"/loadUserGuidaTV";
+			$.ajax({
+				url: link,
+				,
+				success: function( data ) {
+					
+					$("#guidaTvResult").html(data);
+					alert("Tutto ok");
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) { 
+					alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+				} 
+			});
+			}
+	})
 
 
 	$( "#directors" ).autocomplete({

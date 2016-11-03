@@ -108,7 +108,11 @@ public class LoginController {
 			MovieDTO movieSuggested= searchMovieService.getAllMovieDetail(userPreferredMovie.getMovie(), user.getCodPers());
 			movieSuggested.setRateSuggested(userPreferredMovie.getLike());
 			request.setAttribute("movieSuggested", movieSuggested);
-
+			request.setAttribute("isUserGuidaTv", 1);
+		}
+		else
+		{
+			request.setAttribute("isUserGuidaTv", 0);
 		}
 	}
 }

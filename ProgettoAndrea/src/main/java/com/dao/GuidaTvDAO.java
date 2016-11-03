@@ -75,6 +75,7 @@ public class GuidaTvDAO {
 		parameters.addValue("movie", movieRate.getMovie());
 		parameters.addValue("user", movieRate.getUser());
 		parameters.addValue("like", movieRate.getRate());
+		parameters.addValue("time", new Timestamp(new Date()));
 	
 
 		try {

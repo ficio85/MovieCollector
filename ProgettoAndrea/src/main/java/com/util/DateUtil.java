@@ -40,6 +40,22 @@ public class DateUtil {
 		return date;
 	}
 	
+	public static Date getDateofNow()
+	{
+		Calendar calendar = Calendar.getInstance();
+		Date date = calendar.getTime();	
+		return date;
+	}
+	
+	public static Timestamp getTimestampofNow()
+	{
+
+		Calendar calendar = Calendar.getInstance();
+		Date date = calendar.getTime();	
+		return new Timestamp(date.getTime());
+	
+	}
+	
 
 	
 	public static java.sql.Date convertFromJavaToSqlDate(Date date)
@@ -47,6 +63,8 @@ public class DateUtil {
 	    return new java.sql.Date(date.getTime());
 
 	}
+	
+	
 
 
 }

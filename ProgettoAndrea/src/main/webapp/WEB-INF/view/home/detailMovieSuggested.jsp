@@ -1,4 +1,4 @@
-<div class="row p-b-md">
+<div class="row p-b-md" id="filmConsigliato">
 	<div class="row">
 		<div class="col-md-12">Il film consigliato di oggi con
 			percentuale del 76% è </div>
@@ -19,9 +19,13 @@
 	<div class="row">
 
 	</div>
+	
 	<div class="row">
 		<div class="col-md-6">Consiglia agli amici</div>
 		<div class="col-md-6">Dettagli Film</div>
 	</div>
 
 </div>
+
+
+	<div id="isUserGuidaTv" data-attr="${isUserGuidaTv}" ></div>

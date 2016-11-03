@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.algorithm.MovieLikeAlgorithm;
+import com.dao.GuidaTvDAO;
 import com.dao.InternationalizationDAO;
 import com.dto.ActorDTO;
 import com.dto.FasciaOrariaDTO;
@@ -26,6 +28,8 @@ import com.dto.PiattaFormaDTO;
 import com.dto.ProgramTvMovieDTO;
 import com.dto.SearchDTO;
 import com.dto.TipoProgrammaDTO;
+import com.dto.UserGuidaTvDTO;
+import com.dto.UserMovieRateDTO;
 import com.form.SearchMovieForm;
 import com.service.GuidaTvService;
 import com.service.InsertMovieService;
@@ -65,6 +69,14 @@ public class GuidaTVController {
 	@Autowired
 	@Qualifier("internazionalizationDAO")
 	private InternationalizationDAO internazionalizationDAO;
+	
+	@Autowired
+	@Qualifier("movieLikeAlgorithm")
+	private MovieLikeAlgorithm movieLikeAlgorithm;
+	
+	@Autowired
+	@Qualifier("guidaTvDAO")
+	private GuidaTvDAO guidaTvDAO;
 
 	@RequestMapping(value = "/guidaTV", method = { RequestMethod.GET, RequestMethod.POST })
 	public String displayGuidaTV ( HttpServletRequest request,@ModelAttribute("searchMovie") SearchMovieForm searchTv,Model model) throws Exception {
@@ -232,7 +244,46 @@ public class GuidaTVController {
 		
 		
 	}
+	
+	@RequestMapping(value = "/loadUserGuidaTV", method = { RequestMethod.GET, RequestMethod.POST })
+	public String displayUserGuidaTv ( HttpServletRequest request,Model model) throws Exception {
+		// TODO Auto-generated method stub
+		String user = SessionUtil.getCodPers(request);
+		List<ProgramTvMovieDTO> programmiTv = guidaTvDAO.getMovieTvList(DateUtil.setDateToday(0, 0),DateUtil.setDateToday(23, 59),"","","");
+		
+		for(ProgramTvMovieDTO programma : programmiTv)
+		{
+			if(!programma.getMovie().getMovieKey().equals("NONPRESENTE"))
+			{
+				programma.setMovie(searchMovieService.getAllMovieDetail(programma.getMovie().getMovieKey(), user));
+				UserMovieRateDTO userMovieRate=applyAlgorithm(user, programma);
+				guidaTvDAO.insertUserGuidaTv(userMovieRate);
 
+			}
+		}
+		List<UserGuidaTvDTO> userPreferredMovieList = guidaTvDAO.getPreferredUserGuidaTv(user);
+		if(userPreferredMovieList!=null && userPreferredMovieList.size()!=0)
+		{
+			UserGuidaTvDTO userPreferredMovie = userPreferredMovieList.get(0);
+			MovieDTO movieSuggested= searchMovieService.getAllMovieDetail(userPreferredMovie.getMovie(), user);
+			movieSuggested.setRateSuggested(userPreferredMovie.getLike());
+			request.setAttribute("movieSuggested", movieSuggested);
+			request.setAttribute("isUserGuidaTv", 1);
+		}
+		return "";
+	}
+
+	private UserMovieRateDTO applyAlgorithm(String user, ProgramTvMovieDTO programma) {
+		float rateMovie = movieLikeAlgorithm.getMovieLikeRate(programma.getMovie(), user);
+		UserMovieRateDTO userRateDTO = new UserMovieRateDTO();
+		userRateDTO.setMovie(programma.getMovie().getMovieKey());
+		userRateDTO.setRate(rateMovie);
+		userRateDTO.setUser(user);
+		return userRateDTO;
+	}
+	
+	
+	
 	
 	
 	private MovieDTO distinctMovie(List<MovieDTO> movieResult, MovieDTO movie) {

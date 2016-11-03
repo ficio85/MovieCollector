@@ -46,6 +46,7 @@ public class XmltvParserUtil {
 					+ "?var_tipoprogramma="+varTipoProgramma
 					+ "&fascia="+fascia
 					+ "&var_id_canale=&var_tipo_canale=s&variabile3=&div=idprogramma";
+			linkSky="http://www.mymovies.it/tv/sky/";
 			String linkDigitale="http://www.mymovies.it/v9/tv/ajax/programmatv.asp"
 					+ "?var_tipoprogramma="+varTipoProgramma
 					+ "&fascia="+fascia

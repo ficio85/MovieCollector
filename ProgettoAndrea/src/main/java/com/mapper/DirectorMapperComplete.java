@@ -16,8 +16,13 @@ public class DirectorMapperComplete implements RowMapper<DirectorDTO>{
 		
 		DirectorDTO director = new DirectorDTO();
 		director.setName(rset.getString("name"));
+		director.setFullname(rset.getString("fullname"));
+		director.setBirthDate(rset.getDate("birthDate"));
 		director.setwCompleto(rset.getInt("wCompleto"));
+		director.setiCompleto(rset.getInt("iCompleto"));
 		director.setTimewCompleto(rset.getTimestamp("timewCompleto"));
+		director.setTimeiCompleto(rset.getTimestamp("timeiCompleto"));
+		director.setBirthplace(rset.getString("birthplace"));
 //		actor.setIndexList(rset.getInt("indexList"));	
 		return director;
 	}

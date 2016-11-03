@@ -63,9 +63,10 @@ public class DirectorDAO {
 		parameters.addValue("iCompleto", director.getiCompleto());
 		parameters.addValue("timeimdb", director.getTimeiCompleto());
 		parameters.addValue("fullname", director.getFullname());
-		parameters.addValue("birthDate", director.getBirthDate());
+		parameters.addValue("birthdate", director.getBirthDate());
 		parameters.addValue("director", director.getName());
-		result=jdbcTemplate.update(" UPDATE director set iCompleto=:iCompleto, timeiCompleto=:timeimdb, fullname=:fullname, birthDate=:birthDate where name = :director ", parameters);			
+		parameters.addValue("birthplace", director.getBirthplace());
+		result=jdbcTemplate.update(" UPDATE director set iCompleto=:iCompleto, timeiCompleto=:timeimdb, fullname=:fullname, birthdate=:birthDate, birthplace=:birthplace where name = :director ", parameters);			
 		return result;
 			
 		}

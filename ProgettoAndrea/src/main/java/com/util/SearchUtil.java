@@ -75,7 +75,7 @@ public class SearchUtil {
 			{
 				years.add(Integer.parseInt(yearArray[i]));
 			}
-			searchDto.setYears(new ArrayList<Integer>());
+			searchDto.setYears(years);
 		}
 		//controllo se devo fare la count, se ho spinto sulla submit
 		if(request.getParameter("actionHidden")!=null && request.getParameter("actionHidden").equals("search"))

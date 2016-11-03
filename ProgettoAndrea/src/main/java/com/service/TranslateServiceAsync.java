@@ -144,15 +144,14 @@ public class TranslateServiceAsync {
 		return new AsyncResult<Boolean>(true);
 
 	}
-
-	public Future<Boolean> inspectImdbForDirector(String indexMovie,DirectorDTO director) throws Exception{
-		System.out.println("Inizio thread");
-		DirectorDTO directorInspected = JsoupUtil.imdbInspectDirector(indexMovie);
-		director.setImdbIndex(directorInspected.getImdbIndex());
-		System.out.println("I'm done!");
-		return new AsyncResult<Boolean>(true);
-
-	}
+	
+//	@Async
+//	public Future<Boolean> inspectImdbForDirector(String indexMovie,DirectorDTO director) throws Exception{
+//		
+//		System.out.println("I'm done!");
+//		return new AsyncResult<Boolean>(true);
+//
+//	}
 	
 	@Async
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)

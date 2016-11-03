@@ -253,7 +253,7 @@ public class TranslateServiceSync {
 
 	public void inspectImdbForDirector(String indexMovie,DirectorDTO director) throws Exception{
 		System.out.println("Inizio thread");
-		DirectorDTO directorInspected = JsoupUtil.imdbInspectDirector(indexMovie);
+		DirectorDTO directorInspected = JsoupUtil.imdbInspectDirectorFromMovie(indexMovie);
 		director.setImdbIndex(directorInspected.getImdbIndex());
 		System.out.println("I'm done!");
 	

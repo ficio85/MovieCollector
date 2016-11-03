@@ -180,13 +180,23 @@ $(function(){
 		event.preventDefault();
 		var form=$(this).serialize();
 		var link=$('#contextPath').val()+"/searchMovieResult";
+		$("#movieResult").html("<img src='assets/images/ajax-loader.gif'>");
+		$("#search-by-title-form input").prop("disabled", true);
+		$("#search-by-title-form select").prop("disabled", true);
+		$("#search-by-title-form button").prop("disabled", true);
+
+		$(document.body).css({'cursor' : 'wait'});
+
 		$.ajax({
 			url: link,
 			data:form,
 			success: function( data ) {
+			    $(document.body).css({'cursor' : 'default'});
+				$("#search-by-title-form input").prop("disabled", false);
+				$("#search-by-title-form select").prop("disabled",false);
+				$("#search-by-title-form button").prop("disabled", false);	
 				$("#movieResult").html(data);
 				generatePagination();
-				alert("movie");
 				$("#movieResult .ratingDisplay").rating({min:0, max:10, step:0.5, stars:10, size:'xs'});
 
 			},

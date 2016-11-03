@@ -46,10 +46,13 @@ public class DirectorService {
 	
 	@Async
 	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRED)
-	public  void getCompleteInfoDirector(DirectorDTO director) throws UnsupportedEncodingException, FileNotFoundException, IOException
+	public  void getCompleteInfoDirector(String movieToParse, DirectorDTO director) throws Exception
 	{
 		if(director.getiCompleto()!=1)
 		{
+			System.out.println("Inizio thread");
+			DirectorDTO directorInspected = JsoupUtil.imdbInspectDirectorFromMovie(movieToParse);
+			director.setImdbIndex(directorInspected.getImdbIndex());
 			JsoupUtil.generateImdbDirectorInfo(director);
 			director.setiCompleto(1);
 			director.setTimeiCompleto(new Timestamp(new Date().getTime()));

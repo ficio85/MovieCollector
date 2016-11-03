@@ -61,8 +61,7 @@ public class DirectorDetailController {
 		List <MovieDTO> movieList = searchMovieService.getListaFilm(search);
 		model.addAttribute("listMovies",movieList);
 		DirectorDTO directorToComplete = new DirectorDTO(director);
-		translateServiceAsync.inspectImdbForDirector(movieList.get(0).getImdbKey(), directorToComplete);
-		directorService.getCompleteInfoDirector(directorToComplete);
+		directorService.getCompleteInfoDirector(movieList.get(0).getImdbKey(),directorToComplete);
 		int numPages=search.getCountResult()/recordPerPage+1;
 //		generateHiddenForm(search,request);
 		request.setAttribute("director", directorToComplete);

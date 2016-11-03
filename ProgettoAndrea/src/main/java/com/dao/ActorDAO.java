@@ -60,7 +60,7 @@ public class ActorDAO {
 		parameters.addValue("wiki", wiki);
 		parameters.addValue("timewiki", timewiki);
 		parameters.addValue("actor", actor);
-		result=jdbcTemplate.update(" UPDATE actor set wCompleto=:wiki, timeWcompleto=:timewiki where name = :actor ", parameters);			
+		result=jdbcTemplate.update(" UPDATE actor set wCompleto=:wiki, timewCompleto=:timewiki where name = :actor ", parameters);			
 		return result;
 			
 	}

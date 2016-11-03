@@ -96,7 +96,7 @@
 		<div class="form-group">
 			<div class="col-md-2 col-md-offset-2">
 				<input type="hidden" name="actionHidden" value="search">
-				<button type="submit" name="action" value="search"
+				<button type="submit" name="action" id="searchButton" value="search"
 					class="btn btn-default btn-info">Search</button>
 			</div>
 		</div>

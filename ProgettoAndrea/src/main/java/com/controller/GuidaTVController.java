@@ -249,8 +249,8 @@ public class GuidaTVController {
 	public String displayUserGuidaTv ( HttpServletRequest request,Model model) throws Exception {
 		// TODO Auto-generated method stub
 		String user = SessionUtil.getCodPers(request);
+		guidaTvDAO.deleteUserGuidaTv(user);
 		List<ProgramTvMovieDTO> programmiTv = guidaTvDAO.getMovieTvList(DateUtil.setDateToday(0, 0),DateUtil.setDateToday(23, 59),"","","");
-		
 		for(ProgramTvMovieDTO programma : programmiTv)
 		{
 			if(!programma.getMovie().getMovieKey().equals("NONPRESENTE"))
@@ -268,9 +268,9 @@ public class GuidaTVController {
 			MovieDTO movieSuggested= searchMovieService.getAllMovieDetail(userPreferredMovie.getMovie(), user);
 			movieSuggested.setRateSuggested(userPreferredMovie.getLike());
 			request.setAttribute("movieSuggested", movieSuggested);
-			request.setAttribute("isUserGuidaTv", 1);
 		}
-		return "";
+		request.setAttribute("isUserGuidaTv", 1);
+		return "movieSuggested.page";
 	}
 
 	private UserMovieRateDTO applyAlgorithm(String user, ProgramTvMovieDTO programma) {

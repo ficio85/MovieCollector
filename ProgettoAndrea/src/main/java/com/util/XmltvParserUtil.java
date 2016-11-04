@@ -51,13 +51,13 @@ public class XmltvParserUtil {
 					+ "?var_tipoprogramma="+varTipoProgramma
 					+ "&fascia="+fascia
 					+ "&var_id_canale=&var_tipo_canale=d&variabile3=&div=idprogramma";
-			
+			linkDigitale="http://www.mymovies.it/tv/";
 			
 			URL urlSky = new URL(linkSky);
 			URL urlDigitale = new URL(linkDigitale);
 
 			extractProgrammi(programmi, urlSky, PiattaFormaDTO.SKY.codPiattaforma);
-			//extractProgrammi(programmi, urlDigitale, PiattaFormaDTO.DIGITTERR.codPiattaforma);
+			extractProgrammi(programmi, urlDigitale, PiattaFormaDTO.DIGITTERR.codPiattaforma);
 			//optional, but recommended
 			//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
 		}

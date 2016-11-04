@@ -14,7 +14,7 @@
 					</div>
 				</li>
 				
-				<li class="media list-group-item p-a">
+				<li class="media list-group-item p-a" id="suggestedMovieResult">
 									<c:import url="home/detailMovieSuggested.jsp" />
 				
 				</li>

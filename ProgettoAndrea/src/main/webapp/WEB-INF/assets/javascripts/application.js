@@ -4,16 +4,15 @@ $(function(){
 
 	$("#filmConsigliato").ready(function(){
 		
-		var isUserGuidaTv= $("#isUserGuidaTv").data("attr").val();
+		var isUserGuidaTv= $("#isUserGuidaTv").data("attr");
 		if(isUserGuidaTv===0)
 			{
 			var link=$('#contextPath').val()+"/loadUserGuidaTV";
 			$.ajax({
 				url: link,
-				,
 				success: function( data ) {
 					
-					$("#guidaTvResult").html(data);
+					$("#suggestedMovieResult").html(data);
 					alert("Tutto ok");
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -21,7 +20,7 @@ $(function(){
 				} 
 			});
 			}
-	})
+	});
 
 
 	$( "#directors" ).autocomplete({

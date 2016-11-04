@@ -47,6 +47,15 @@ public class DateUtil {
 		return date;
 	}
 	
+	public static java.sql.Date getSqlDateofNow()
+	{
+		Calendar calendar = Calendar.getInstance();
+		Date date = calendar.getTime();
+		return convertFromJavaToSqlDate(date);
+	}
+	
+	
+	
 	public static Timestamp getTimestampofNow()
 	{
 

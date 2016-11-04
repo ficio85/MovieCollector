@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import com.dto.UserMovieRateDTO;
 import com.mapper.LabelMapper;
 import com.mapper.ProgramTvMapper;
 import com.mapper.UserGuidaTvMapper;
+import com.util.DateUtil;
 
 @Repository("guidaTvDAO")
 public class GuidaTvDAO {
@@ -75,11 +77,11 @@ public class GuidaTvDAO {
 		parameters.addValue("movie", movieRate.getMovie());
 		parameters.addValue("user", movieRate.getUser());
 		parameters.addValue("like", movieRate.getRate());
-		parameters.addValue("time", new Timestamp(new Date()));
+		parameters.addValue("time", (DateUtil.getDateofNow()));
 	
 
 		try {
-			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`usermovietv`(`movie`,`user`,`rate`) VALUES(:movie,:user,:like)", parameters);
+			result=jdbcTemplate.update("INSERT INTO `prog1_schema`.`usermovietv`(`movie`,`user`,`rate`,`time`) VALUES(:movie,:user,:like,:time)", parameters);
 		}
 		catch(DuplicateKeyException e)
 		{
@@ -126,10 +128,11 @@ public class GuidaTvDAO {
 
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("user", user);
+		parameters.addValue("time", DateUtil.getSqlDateofNow());
 
 		 List<UserGuidaTvDTO> result;
 		try {
-			result=jdbcTemplate.query(" select * from usermovietv where user=:user and rate= (select max(rate) from usermovietv where user=:user)", parameters, new UserGuidaTvMapper());
+			result=jdbcTemplate.query(" select * from usermovietv where user=:user and time=:time and rate= (select max(rate) from usermovietv where user=:user)", parameters, new UserGuidaTvMapper());
 		} 
 		catch(Exception e){
 			e.printStackTrace();
@@ -151,6 +154,24 @@ public class GuidaTvDAO {
 
 		try {
 			result=jdbcTemplate.update("delete from movietv ",parameters);
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;		
+	}
+	
+	public int deleteUserGuidaTv(String user)
+	{
+
+		int result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("user", user);
+
+		try {
+			result=jdbcTemplate.update("delete from usermovietv where user=:user ",parameters);
 		} 
 		catch(Exception e){
 			e.printStackTrace();

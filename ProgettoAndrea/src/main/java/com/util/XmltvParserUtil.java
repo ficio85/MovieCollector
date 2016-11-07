@@ -27,6 +27,7 @@ import com.dto.DirectorDTO;
 import com.dto.MovieDTO;
 import com.dto.PiattaFormaDTO;
 import com.dto.ProgramMovieDTO;
+import com.dto.ProgramNetflixDTO;
 import com.dto.ProgramTvMovieDTO;
 
 public class XmltvParserUtil {
@@ -68,6 +69,54 @@ public class XmltvParserUtil {
 			ex.printStackTrace();
 		}
 		return programmi;
+	}
+
+	public static List<ProgramNetflixDTO> getProgrammiNetflix() {
+		// TODO Auto-generated method stub
+		List <ProgramNetflixDTO> programmi = new ArrayList <ProgramNetflixDTO>();
+		try {
+			String fascia="";
+			
+			String linkNetflix="https://whatsnewonnetflix.com/italy/";
+
+			
+			URL urlNetflix = new URL(linkNetflix);
+			extractProgrammiNetflix(programmi, urlNetflix);
+			//optional, but recommended
+			//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		return programmi;
+	}
+	
+	
+	private static void extractProgrammiNetflix(List<ProgramNetflixDTO> programmi, URL urlNetflix) throws UnsupportedEncodingException, IOException {
+		HttpURLConnection uc = ProxyUtil.connect(urlNetflix);
+		String line = null;
+		StringBuffer tmp = new StringBuffer();
+		BufferedReader in;
+		try{
+			in = new BufferedReader(new InputStreamReader(uc.getInputStream(),"UTF-8"));
+
+		}
+		catch(FileNotFoundException ex)
+		{
+			throw ex;
+		}
+		while ((line = in.readLine()) != null) {
+			tmp.append(line);
+		}
+		org.jsoup.nodes.Document doc = Jsoup.parse(String.valueOf(tmp));
+		Elements elements = doc.select("div[class*=entry");
+		Iterator<Element> it = elements.iterator();
+		while(it.hasNext())
+		{
+			Element movieTab = it.next();
+			
+		}
 	}
 
 	public static List<ProgramTvMovieDTO> getProgrammiTVChannelByChannel(List <ChannelDTO> channels) {

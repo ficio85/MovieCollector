@@ -94,7 +94,7 @@ public class GuidaTVController {
 			if(dayOfMonth!= dayOfMonthDB)
 			{
 				guidaTvService.deleteGuidaTv();
-				List <ProgramTvMovieDTO> programmi = XmltvParserUtil.getProgrammiTV();
+				List <ProgramTvMovieDTO> programmi = XmltvParserUtil.getProgrammiTVChannelByChannel(guidaTvDAO.getChannels(""));
 				extractMoviekey(programmi);
 				//extractTypeProgrammi(programmi);
 				

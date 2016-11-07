@@ -21,6 +21,27 @@ $(function(){
 			});
 			}
 	});
+	
+	$("#directorPage").ready(function(){
+		
+		var movie= $("#movieToParse").data("id");
+		var director=$("#key").data("");
+		if(isUserGuidaTv===0)
+			{
+			var link=$('#contextPath').val()+"/loadUserGuidaTV";
+			$.ajax({
+				url: link,
+				success: function( data ) {
+					
+					$("#suggestedMovieResult").html(data);
+					alert("Tutto ok");
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) { 
+					alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+				} 
+			});
+			}
+	});
 
 
 	$( "#directors" ).autocomplete({

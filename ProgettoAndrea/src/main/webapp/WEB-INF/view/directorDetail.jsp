@@ -7,7 +7,7 @@
 <%@ page import="com.util.MovieGeneratorUtil"%>
 
 
-<div class="row media list-group-item" id="directorPage">
+<div class="row media list-group-item" id="">
 	<div class="row p-b-md">
 		<div class="col-md-8 movieTitle p-t-md">${director.name}</div>
 		<%
@@ -118,6 +118,8 @@
 	</div>
 
 </div>
+
 <div id="key" data-id="${director.name}"></div>
+<div id="movieToParse" data-movie="${director.movie}"></div>
 <div class="row media list-group-item" id="actorPage">
 </div>

@@ -9,7 +9,7 @@ import java.net.URL;
 public class ProxyUtil {
 
 	
-	public static String proxy="seea";
+	public static String proxy="";
 	
 	public static HttpURLConnection connect(URL url) throws IOException {
 		HttpURLConnection connection;

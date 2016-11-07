@@ -20,7 +20,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.dao.GuidaTvDAO;
 import com.dto.ActorDTO;
+import com.dto.ChannelDTO;
 import com.dto.DirectorDTO;
 import com.dto.MovieDTO;
 import com.dto.PiattaFormaDTO;
@@ -68,6 +70,35 @@ public class XmltvParserUtil {
 		return programmi;
 	}
 
+	public static List<ProgramTvMovieDTO> getProgrammiTVChannelByChannel(List <ChannelDTO> channels) {
+		ArrayList<ProgramTvMovieDTO> programmi;
+		// TODO Auto-generated method stub
+		programmi = new ArrayList <ProgramTvMovieDTO>();
+
+		try {
+			for(ChannelDTO canale:channels)				
+			{
+				String codCanale=canale.getChannel().trim().replace(" ","" ).toLowerCase();
+				String linkCanale="http://www.mymovies.it/tv/"+codCanale;
+				URL urlCanale = new URL(linkCanale);
+
+				extractProgrammi(programmi, urlCanale,codCanale);
+
+			}
+
+			//optional, but recommended
+			//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		return programmi;
+	}
+
+	
+	
+	
 	private static void setPlatform(List<ProgramTvMovieDTO> programmi, String codPiattaforma) {
 		// TODO Auto-generated method stub
 		for(ProgramTvMovieDTO program: programmi)

@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.dto.ActorDTO;
+import com.dto.ChannelDTO;
 import com.dto.GenereDTO;
 import com.dto.LabelDTO;
 import com.dto.MovieDTO;
@@ -24,6 +25,7 @@ import com.dto.ProgramMovieDTO;
 import com.dto.ProgramTvMovieDTO;
 import com.dto.UserGuidaTvDTO;
 import com.dto.UserMovieRateDTO;
+import com.mapper.ChannelMapper;
 import com.mapper.LabelMapper;
 import com.mapper.ProgramTvMapper;
 import com.mapper.UserGuidaTvMapper;
@@ -220,7 +222,34 @@ public class GuidaTvDAO {
 
 	}
 
+	public   List<ChannelDTO> getChannels (String platform) {
 
+		// TODO Auto-generated method stub
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		if(platform!=null && !platform.equals(""))
+		{
+			parameters.addValue("platform", platform);
+		}
+
+		 List<ChannelDTO> result;
+		 String query=" select * from channels   ";
+		 if(platform!=null && !platform.equals(""))
+			{
+				query+="where platform=:platform ";
+			}
+		try {
+			result=jdbcTemplate.query(query, parameters, new ChannelMapper());
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			throw e;
+
+		}
+		return  result;
+
+
+
+}
 	
 
 

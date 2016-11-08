@@ -7,12 +7,17 @@
 <%@ page import="com.util.MovieGeneratorUtil"%>
 
 
-<div class="row media list-group-item" id="">
+<div class="row media list-group-item">
+	<c:if test="${iCompleto==0}">
+		<div class="row">
+			<div class="col-md-12">I dati regista sono in caricamento...</div>
+		</div>
+
+	</c:if>
 	<div class="row p-b-md">
 		<div class="col-md-8 movieTitle p-t-md">${director.name}</div>
 		<%
 			float rate = ((DirectorDTO) request.getAttribute("director")).getRate();
-		
 		%>
 
 		<div class="col-md-4 p-r-lg text-center">
@@ -28,7 +33,8 @@
 		<div class="col-md-5 p-l-md text-center">
 			<div class="row">
 				<img class="img-responsive img-thumbnail"
-					style="width: 240px; height: 300px;" src="${director.images[0].src}">
+					style="width: 240px; height: 300px;"
+					src="${director.images[0].src}">
 			</div>
 			<div class="row">
 				<div class="label label-success lb-md">Cool</div>
@@ -68,8 +74,9 @@
 						class="form-control col-sm-3" type="text" value="">
 				</div>
 				<div class="col-md-8 text-left">
-					<button type="submit" id="submitRateDirector" name="action" value="search"
-						class="btn btn-default btn-sm btn-info">Submit Rate</button>
+					<button type="submit" id="submitRateDirector" name="action"
+						value="search" class="btn btn-default btn-sm btn-info">Submit
+						Rate</button>
 				</div>
 			</div>
 
@@ -120,6 +127,7 @@
 </div>
 
 <div id="key" data-id="${director.name}"></div>
-<div id="movieToParse" data-movie="${director.movie}"></div>
-<div class="row media list-group-item" id="actorPage">
-</div>
+<div id="movieToParse" data-movie="${movieToParse}"></div>
+<div id="iCompleto" data-completo="${iCompleto}"></div>
+
+<div class="row media list-group-item" id="actorPage"></div>

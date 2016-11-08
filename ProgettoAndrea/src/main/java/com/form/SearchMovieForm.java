@@ -15,11 +15,25 @@ public class SearchMovieForm {
 	private String maxLength;
 	private String year;
 	private String label;
+	private String title;
+	
 	
 	
 
 	
 	
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public String getMinLength() {
 		return minLength;
 	}

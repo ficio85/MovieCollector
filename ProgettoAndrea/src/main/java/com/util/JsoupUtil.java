@@ -308,12 +308,24 @@ public class JsoupUtil {
 	}
 
 	
-	public static DirectorDTO imdbInspectDirectorFromMovie(String imdbIndex) throws Exception {
+	public static DirectorDTO imdbInspectDirectorFromMovie(String directorSample,String imdbIndex) throws Exception {
 		// TODO Auto-generated method stub
 		DirectorDTO director = new DirectorDTO();
 		URL url = new URL("http://www.imdb.com/title/"+imdbIndex+"");
 		Document doc = extractDocumentFromUrl(url);		
-		Element span = doc.select("span[itemprop=director]").get(0); //select the first table.		
+		Elements panels = doc.select("span[itemprop=director]");
+		Element span = null;
+		//select the first table.		
+		for(int i=0;i<panels.size();i++)
+		{
+			span = panels.get(i);
+
+			String directorToCompare = span.select(".itemprop").get(0).ownText();
+			if(directorToCompare.equals(directorSample))
+			{
+				break;
+			}
+		}
 		String hrefValue = span.select("a").get(0).attr("href");
 		String  imdbIndexRegista= hrefValue.split("/")[2].split("\\?")[0];
 		director.setImdbIndex(imdbIndexRegista);		

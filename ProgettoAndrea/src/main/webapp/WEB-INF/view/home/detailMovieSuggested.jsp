@@ -32,6 +32,7 @@
 	<c:if test="${isUserGuidaTv==0}">
 		<div class="row">
 			<div class="col-md-12">Il film consigliato di oggi è in caricamento attendere alcuni istanti...
+				<i class="fa fa-spinner fa-pulse fa-2x fa-fw margin-bottom"></i>
 				 </div>
 		</div>
 		

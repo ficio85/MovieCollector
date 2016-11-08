@@ -61,7 +61,7 @@ public class SearchMovieService {
 
 		List <String> codMovies = new ArrayList <String>();
 		List<MovieDTO> movies = null;
-		if(search.isSearchTitle())
+		if(search.getTitle()!=null && !search.getTitle().trim().equals(""))
 		{
 			movies= searchMovieDAO.getMovieLikeTitle(search.getTitle());
 		}
@@ -218,7 +218,9 @@ public class SearchMovieService {
 
 	public DirectorDTO getAllDirectorDetail(String director) {
 		// TODO Auto-generated method stub
-		return directorDAO.getDirectorDetail(director);
+		DirectorDTO directorDto = directorDAO.getDirectorDetail(director);
+		directorDto.setImages(directorDAO.getDirectorImages(directorDto.getName()));
+		return directorDto;
 	}
 
 	

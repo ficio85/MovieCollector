@@ -24,6 +24,7 @@ import com.dto.UserGuidaTvDTO;
 import com.service.SearchMovieService;
 import com.util.DateUtil;
 import com.util.PropertiesHandler;
+import com.util.XmltvParserUtil;
 @Controller
 public class LoginController {
 	@Autowired
@@ -66,7 +67,8 @@ public class LoginController {
 	private void caricaHomePage(UserDTO user,HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		loadSuggestedMovie(user, request);
-		loadBirthdayMovie(request);
+		//loadBirthdayMovie(request);
+		//XmltvParserUtil.getProgrammiNetflix();
 		
 	}
 

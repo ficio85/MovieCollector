@@ -65,6 +65,7 @@ public class DirectorDetailController {
 		DirectorDTO directorDto= searchMovieService.getAllDirectorDetail(director);
 		SearchDTO search = new SearchDTO();
 		ArrayList <String> directors = new ArrayList <String>();
+		directors.add(director);
 		search.setDirectors(directors);
 		search.setSearchDirector(true);
 		List <MovieDTO> movieList = searchMovieService.getListaFilm(search);
@@ -78,7 +79,7 @@ public class DirectorDetailController {
 		{
 			request.setAttribute("iCompleto", 1);
 		}
-		directorService.getCompleteInfoDirector(movieList.get(0).getImdbKey(),directorDto);
+		//directorService.getCompleteInfoDirector(movieList.get(0).getImdbKey(),directorDto);
 		int numPages=search.getCountResult()/recordPerPage+1;
 //		generateHiddenForm(search,request);
 		request.setAttribute("director", directorDto);
@@ -86,16 +87,17 @@ public class DirectorDetailController {
 		return "detailDirector.page";
 	}
 	
-	@RequestMapping(value = "/loadDirectorDetail", method = { RequestMethod.GET, RequestMethod.POST })
-	public String loadDirectorDetail ( HttpServletRequest request,Model model) throws Exception {
+	@RequestMapping(value = "/caricaDettagliRegista", method = { RequestMethod.GET, RequestMethod.POST })
+	public String loadDirectorDetail ( HttpServletRequest request,Model model) throws Exception 
 	{
 		
-	
+	 String dir= request.getParameter("dir");
+	 String movie = request.getParameter("movie");
 		DirectorDTO director = directorDAO.getDirectorDetail(dir);
 		if(director.getiCompleto()!=1)
 		{
 			System.out.println("Inizio thread");
-			DirectorDTO directorInspected = JsoupUtil.imdbInspectDirectorFromMovie(movieToParse);
+			DirectorDTO directorInspected = JsoupUtil.imdbInspectDirectorFromMovie(dir,movie);
 			director.setImdbIndex(directorInspected.getImdbIndex());
 			JsoupUtil.generateImdbDirectorInfo(director);
 			director.setiCompleto(1);
@@ -107,8 +109,10 @@ public class DirectorDetailController {
 			JsoupUtil.generateWikiDirectorInfo(director);
 	
 			directorDAO.insertDirectorImages(director);
-		
 		}
+		request.setAttribute("director", director);
+		request.setAttribute("iCompleto", 1);
+		return "infodirector.page";
 	}
 	
 	

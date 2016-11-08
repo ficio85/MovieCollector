@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.dto.DirectorDTO;
 import com.dto.ImageDTO;
 import com.mapper.DirectorMapperComplete;
+import com.mapper.ImageMapper;
 
 @Repository("directorDAO")
 public class DirectorDAO {
@@ -26,6 +27,15 @@ public class DirectorDAO {
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("name", search+"%");
 		result=jdbcTemplate.queryForList(" SELECT name FROM director where name like :name ", parameters, String.class);			
+		return result;
+	}
+	
+	public List<ImageDTO> getDirectorImages(String name) 
+	{
+		List<ImageDTO> result;
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("name", name);
+		result=jdbcTemplate.query(" SELECT * FROM imagedirector where director = :name ", parameters, new ImageMapper());			
 		return result;
 	}
 	
@@ -66,7 +76,7 @@ public class DirectorDAO {
 		parameters.addValue("birthdate", director.getBirthDate());
 		parameters.addValue("director", director.getName());
 		parameters.addValue("birthplace", director.getBirthplace());
-		result=jdbcTemplate.update(" UPDATE director set iCompleto=:iCompleto, timeiCompleto=:timeimdb, fullname=:fullname, birthdate=:birthDate, birthplace=:birthplace where name = :director ", parameters);			
+		result=jdbcTemplate.update(" UPDATE director set iCompleto=:iCompleto, timeiCompleto=:timeimdb, fullname=:fullname, birthdate=:birthdate, birthplace=:birthplace where name = :director ", parameters);			
 		return result;
 			
 		}

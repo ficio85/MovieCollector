@@ -10,6 +10,12 @@
 		id="search-by-title-form" action="${actionUrl}"
 		modelAttribute="searchMovieForm">
 		<div class="form-group">
+			<label for="title" class="col-md-2 control-label">Title</label>
+			<div class="col-md-6">
+				<input id="titolo" name="title" class="form-control" type="text" >
+			</div>
+		</div>
+		<div class="form-group">
 			<label for="actors" class="col-md-2 control-label">Genre: </label>
 			<div class="col-md-6">
 				<form:select path="genere" id="genere0" class="form-control ">

@@ -1,48 +1,57 @@
+var mostraFilmConsigliato = function() {
+	var filmConsigliato = $(this);
+	if (filmConsigliato.length > 0) {
+		var isUserGuidaTv= $("#isUserGuidaTv").data("attr");
+		if(isUserGuidaTv===0)
+		{
+			var link=$('#contextPath').val()+"/loadUserGuidaTV";
+			$.ajax({
+				url: link,
+				success: function( data ) {
+					$("#suggestedMovieResult").html(data);
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) { 
+					alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+				} 
+			});
+		}
+	}
+};
+
+var mostraDettagliRegista = function(){
+	alert("prova");
+	var iCompleto =$("#iCompleto").data("completo");
+	if(iCompleto===0)
+	{
+		var movie= $("#movieToParse").data("movie");
+		var director=$("#key").data("id");
+		var link=$('#contextPath').val()+"/caricaDettagliRegista";
+		$.ajax({
+			url: link,
+			data: {movie:movie,dir:director},
+			success: function( data ) {
+				alert("ok");
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) { 
+				alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+			} 
+		});
+	}
+	
+};
+
+$(document).on('filmConsigliato.mostra','#filmConsigliato', mostraFilmConsigliato);
+
+$(document).on('dettaglioRegista.mostra','#dettaglioRegista', mostraDettagliRegista);
 
 
 $(function(){
-
-	$("#filmConsigliato").ready(function(){
-		
-		var isUserGuidaTv= $("#isUserGuidaTv").data("attr");
-		if(isUserGuidaTv===0)
-			{
-			var link=$('#contextPath').val()+"/loadUserGuidaTV";
-			$.ajax({
-				url: link,
-				success: function( data ) {
-					
-					$("#suggestedMovieResult").html(data);
-					alert("Tutto ok");
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) { 
-					alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-				} 
-			});
-			}
-	});
+	$('#filmConsigliato').trigger('filmConsigliato.mostra');
 	
-	$("#directorPage").ready(function(){
-		
-		var movie= $("#movieToParse").data("id");
-		var director=$("#key").data("");
-		if(isUserGuidaTv===0)
-			{
-			var link=$('#contextPath').val()+"/loadUserGuidaTV";
-			$.ajax({
-				url: link,
-				success: function( data ) {
-					
-					$("#suggestedMovieResult").html(data);
-					alert("Tutto ok");
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) { 
-					alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-				} 
-			});
-			}
-	});
+	$('#dettaglioRegista').trigger('dettaglioRegista.mostra');
 
+	
+	
 
 	$( "#directors" ).autocomplete({
 		source: function( request, response ) {

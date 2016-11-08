@@ -28,6 +28,9 @@
 <definition name="movieSuggested.page" template="/WEB-INF/view/home/detailMovieSuggested.jsp" >
 </definition>
 
+<definition name="infodirector.page" template="/WEB-INF/view/directorDetail.jsp" >
+</definition>
+
 <definition name="errors.page" template="/WEB-INF/view/errors.jsp" >
 </definition>
 

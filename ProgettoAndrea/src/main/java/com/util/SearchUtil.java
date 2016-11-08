@@ -24,6 +24,8 @@ public class SearchUtil {
 		String unisciGeneri=request.getParameter("unisciGeneri");
 		String unisciAttori=request.getParameter("unisciAttori");
 		String title = request.getParameter("movieTitle");
+		String titleFromSearchForm=request.getParameter("title");
+
 	
 		String[] labels=request.getParameterValues("label");
 		String unisciLabel= request.getParameter("unisciLabel");
@@ -33,6 +35,10 @@ public class SearchUtil {
 		{
 			searchDto.setSearchTitle(true);
 			searchDto.setTitle(title);
+		}
+		if(titleFromSearchForm!=null && !titleFromSearchForm.trim().equals(""))
+		{
+			searchDto.setTitle(titleFromSearchForm);
 		}
 		if(actors!=null && actors.length!=0 &&!(actors.length==1 && actors[0].trim().equals("")))
 		{

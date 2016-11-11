@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -26,6 +27,7 @@ import com.dto.ActorDTO;
 import com.dto.DirectorDTO;
 import com.dto.ImageDTO;
 import com.dto.MovieDTO;
+import com.dto.TipoData;
 
 public class JsoupUtil {
 
@@ -350,15 +352,39 @@ public class JsoupUtil {
 
 	public static void generateImdbDirectorInfo(DirectorDTO director) throws UnsupportedEncodingException, FileNotFoundException, IOException
 	{
-		URL url = new URL("http://www.imdb.com/name/"+director.getImdbIndex()+"/");
+		URL url = new URL("http://www.imdb.com/name/"+director.getImdbIndex()+"/bio?ref_=nm_ov_bio_sm");
 		Document doc = extractDocumentFromUrl(url);
-		Element element = doc.select("#name-born-info").get(0);
-		String date = element.select("time[datetime]").get(0).attr("datetime");
-		Elements hrefs = element.select("a");
-		String fullname = hrefs.get(0).ownText();
-		String birthplace = hrefs.get(hrefs.size()-1).ownText();
+		Element overViewTable = doc.select("#overviewTable").get(0);
+		Elements rowTables = overViewTable.select("tr");
+		String fullname="";
+		TipoData birthDate = null;
+		String birthplace="";
+		for(Element row:rowTables)
+		{
+			Elements tdis =row.select("td");
+			
+			if(tdis.get(0).ownText().equals("Date of Birth"))
+			{
+				String dateofBirth="";
+				Elements links = tdis.get(1).select("a");
+				
+				String dateStrings[]=links.get(0).ownText().split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+				String dayString=dateStrings[0];
+				String monthString=dateStrings[1].replaceAll("\u00A0", "").trim();
+				String yearString=links.get(1).ownText();
+				
+				birthplace=links.get(2).ownText();
+				birthDate= new TipoData(Integer.parseInt(dayString),monthString,Integer.parseInt(yearString));
 
-		director.setBirthDate(parseDate(date));
+				
+			}
+			else if(tdis.get(0).ownText().equals("Birth Name"))
+			{
+				fullname=tdis.get(1).ownText();	
+			}
+			
+		}
+		director.setBirthDate(birthDate.getAsSQLDate());
 		director.setBirthplace(birthplace);
 		director.setFullname(fullname);
 	}

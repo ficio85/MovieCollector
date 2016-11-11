@@ -30,7 +30,7 @@ var mostraDettagliRegista = function(){
 			url: link,
 			data: {movie:movie,dir:director},
 			success: function( data ) {
-				alert("ok");
+				$('#dettaglioRegista').html(data);
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) { 
 				alert("Status: " + textStatus); alert("Error: " + errorThrown); 

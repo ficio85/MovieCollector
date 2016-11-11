@@ -33,6 +33,13 @@ public class TipoData {
 		minute=cal.get(Calendar.MINUTE);
 	}
 	
+	public TipoData(int giorno,String mese, int anno)
+	{
+		day=giorno;
+		month=MonthDTO.parseFromDesc(mese).getCodice();
+		year=anno;
+	}
+	
 	/**
 	 * @return the day
 	 */

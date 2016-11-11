@@ -33,7 +33,7 @@
 		<div class="col-md-5 p-l-md text-center">
 			<div class="row">
 				<img class="img-responsive img-thumbnail"
-					style="width: 240px; height: 300px;"
+					style="width: ${director.images[0].height}; height: ${director.images[0].width}"
 					src="${director.images[0].src}">
 			</div>
 			<div class="row">

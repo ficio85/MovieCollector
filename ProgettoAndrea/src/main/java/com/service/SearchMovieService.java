@@ -18,6 +18,7 @@ import com.dao.LabelDAO;
 import com.dao.MovieRankDAO;
 //import com.dao.GenereDAO;
 import com.dao.SearchMovieDAO;
+import com.dao.UserMovieDAO;
 import com.dto.ActorDTO;
 import com.dto.DirectorDTO;
 import com.dto.GenereDTO;
@@ -56,6 +57,10 @@ public class SearchMovieService {
 	@Autowired
 	@Qualifier("directorDAO")
 	DirectorDAO directorDAO;
+	
+	@Autowired
+	@Qualifier("userMovieDAO")
+	UserMovieDAO userMovieDAO;
 	
 	public List <MovieDTO> getListaFilm(SearchDTO search){
 
@@ -127,6 +132,17 @@ public class SearchMovieService {
 					codMovies=searchMovieDAO.getMoviesByYear( search.getYears(),null, 0,0);
 				}
 			}
+			if(search.isSearchByUser())
+			{
+				if(!codMovies.isEmpty())
+				{
+					//codMovies=userMovieDAO.getUserMoviesCodes(search.getCodPers(),codMovies,0,0);
+				}
+				else
+				{
+					codMovies=userMovieDAO.getUserMoviesCodes(search.getCodPers());
+				}
+			}
 
 			if(!codMovies.isEmpty())
 			{
@@ -179,15 +195,7 @@ public class SearchMovieService {
 		}
 	}
 
-	private void completeMovie(MovieDTO movieDTO) {
-			
-			movieDTO.setTitoloItaliano(searchMovieDAO.getMovieInternationalization(movieDTO.getMovieKey()));
-			movieDTO.setActors(searchMovieDAO.getMovieActors(movieDTO.getMovieKey()));
-			movieDTO.setGenre(searchMovieDAO.getMovieGenre(movieDTO.getMovieKey()));
-			movieDTO.setDirectors(searchMovieDAO.getMovieDirector(movieDTO.getMovieKey()));
-			movieDTO.setLabels(labelDAO.getListaLabelbyMovie(movieDTO.getMovieKey()));
-		
-	}
+
 
 	public List<GenereDTO> getListaGeneri() {
 		// TODO Auto-generated method stub

@@ -130,15 +130,17 @@ public class MovieLikeAlgorithm {
 		}
 		if(rateGenres!=null && rateGenres.size()!=0)
 		{
+			int sumCount=0;
 			for(UserGenreRateDTO rateGenre:rateGenres)
 			{
 				if(rateGenre.getRate()!=0.0)
 				{
-					mediaGen+=rateGenre.getRate();
+					mediaGen+=rateGenre.getRate()*rateGenre.getCount();
+					sumCount+=rateGenre.getCount();
 				}
 				
 			}
-			mediaGen= mediaGen/rateGenres.size();
+			mediaGen= mediaGen/sumCount;
 		}
 		System.out.println("mediaDir " +mediaDir);
 		System.out.println("mediaAct " +mediaAct);

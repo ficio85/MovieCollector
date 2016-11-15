@@ -68,7 +68,7 @@ public class LoginController {
 		// TODO Auto-generated method stub
 		loadSuggestedMovie(user, request);
 		//loadBirthdayMovie(request);
-		//XmltvParserUtil.getProgrammiNetflix();
+		XmltvParserUtil.getProgrammiNetflix();
 		
 	}
 

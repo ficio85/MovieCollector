@@ -15,13 +15,13 @@
   <nav class="profile-header-nav">
     <ul class="nav nav-tabs">
       <li class="active">
-        <a href="#">Photos</a>
+        <a href="#">Filmography</a>
+      </li>
+      <li>
+        <a href="#">Friends</a>
       </li>
       <li>
         <a href="#">Others</a>
-      </li>
-      <li>
-        <a href="#">Anothers</a>
       </li>
     </ul>
   </nav>

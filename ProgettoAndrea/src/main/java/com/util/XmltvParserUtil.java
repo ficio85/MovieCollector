@@ -94,12 +94,16 @@ public class XmltvParserUtil {
 	
 	
 	private static void extractProgrammiNetflix(List<ProgramNetflixDTO> programmi, URL urlNetflix) throws UnsupportedEncodingException, IOException {
-		HttpURLConnection uc = ProxyUtil.connect(urlNetflix);
+	//	System.setProperty("https.protocols", "TLSv1");
+	//	HttpURLConnection uc = ProxyUtil.connect(urlNetflix);
+		String secondUrl="http://it.allflicks.net/";
+		HttpURLConnection uc2 = ProxyUtil.connect(new URL(secondUrl));
+
 		String line = null;
 		StringBuffer tmp = new StringBuffer();
 		BufferedReader in;
 		try{
-			in = new BufferedReader(new InputStreamReader(uc.getInputStream(),"UTF-8"));
+			in = new BufferedReader(new InputStreamReader(uc2.getInputStream(),"UTF-8"));
 
 		}
 		catch(FileNotFoundException ex)

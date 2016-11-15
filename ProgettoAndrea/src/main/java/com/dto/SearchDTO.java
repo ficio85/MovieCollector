@@ -13,6 +13,7 @@ public class SearchDTO {
 	boolean isSearchTagMovie;
 	boolean isSearchTitle;
 	boolean isSearchLabel;
+	boolean isSearchByUser;
 
 	boolean andGenres;
 	boolean andActors;
@@ -24,13 +25,27 @@ public class SearchDTO {
 	List <Integer> years;
 	List <String> labels;
 	String title;
+	String codPers;
 	int start;
 	int offset;
 	int countResult;
 	boolean count;
 	int currPage;
 	
+	
 				
+	/**
+	 * @return the isSearchByUser
+	 */
+	public boolean isSearchByUser() {
+		return isSearchByUser;
+	}
+	/**
+	 * @param isSearchByUser the isSearchByUser to set
+	 */
+	public void setSearchByUser(boolean isSearchByUser) {
+		this.isSearchByUser = isSearchByUser;
+	}
 	/**
 	 * @return the labels
 	 */
@@ -58,8 +73,23 @@ public class SearchDTO {
 	/**
 	 * @return the isSearchLabel
 	 */
+	
+	
+	
 	public boolean isSearchLabel() {
 		return isSearchLabel;
+	}
+	/**
+	 * @return the codPers
+	 */
+	public String getCodPers() {
+		return codPers;
+	}
+	/**
+	 * @param codPers the codPers to set
+	 */
+	public void setCodPers(String codPers) {
+		this.codPers = codPers;
 	}
 	/**
 	 * @param isSearchLabel the isSearchLabel to set
